@@ -3,18 +3,26 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import { ItemTable } from './item-table/item-table';
+import {MatTableModule} from '@angular/material/table';
+import { provideHttpClient,withFetch  } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
-    App
+    App,
+    ItemTable
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule
+    
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideClientHydration(withEventReplay())
+    provideClientHydration(withEventReplay()),
+     provideHttpClient(withFetch())
   ],
   bootstrap: [App]
 })
