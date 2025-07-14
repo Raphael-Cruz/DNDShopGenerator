@@ -5,24 +5,36 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { ItemTable } from './item-table/item-table';
 import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import { provideHttpClient,withFetch  } from '@angular/common/http';
+import { MainComp } from './main-comp/main-comp';
+import { ShopInputs } from './shop-inputs/shop-inputs';
+import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 @NgModule({
   declarations: [
     App,
-    ItemTable
+    ItemTable,
+    MainComp,
+    ShopInputs
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule
     
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
-     provideHttpClient(withFetch())
+     provideHttpClient(withFetch()),
+     
   ],
   bootstrap: [App]
 })

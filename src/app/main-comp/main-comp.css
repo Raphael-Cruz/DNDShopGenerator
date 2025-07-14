@@ -1,0 +1,54 @@
+	h1 { font-size: 78px; }
+	h2 { font-size: 48px; }
+.card{
+   
+    min-height: 1px;
+    padding: 5.25rem;
+    word-wrap: break-word;
+    background-clip: border-box;
+    background-color: hsla(0,0%,100%,.9);
+    border: 0;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+    display: flex;
+    font-weight: 400;
+    min-width: 0;
+    position: relative
+}
+
+
+  .page-right{ flex: 0 0 200px; margin: 0 40px 0 20px; min-width: 360px; height: 100%;  }
+  .page-right { padding:20px; margin-bottom: 40px; }
+
+  .page-border1 { border:1px solid #868181ff; padding:20px; width:100%;   float: left; justify-content: center;  position: relative; }
+  .page-border2 { border:1px solid #44ad70ff; padding:20px; width:30%;  justify-content: center;  position: relative;}
+  .page-border3 { border:1px solid #b813ddff; padding:20px; width:30%;   justify-content: center;  position: relative;}
+
+    
+		
+  .sidemenuitem { display: inline-block; width:100%; cursor: pointer;  }
+  .sidemenuitem a { background-color:#9a9584; border:1px solid #888475; padding:10px 6px; text-decoration: none; display:flex; margin:2px 0; justify-content:center;   text-transform: uppercase; }
+  .sidemenuitem a:hover { background-color:#a9a496; }	
+
+  .form{
+   
+   
+    padding: 1.25rem;
+    word-wrap: break-word;
+    background-clip: border-box;
+    background-color: hsla(0,0%,100%,.9);
+    border: 0;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+    display: flex;
+    font-weight: 400;
+    min-width: 0;
+    position: relative;
+    display: inline-block;   
+    
+}
+
+  .form-items{
+ 
+    padding:1.25rem;
+    position: relative; } 
