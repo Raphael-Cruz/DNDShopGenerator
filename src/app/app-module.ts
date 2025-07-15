@@ -11,6 +11,12 @@ import { MainComp } from './main-comp/main-comp';
 import { ShopInputs } from './shop-inputs/shop-inputs';
 import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import {MatPaginatorModule } from '@angular/material/paginator';
+import {MatTreeModule} from '@angular/material/tree';
+import { AdvancedTree } from './advanced-tree/advanced-tree';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 
@@ -19,7 +25,8 @@ import { MatInputModule } from '@angular/material/input';
     App,
     ItemTable,
     MainComp,
-    ShopInputs
+    ShopInputs,
+    AdvancedTree
   ],
   imports: [
     BrowserModule,
@@ -27,7 +34,13 @@ import { MatInputModule } from '@angular/material/input';
     MatTableModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
+    MatTreeModule,
+    MatCardModule,
+    MatCheckboxModule
+    
+ 
     
   ],
   providers: [

@@ -52,26 +52,24 @@ header p {
   text-align: left;
 }
 
-.shop-table thead {
-  background-color: #3a2f2b;
-}
 
-.shop-table tbody tr:nth-child(even) {
-  background-color: #2a2220;
-}
 
-.shop-table tbody tr:nth-child(odd) {
+.shop-table tr:nth-child(odd)  {
+  color: #e8e6e3;
   background-color: #3a2f2b;
 }
 
 .shop-table th {
-  color: #f0c090;
+  color: #0f0e0dff;
+  background-color: #e8e6e3;
   border-bottom: 2px solid #6a4e42;
 }
 
-.shop-table td {
+.shop-table tr:nth-child(even)  {
   color: #e8e6e3;
+  background-color: #6a4e42;
 }
+
 
 footer {
   text-align: center;

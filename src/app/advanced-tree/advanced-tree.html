@@ -1,0 +1,45 @@
+<mat-card  appearance="filled">
+  <mat-card-header>
+    <mat-card-title> Magic Types</mat-card-title>
+   
+  </mat-card-header>
+  <mat-card-actions>
+     <mat-card-content>
+        
+     </mat-card-content>
+  </mat-card-actions>
+</mat-card>
+<br>
+
+<mat-card appearance="filled">
+  <mat-card-header>
+  
+   <mat-card-content>
+           <mat-tree [dataSource]="mundaneNodes" [childrenAccessor]="childrenAccessor">
+
+      <!-- Leaf node -->
+      <mat-tree-node *matTreeNodeDef="let node; when: isLeaf" matTreeNodePadding>
+        
+      <mat-checkbox (ngModel)="node.checked">{{ node.name }}</mat-checkbox>
+      </mat-tree-node>
+
+      <!-- Expandable node -->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding matTreeNodeToggle>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+     
+        </button>
+        {{ node.name }}
+      </mat-tree-node>
+
+    </mat-tree>
+     </mat-card-content>
+  </mat-card-header>
+  <mat-card-actions align="end">
+   
+  </mat-card-actions>
+</mat-card>
+
+
+
+
+

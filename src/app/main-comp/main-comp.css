@@ -52,3 +52,24 @@
  
     padding:1.25rem;
     position: relative; } 
+
+    .ng-container {
+      background-color: #a82a2aff;
+    }
+
+.input-checkbox{
+    padding: 0.25rem;
+   margin-right: 10px;
+ 
+    background-color: hsla(201, 50%, 84%, 0.46);
+    border: 2;
+    display: flex;
+    font-weight: 400;
+    min-width: 0;
+    position: relative;
+    display: inline-block;   
+    
+
+}
+  
+
