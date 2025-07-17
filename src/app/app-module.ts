@@ -1,5 +1,6 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -12,10 +13,12 @@ import { ShopInputs } from './shop-inputs/shop-inputs';
 import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import {MatPaginatorModule } from '@angular/material/paginator';
-import {MatTreeModule} from '@angular/material/tree';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { AdvancedTree } from './advanced-tree/advanced-tree';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 
@@ -36,9 +39,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSelectModule,
     MatInputModule,
     MatPaginatorModule,
-    MatTreeModule,
+    MatExpansionModule,
     MatCardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule,
+    FormsModule
     
  
     

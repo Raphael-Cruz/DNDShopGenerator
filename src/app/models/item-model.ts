@@ -8,6 +8,19 @@ export interface Item {
 
 export interface MundaneNodes {
   name: string;
+ type: string;
+ checked: boolean;
   children?: MundaneNodes[];
 }
+
+
+export interface MagicNodes {
+  name: string;
+type: string;
+checked: boolean;
+  children?: MagicNodes[];
+}
+
+
+
 

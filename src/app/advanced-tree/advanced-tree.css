@@ -1,0 +1,6 @@
+
+
+::ng-deep .mat-expansion-panel-header {
+  background-color: #e0e1dd; /* Your desired color */
+  color: white;
+}

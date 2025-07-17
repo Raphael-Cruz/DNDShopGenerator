@@ -1309,29 +1309,46 @@
     "source": "PHB'24"
   }
   ],
+  
   "mundaneNodes": [
     {
       "name": "Mundane Types",
       "children": [
-        { "name": "Adventure Gear" },
-        { "name": "Arcane Gear" },
-        { "name": "Divine Gear" },
-        { "name": "Containers" },
-        { "name": "Artisan Supplies" },
-        { "name": "Trade Tools" },
-        { "name": "Gemstone" },
-        { "name": "Clothes" },
-        { "name": "Gaming" },
-        { "name": "Packs" },
-        { "name": "Kits" },
-        { "name": "Musical Instruments" },
-        { "name": "Alchemical Supplies" },
-        { "name": "Armor" },
-        { "name": "Weapons" },
-        { "name": "Ammunition" },
-        { "name": "Furnishing" }
+        { "type": "Adventure Gear", "checked": false },
+        { "type": "Arcane Gear", "checked": false },
+        { "type": "Divine Gear", "checked": false },
+        { "type": "Containers", "checked": false },
+        { "type": "Artisan Supplies", "checked": false },
+        { "type": "Trade Tools", "checked": false },
+        { "type": "Gemstone", "checked": false },
+        { "type": "Clothes", "checked": false },
+        { "type": "Gaming", "checked": false },
+        { "type": "Packs", "checked": false},
+        { "type": "Kits", "checked": false },
+        { "type": "Musical Instruments", "checked": false },
+        { "type": "Alchemical Supplies", "checked": false },
+        { "type": "Armor", "checked": false },
+        { "type": "Weapons", "checked": false },
+        { "type": "Ammunition", "checked": false },
+        { "type": "Furnishing", "checked": false }
       ]
     }
- ]
+  ],
+  "magicNodes": [
+    {
+      "name": "MagicTypes",
+      "children": [
+         { "type": "Armor", "checked": false  },
+      { "type": "Potion", "checked": false },
+      { "type": "Ring", "checked": false },
+      { "type": "Rod", "checked": false },
+      { "type": "Scroll", "checked": false },
+      { "type": "Staff", "checked": false },
+      { "type": "Wand", "checked": false },
+      { "type": "Weapon", "checked": false },
+      { "type": "Wondrous", "checked": false }
+      ]
+    }
+  ]
 }
 
