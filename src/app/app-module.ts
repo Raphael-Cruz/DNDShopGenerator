@@ -18,6 +18,8 @@ import { AdvancedTree } from './advanced-tree/advanced-tree';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { GeneratedForm } from './generated-form/generated-form';
 
 
 
@@ -29,7 +31,8 @@ import {MatIconModule} from '@angular/material/icon';
     ItemTable,
     MainComp,
     ShopInputs,
-    AdvancedTree
+    AdvancedTree,
+    GeneratedForm
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule
     
  
     

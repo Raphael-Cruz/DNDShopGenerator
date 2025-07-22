@@ -1,48 +1,105 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter} from '@angular/core';
-
-
+import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { InputDatas } from '../input-datas';
 
 @Component({
   selector: 'app-shop-inputs',
   standalone: false,
   templateUrl: './shop-inputs.html',
   styleUrl: '../main-comp/main-comp.css',
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-
 export class ShopInputs {
-
-
-mundaneItems: string = '';
+  mundaneItems: string = '';
   commonItems: string = '';
   uncommonItems: string = '';
   rareItems: string = '';
   veryRareItems: string = '';
   legendaryItems: string = '';
 
+  selectedOptionMundane = 'one';
+  selectedOptionCommon = 'one';
+  selectedOptionUncommon = 'one';
+  selectedOptionRare = 'one';
+  selectedOptionVeryRare = 'one';
+  selectedOptionLegendary = 'one';
 
-@Output() newItemEvent = new EventEmitter<{
-  mundaneItems: string;
-  commonItems: string;
-  uncommonItems: string;
-  rareItems: string;
-  veryRareItems: string;
-  legendaryItems: string;
+  constructor(private dataShare: InputDatas) {}
 
-}>();
+  @Output() newItemEvent = new EventEmitter<{
+    mundaneItems: string;
+    commonItems: string;
+    uncommonItems: string;
+    rareItems: string;
+    veryRareItems: string;
+    legendaryItems: string;
+  }>();
 
- logShopInput() {
-    console.log('Mundane Items:', this.mundaneItems);
-    console.log('Common Items:', this.commonItems);
-    console.log('Uncommon Items:', this.uncommonItems);
-    console.log('Rare Items:', this.rareItems);
-    console.log('Very Rare Items:', this.veryRareItems);
-    console.log('Legendary Items:', this.legendaryItems);
-   
+  isInputEnabled(option: string): boolean {
+    return option === 'one' || !option;
+  }
 
-    this.newItemEvent.emit({
+  onSelectChange(field: string, option: string) {
+    let value = '';
+    if (option === 'one' || !option) {
+      value = '';
+    } else {
+      switch (option) {
+        case 'two':
+          value = '5';
+          break;
+        case 'three':
+          value = '10';
+          break;
+        case 'four':
+          value = this.roll1d3().toString();
+          break;
+        case 'five':
+          value = this.roll2d4().toString();
+          break;
+        case 'six':
+          value = this.roll1d12().toString();
+          break;
+        case 'seven':
+          value = this.roll1d43().toString();
+          break;
+        case 'eight':
+          value = this.roll1d2019().toString();
+          break;
+        default:
+          value = '';
+      }
+    }
+
+    switch (field) {
+      case 'mundaneItems':
+        this.mundaneItems = value;
+        this.selectedOptionMundane = option;
+        break;
+      case 'commonItems':
+        this.commonItems = value;
+        this.selectedOptionCommon = option;
+        break;
+      case 'uncommonItems':
+        this.uncommonItems = value;
+        this.selectedOptionUncommon = option;
+        break;
+      case 'rareItems':
+        this.rareItems = value;
+        this.selectedOptionRare = option;
+        break;
+      case 'veryRareItems':
+        this.veryRareItems = value;
+        this.selectedOptionVeryRare = option;
+        break;
+      case 'legendaryItems':
+        this.legendaryItems = value;
+        this.selectedOptionLegendary = option;
+        break;
+    }
+  }
+
+  onInputChange() {
+    this.dataShare.setFormData({
       mundaneItems: this.mundaneItems,
       commonItems: this.commonItems,
       uncommonItems: this.uncommonItems,
@@ -51,8 +108,26 @@ mundaneItems: string = '';
       legendaryItems: this.legendaryItems,
     });
   }
+
+  // funções de dados
+  roll1d3(): number {
+    return Math.floor(Math.random() * 3) + 1;
+  }
+
+  roll2d4(): number {
+    return (Math.floor(Math.random() * 4) + 1) + (Math.floor(Math.random() * 4) + 1);
+  }
+
+  roll1d12(): number {
+    return Math.floor(Math.random() * 12) + 1;
+  }
+
+  roll1d43(): number {
+    return Math.floor(Math.random() * 4) + 1 + 3;
+  }
+
+  roll1d2019(): number {
+    const isCrit = Math.floor(Math.random() * 20) + 1 === 20;
+    return isCrit ? 1 : 0;
+  }
 }
-
-
-
-
