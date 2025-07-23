@@ -5,11 +5,12 @@ import { MundaneNodes, MagicNodes } from '../models/item-model'
 
 
 
+
 @Component({
   selector: 'app-advanced-tree',
   standalone: false,
   templateUrl: './advanced-tree.html',
-  styleUrl: './advanced-tree.css'
+  styleUrls: ['./advanced-tree.css'] 
 })
 
 export class AdvancedTree implements OnInit {
@@ -36,20 +37,6 @@ ngOnInit(): void {
     });
     
   }
- 
-  /*
- logSelections() {
-   console.log('Mundane Nodes Selected:');
-  this.mundaneNodes.forEach(group => {
-    (group.children ?? [])
-      .filter(child => child.checked)
-      .forEach(child => console.log(`- ${child.type}`));
-  });
-    
-}
-  */
-
-
   
 }
 

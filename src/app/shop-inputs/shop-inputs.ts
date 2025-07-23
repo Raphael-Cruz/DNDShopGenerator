@@ -98,6 +98,7 @@ export class ShopInputs {
     }
   }
 
+  //aqui to mandando isso para o service datashare
   onInputChange() {
     this.dataShare.setFormData({
       mundaneItems: this.mundaneItems,

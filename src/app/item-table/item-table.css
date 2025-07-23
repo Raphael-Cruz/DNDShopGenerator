@@ -77,3 +77,23 @@ footer {
   color: #b9a695;
   border-top: 1px solid #3d2b24;
 }
+
+.item-filter{
+    
+  
+    margin-right: 2px;
+     
+    padding-right:20px;
+    padding-left: 20px;
+    color: #000000ff;
+  background-color: #b9a695;
+  font-weight: 500;
+}
+
+.filter-wrap{
+  padding: 1rem;
+   background-color: #b9a695;
+}
+.filter-input{
+padding: 0.30rem;
+}

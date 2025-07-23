@@ -1,12 +1,15 @@
 <div class="container">
-  <header>
-    <h1>Adventurer's Item Shop</h1>
-    <p>Browse a curated list of tools, weapons, gear, and magical supplies.</p>
-  </header>
-
+  
   <section class="shop-table">
+     <div class="filter-wrap"> 
+     <mat-label class="item-filter">Filter</mat-label>
+       <input class="filter-input" (keyup)="applyFilter($event)" placeholder="Ex. Potion of Healing" #input>
+         
+     </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+         
       <ng-container  matColumnDef="name">
+        
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let item"> {{ item.name }} </td>
       </ng-container>
@@ -27,8 +30,12 @@
       </ng-container>
 
       <ng-container matColumnDef="source">
-        <th mat-header-cell *matHeaderCellDef> Source </th>
-        <td mat-cell *matCellDef="let item"> {{ item.source }} </td>
+        <th mat-header-cell *matHeaderCellDef> </th>
+       <td mat-cell *matCellDef="let item">
+          <button matButton="tonal" (click)="addItem(item)">Add Item</button>
+      </td>
+
+       
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

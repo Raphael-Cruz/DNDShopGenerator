@@ -1,19 +1,36 @@
-<content>
-<div class="card ">
-  <app-generated-form></app-generated-form>
-        <div class="page-left page-border1">
-                <app-item-table></app-item-table>
-           <app-shop-inputs ></app-shop-inputs>
-           <div class="advanced-div">
-            <app-advanced-tree></app-advanced-tree>
-           </div>
-       </div>
-    
+<main>
+  <div class="container">
+    <header class="header">DND SHOP GENERATOR</header>
+
+    <div class="main-content">
+      <div class="left-panel">
+        <h2>Select Your Inputs</h2>
+         <app-shop-inputs ></app-shop-inputs>
+      </div>
+
+      <div class="middle-panel">
+        <div class="advanced-options">
+          <h2>Advanced Options</h2>
+          <app-advanced-tree></app-advanced-tree>
+        </div>
+        <div class="item-search">
          
-          
-        
-               
-        <div class=" sidemenuitem page-border3 page-right">
+          <mat-accordion >
+            <mat-expansion-panel  showToggle>
+             <mat-expansion-panel-header>
+              <mat-panel-title>  Item Search </mat-panel-title>
+      
+             </mat-expansion-panel-header>
+               <app-item-table></app-item-table>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+
+      <div class="right-panel">
+      <div class=" sidemenuitem">
                 <h1>Preset</h1>
                 <a class="sidemenuitem">Village</a>
                 <a class="sidemenuitem">Small Town</a>
@@ -23,10 +40,22 @@
                 <a class="sidemenuitem" >General Store</a>
         </div>
        
+      </div>
+       <app-generated-form></app-generated-form>
+    </div>
+     
+  </div>
+
+
+
+</main>
+
+
+
+
+      
+        
+               
+        
          
-
-
-        </div>
-
-</content>
 

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+
 
 @Component({
   selector: 'app-main-comp',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class MainComp {
 
+  readonly panelOpenState = signal(false);
 }
