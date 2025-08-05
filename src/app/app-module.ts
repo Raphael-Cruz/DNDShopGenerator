@@ -20,6 +20,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { GeneratedForm } from './generated-form/generated-form';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 
@@ -50,7 +51,8 @@ import { GeneratedForm } from './generated-form/generated-form';
     MatCheckboxModule,
     MatIconModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule
     
  
     
