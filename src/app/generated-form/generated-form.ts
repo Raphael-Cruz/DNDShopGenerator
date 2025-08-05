@@ -8,7 +8,7 @@ import { InputDatas, RandomInputData } from '../input-datas';
   selector: 'app-generated-form',
   standalone: false,
   templateUrl: './generated-form.html',
-  styleUrl: './generated-form.css'
+  styleUrl: '../main-comp/main-comp.css'
 })
 export class GeneratedForm implements OnInit {
   displayedColumns: string[] = ['name', 'type', 'cost', 'weight', 'source'];

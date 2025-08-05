@@ -21,6 +21,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { GeneratedForm } from './generated-form/generated-form';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { Footer } from './footer/footer';
+import { Navbar } from './navbar/navbar';
 
 
 
@@ -36,7 +38,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MainComp,
     ShopInputs,
     AdvancedTree,
-    GeneratedForm
+    GeneratedForm,
+    Footer,
+    Navbar
   ],
   imports: [
     BrowserModule,

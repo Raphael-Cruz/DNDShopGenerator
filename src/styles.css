@@ -1,4 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  /* full viewport height */
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+
+footer, .footer {
+  flex-shrink: 0;
+}
+
+/* Make html and body fill the viewport */
+html {
+  height: 100%;
+  margin: 0;
+}
+
+
+
+/* Main grows and shrinks to fill space between navbar and footer */
+main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer never shrinks */
+footer, .footer {
+  flex-shrink: 0;
+}
+
+
+
+  /* Footer does not shrink, stays at bottom */
+  .footer {
+    flex-shrink: 0;
+    background-color: #577590;
+    color: #ccc;
+    padding: 2rem 1rem 1rem;
+    font-family: Arial, sans-serif;
+
+  }
+
+  /* Footer container */
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Footer sections */
+  .footer-section {
+    flex: 1 1 200px;
+  }
+
+  .footer-section h3 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Footer links */
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-section a:hover {
+    color: #ffcc00;
+  }
+
+  /* Social icons */
+  .social-icons a {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  /* Footer bottom bar */
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+  }

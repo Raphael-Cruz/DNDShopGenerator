@@ -1,3 +1,8 @@
+<app-navbar />
+ 
+   <main class="container">
+  <div class="main-content">  
+  <div class="wrap">
 <div class="form">
 
   <!-- MUNDANE -->
@@ -134,6 +139,18 @@
 
   <br />
 
-  <button matButton="filled" (click)="onInputChange()">GENERATE</button>
+  <button matButton="filled" (click)="onInputChange()" routerLink="/generatedshop" >GENERATE</button>
   <br />
+
+
 </div>
+<div class="test">
+<app-advanced-tree />
+</div>
+ </div>
+    </div>
+    
+  </main>
+   
+ 
+<app-footer></app-footer>
