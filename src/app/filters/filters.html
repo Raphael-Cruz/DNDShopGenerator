@@ -1,0 +1,28 @@
+<div class="filter-container">
+
+  <!-- Selected Chips -->
+  <div class="chips" *ngIf="selectedSources.length > 0">
+    @for (sourceName of selectedSources; track sourceName) {
+      <mat-chip removable="true" (removed)="removeSource(sourceName)">
+        {{ sourceName }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    }
+  </div>
+
+  <h3>Filter by Source</h3>
+
+  <!-- Source Checkboxes -->
+  <ul class="source-list">
+    @for (source of sources; track source.name) {
+      <li>
+        <mat-checkbox
+          [(ngModel)]="source.checked"
+          matTooltip="{{ getTooltipForSource(source.name) }}">
+          {{ source.name }}
+        </mat-checkbox>
+      </li>
+    }
+  </ul>
+
+</div>

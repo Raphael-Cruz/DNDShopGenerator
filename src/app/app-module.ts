@@ -1,7 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-
+import {MatChipsModule} from '@angular/material/chips';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { ItemTable } from './item-table/item-table';
@@ -23,6 +23,9 @@ import { GeneratedForm } from './generated-form/generated-form';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { Footer } from './footer/footer';
 import { Navbar } from './navbar/navbar';
+import { Filters } from './filters/filters';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 
 
@@ -40,7 +43,8 @@ import { Navbar } from './navbar/navbar';
     AdvancedTree,
     GeneratedForm,
     Footer,
-    Navbar
+    Navbar,
+    Filters
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,9 @@ import { Navbar } from './navbar/navbar';
     MatIconModule,
     FormsModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatChipsModule,
+    MatTooltipModule
     
  
     

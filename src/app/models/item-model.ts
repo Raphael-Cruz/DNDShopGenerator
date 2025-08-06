@@ -35,4 +35,6 @@ checked: boolean;
 
 
 
-
+export interface FilterItem extends Item {
+  children?: { type: string; checked?: boolean }[];
+}

@@ -1,0 +1,47 @@
+.filter-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  border: solid 1px black;
+}
+
+.source-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0;
+  gap: 8px; /* increased gap */
+}
+
+.source-list li {
+  margin: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px; /* increase gap between chips */
+  margin-bottom: 10px;
+
+}
+
+/* If you want extra padding inside each chip, override Angular Material */
+mat-chip {
+  padding: 4px 0 4px 0 !important;
+  height: 12px;
+  font-size: 6px;
+  display: inline-flex;
+  align-items: center;
+  
+}
+
+mat-chip mat-icon {
+  font-size: 16px;
+  margin-left: 2px;
+  cursor: pointer;
+  color: red;
+}
+
+mat-icon{
+    color: #6a040f !important;
+}
