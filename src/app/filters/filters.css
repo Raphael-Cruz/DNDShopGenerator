@@ -10,7 +10,7 @@
   flex-wrap: wrap;
   list-style: none;
   padding-left: 0;
-  gap: 8px; /* increased gap */
+  gap: 8px; 
 }
 
 .source-list li {
@@ -20,12 +20,12 @@
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px; /* increase gap between chips */
+  gap: 5px; 
   margin-bottom: 10px;
 
 }
 
-/* If you want extra padding inside each chip, override Angular Material */
+
 mat-chip {
   padding: 4px 0 4px 0 !important;
   height: 12px;

@@ -16,13 +16,19 @@
   <ul class="source-list">
     @for (source of sources; track source.name) {
       <li>
-        <mat-checkbox
-          [(ngModel)]="source.checked"
-          matTooltip="{{ getTooltipForSource(source.name) }}">
-          {{ source.name }}
-        </mat-checkbox>
+       <mat-checkbox
+  [(ngModel)]="source.checked"
+  (change)="onSourceCheckboxChange()"
+  [matTooltip]="getTooltipForSource(source.name)">
+  {{ source.name }}
+</mat-checkbox>
       </li>
     }
   </ul>
+
+
+  <ng-template #noItems>
+    <p>No items found for selected source(s).</p>
+  </ng-template>
 
 </div>

@@ -1,13 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Item, MagicItem } from '../models/item-model';
 import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, NgZone  } from '@angular/core';
+import { InputDatas } from '../input-datas';
+
+
+
+
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.html',
   styleUrls: ['./filters.css'],
   standalone: false,
-})export class Filters implements OnInit {
+})
+
+export class Filters implements OnInit {
+  
   items: Item[] = [];
   magicItems: MagicItem[] = [];
   sources: { name: string; checked: boolean }[] = [];
@@ -66,35 +75,46 @@ import { HttpClient } from '@angular/common/http';
     "TftYP": "Tales from the Yawning Portal",
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+  private cdr: ChangeDetectorRef,
+  private zone: NgZone,
+  private inputDatas: InputDatas
+  ) {}
 
   ngOnInit(): void {
-    this.http.get<{ items: Item[]; magicItems: any[] }>('assets/data/full_magic_items_list.json')
-      .subscribe(data => {
-        this.items = data.items || [];
+  this.http.get<{ items: Item[]; magicItems: any[] }>('assets/data/full_magic_items_list.json')
+  .subscribe(data => {
+    this.zone.run(() => {
+      //console.log("data loaded");
+      this.items = data.items || [];
 
-        this.magicItems = [];
-        if (data.magicItems && Array.isArray(data.magicItems)) {
-          for (const mi of data.magicItems) {
-            if (mi.children && Array.isArray(mi.children)) {
-              this.magicItems.push(...mi.children);
-            }
+      this.magicItems = [];
+      if (data.magicItems && Array.isArray(data.magicItems)) {
+        for (const mi of data.magicItems) {
+          if (mi.children && Array.isArray(mi.children)) {
+            this.magicItems.push(...mi.children);
           }
         }
+      }
 
-        const allItems = [...this.items, ...this.magicItems];
-        const sourcesWithValue = allItems
-          .map(i => i.source?.trim())
-          .filter(s => !!s && s.length > 0);
+      const allItems = [...this.items, ...this.magicItems];
+    
+      const sourcesWithValue = allItems
+        .map(i => i.source?.trim())
+        .filter(s => !!s && s.length > 0);
+  this.inputDatas.setAllItems(allItems);
 
-        const uniqueSources = Array.from(new Set(sourcesWithValue));
+      const uniqueSources = Array.from(new Set(sourcesWithValue));
 
-        this.sources = uniqueSources.map(source => ({
-          name: source,
-          checked: false,
-        }));
-      });
-  }
+      this.sources = uniqueSources.map(source => ({
+        name: source,
+        checked: false,
+      }));
+
+      this.cdr.detectChanges(); // now this will properly trigger
+    });
+  });
+}
 
   getTooltipForSource(source: string): string {
     return this.sourceTooltips[source] ?? "Unknown source";
@@ -118,4 +138,8 @@ import { HttpClient } from '@angular/common/http';
     }
     return allItems.filter(item => this.selectedSources.includes(item.source));
   }
+  onSourceCheckboxChange() {
+  this.inputDatas.setSelectedSources(this.selectedSources);
+}
+
 }
