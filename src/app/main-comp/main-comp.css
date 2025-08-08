@@ -11,10 +11,15 @@
   gap: 1rem;
   flex-wrap: wrap;
 }
-.test{
+.filter-wrap{
   margin: 5px;
   width: 800px;
   
+}
+
+.create-item-wrap{
+  margin: 5px;
+  width: 800px;
 }
 .container {
   flex: 1 1 auto;

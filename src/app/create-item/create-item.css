@@ -1,0 +1,18 @@
+.createItem-container {
+  padding: 5px 5px 5px 5px !important;
+  max-width: 100%;
+  max-height: 50vh !important;
+  margin: auto;
+  border: solid 1px black;
+  overflow-y: auto; /* Add scrolling if content overflows vertically */
+}
+
+
+.createItem-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+    align-items: stretch;
+}

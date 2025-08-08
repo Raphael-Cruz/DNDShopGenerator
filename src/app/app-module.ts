@@ -25,6 +25,7 @@ import { Footer } from './footer/footer';
 import { Navbar } from './navbar/navbar';
 import { Filters } from './filters/filters';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { CreateItem } from './create-item/create-item';
 
 
 
@@ -44,7 +45,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     GeneratedForm,
     Footer,
     Navbar,
-    Filters
+    Filters,
+    CreateItem
   ],
   imports: [
     BrowserModule,

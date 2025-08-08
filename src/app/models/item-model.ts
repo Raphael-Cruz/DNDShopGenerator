@@ -33,8 +33,6 @@ checked: boolean;
   children?: MagicNodes[];
 }
 
-
-
 export interface FilterItem extends Item {
   children?: { type: string; checked?: boolean }[];
 }

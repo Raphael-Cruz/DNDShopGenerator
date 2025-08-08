@@ -35,7 +35,7 @@ export class GeneratedForm implements OnInit {
       .subscribe((data) => {
         this.allItems = data.items.filter(item => item.rarity === "Mun.");
 
-        const allowedRarities = ['Mun','Com.', 'Var.', 'Rare', 'V.Rare','Unc.', 'Leg.'];
+        const allowedRarities = ['Mun','Com.', 'Var.', 'Rare', 'V.Rare','Unc.', 'Leg.', 'Art.', 'Unk.'];
         this.allMagicItems = data.magicItems
           .flatMap(group => group.children)
           .filter(mItem => allowedRarities.includes(mItem.rarity));

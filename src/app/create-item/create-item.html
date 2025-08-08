@@ -1,0 +1,52 @@
+<div class="createItem-container">
+
+  <h3>Create your Own Items</h3>
+
+  <hr>
+
+  <form class="createItem-wrap">
+      <!-- Name-->
+  <mat-form-field class="example-full-width">
+    <mat-label>Item Name</mat-label>
+    <input matInput placeholder="Ex. Sword of Answering" >
+  </mat-form-field>
+<!-- Type-->
+   <mat-form-field class="example-full-width">
+    <mat-label>Type</mat-label>
+    <input matInput placeholder="Ex. Martial Weapon, Melee Weapon">
+  </mat-form-field>
+ <!-- Weight-->
+    <mat-form-field class="example-full-width">
+    <mat-label>Weight</mat-label>
+    <input matInput placeholder="Ex. 3 lb">
+  </mat-form-field>
+
+  <!-- Rarity-->
+   
+<mat-form-field>
+  <mat-label>Rarity</mat-label>
+  <mat-select [(ngModel)]="selectedRarity" name="rarity">
+    @for (rarity of uniqueRarities; track rarity) {
+      <mat-option [value]="rarity" [matTooltip]="getTipForRarity(rarity)">
+        {{ rarity }}
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+  <!-- Source-->
+    <mat-form-field class="example-full-width">
+    <mat-label>Source</mat-label>
+    <input matInput placeholder="Ex. DMG'14">
+  </mat-form-field>
+
+  <button matButton="filled"> Register New Item</button>
+    <button matButton="filled"> Add New Item To New Shop</button>
+</form>
+</div>
+
+
+
+
+
+
