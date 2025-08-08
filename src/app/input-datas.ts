@@ -6,7 +6,7 @@ import { Item, MagicItem } from '../app/models/item-model';
   providedIn: 'root'
 })
 export class InputDatas {
-  // Your existing form data behavior subject
+  // existing form data behavior subject
   private formData = new BehaviorSubject<{ mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string } | null>(null);
   formData$ = this.formData.asObservable();
 
@@ -29,7 +29,7 @@ export class InputDatas {
   private filteredItemsSubject = new BehaviorSubject<(Item | MagicItem)[]>([]);
   filteredItems$ = this.filteredItemsSubject.asObservable();
 
-  // Call this to load all items (e.g. from your HTTP call)
+  // Call this to load all items ( from your HTTP call)
   setAllItems(items: (Item | MagicItem)[]) {
     this.allItems = items;
     this.allItemsSubject.next(items);

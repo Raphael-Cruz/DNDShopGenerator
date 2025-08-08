@@ -11,15 +11,17 @@ import { InputDatas, RandomInputData } from '../input-datas';
   styleUrl: '../main-comp/main-comp.css'
 })
 export class GeneratedForm implements OnInit {
-  displayedColumns: string[] = ['name', 'type', 'cost', 'weight', 'source'];
+  displayedColumns: string[] = ['name', 'type', 'rarity', 'cost', 'weight', 'source'];
   dataSource = new MatTableDataSource<Item | MagicItem>();
 
   formValues: any;
   randomItems: (Item | MagicItem)[] = [];
   manualItems: (Item | MagicItem)[] = [];
 
-  allMundaneItems: Item[] = [];
+  allItems: Item[] = [];
   allMagicItems: MagicItem[] = [];
+
+  selectedSources: string[] = []; // <-- track selected sources here
 
   constructor(
     private dataShare: InputDatas,
@@ -29,24 +31,29 @@ export class GeneratedForm implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .get<{ items: Item[]; magicItems: { name: string; children: MagicItem[] }[] }>('assets/data/items.json')
+      .get<{ items: Item[]; magicItems: { name: string; children: MagicItem[] }[] }>('assets/data/full_magic_items_list.json')
       .subscribe((data) => {
-        this.allMundaneItems = data.items.filter((item) => item.rarity === 'Mun.');
+        this.allItems = data.items.filter(item => item.rarity === "Mun.");
 
-        const allowedRarities = ['Com.', 'Var.', 'Rare', 'Unc.', 'Leg.'];
+        const allowedRarities = ['Mun','Com.', 'Var.', 'Rare', 'V.Rare','Unc.', 'Leg.'];
         this.allMagicItems = data.magicItems
-          .flatMap((group) => group.children)
-          .filter((mItem) => allowedRarities.includes(mItem.rarity));
+          .flatMap(group => group.children)
+          .filter(mItem => allowedRarities.includes(mItem.rarity));
 
-        this.updateItemsList(); // gera apenas se formValues já estiver preenchido
+        this.updateItemsList();
       });
 
-    this.dataShare.formData$.subscribe((data) => {
+    this.dataShare.formData$.subscribe(data => {
       this.formValues = data;
-      this.updateItemsList(); // Gera novo sorteio apenas se o formulário for alterado
+      this.updateItemsList();
     });
 
-    this.randomDataShare.randomData$.subscribe((data) => {
+    this.dataShare.selectedSources$.subscribe(sources => {
+      this.selectedSources = sources;
+      this.updateItemsList();
+    });
+
+    this.randomDataShare.randomData$.subscribe(data => {
       if (data && data.randomItems) {
         try {
           const itemsJson = `[${data.randomItems}]`;
@@ -58,14 +65,13 @@ export class GeneratedForm implements OnInit {
       } else {
         this.manualItems = [];
       }
-
-      // Atualiza a lista final sem refazer o sorteio
+      // Update data source with current random + manual items
       this.dataSource.data = [...this.randomItems, ...this.manualItems];
     });
   }
 
   private updateItemsList(): void {
-    if (!this.formValues || (!this.allMundaneItems.length && !this.allMagicItems.length)) {
+    if (!this.formValues || (!this.allItems.length && !this.allMagicItems.length)) {
       this.randomItems = [];
       this.dataSource.data = [...this.manualItems];
       return;
@@ -80,7 +86,7 @@ export class GeneratedForm implements OnInit {
 
     if (
       [mundaneCount, commonCount, uncommonCount, rareCount, veryRareCount, legendaryCount].every(
-        (c) => isNaN(c) || c <= 0
+        c => isNaN(c) || c <= 0
       )
     ) {
       this.randomItems = [];
@@ -90,24 +96,42 @@ export class GeneratedForm implements OnInit {
 
     const result: (Item | MagicItem)[] = [];
 
+    // Filter mundane items by selected sources if any
+    let filteredMundane = this.allItems;
+    if (this.selectedSources.length > 0) {
+      filteredMundane = filteredMundane.filter(item => this.selectedSources.includes(item.source));
+    }
     if (!isNaN(mundaneCount) && mundaneCount > 0) {
-      const shuffledMundane = this.shuffleArray([...this.allMundaneItems]);
+      const shuffledMundane = this.shuffleArray([...filteredMundane]);
       result.push(...shuffledMundane.slice(0, mundaneCount));
     }
 
-    const addMagicItemsByRarity = (rarity: string, count: number) => {
-      if (!isNaN(count) && count > 0) {
-        const filtered = this.allMagicItems.filter((item) => item.rarity === rarity);
-        const shuffled = this.shuffleArray([...filtered]);
-        result.push(...shuffled.slice(0, count));
-      }
-    };
+const addMagicItemsByRarity = (rarity: string | string[], count: number) => {
+  if (!isNaN(count) && count > 0) {
+    let filtered = this.allMagicItems.filter(item =>
+      Array.isArray(rarity)
+        ? rarity.includes(item.rarity)
+        : item.rarity === rarity
+    );
 
-    addMagicItemsByRarity('Com.', commonCount);
-    addMagicItemsByRarity('Unc.', uncommonCount);
-    addMagicItemsByRarity('Rare', rareCount);
-    addMagicItemsByRarity('Var.', veryRareCount);
-    addMagicItemsByRarity('Leg.', legendaryCount);
+    if (this.selectedSources.length > 0) {
+      filtered = filtered.filter(item =>
+        this.selectedSources.includes(item.source)
+      );
+    }
+
+    const shuffled = this.shuffleArray([...filtered]);
+    result.push(...shuffled.slice(0, count));
+  }
+};
+
+    addMagicItemsByRarity(['Com.', 'Var.'], commonCount);
+addMagicItemsByRarity(['Unc.', 'Var.'], uncommonCount);
+addMagicItemsByRarity(['Rare', 'Var.'], rareCount);
+addMagicItemsByRarity(['V.Rare', 'Var.'], veryRareCount);
+addMagicItemsByRarity(['Leg.', 'Var.'], legendaryCount);
+
+    
 
     this.randomItems = result;
     this.dataSource.data = [...this.randomItems, ...this.manualItems];

@@ -1,8 +1,10 @@
 .filter-container {
-  padding: 20px;
-  max-width: 600px;
+  padding: 5px 5px 5px 5px !important;
+  max-width: 100%;
+  max-height: 50vh !important;
   margin: auto;
   border: solid 1px black;
+  overflow-y: auto; /* Add scrolling if content overflows vertically */
 }
 
 .source-list {
@@ -10,11 +12,12 @@
   flex-wrap: wrap;
   list-style: none;
   padding-left: 0;
-  gap: 8px; 
+  gap: 8px;
 }
 
 .source-list li {
-  margin: 0;
+  flex: 1 1 150px; 
+  max-width: 100px; /* limit how wide each checkbox can get */
 }
 
 .chips {
@@ -45,3 +48,4 @@ mat-chip mat-icon {
 mat-icon{
     color: #6a040f !important;
 }
+

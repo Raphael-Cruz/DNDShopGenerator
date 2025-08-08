@@ -20,6 +20,7 @@ export class Filters implements OnInit {
   items: Item[] = [];
   magicItems: MagicItem[] = [];
   sources: { name: string; checked: boolean }[] = [];
+allSelected: boolean = false;
 
   private sourceTooltips: Record<string, string> = {
     "PHB'14": "Player's Handbook 2014",
@@ -40,12 +41,14 @@ export class Filters implements OnInit {
     "JttRC": "Journeys through the Radiant Citadel",
     "GGR": "Guildmaster's Guide to Ravnica",
     "MTF": "Mordenkainen's Tome of Foes",
+    "PotA": "Princes of the Apocalypse",
     "DSotDQ": "Dragonlance: Shadow of the Dragon Queen",
     "WBtW": "The Wild Beyond the Witchlight",
     "VGM": "Volo's Guide to Monsters",
     "SatO": "Sigil and the Outlands",
     "BGG": "Bigby Presents: Glory of the Giants",
     "OotA": "Out of the Abyss",
+    "ToA": "Tomb of Annihilation",
     "VRGR": "Van Richten's Guide to Ravenloft",
     "LoX": "Light of Xaryxis",
     "DMG'14": "Dungeon Master's Guide 2014",
@@ -102,14 +105,19 @@ export class Filters implements OnInit {
       const sourcesWithValue = allItems
         .map(i => i.source?.trim())
         .filter(s => !!s && s.length > 0);
-  this.inputDatas.setAllItems(allItems);
+    
+        this.inputDatas.setAllItems(allItems);
 
       const uniqueSources = Array.from(new Set(sourcesWithValue));
 
-      this.sources = uniqueSources.map(source => ({
+      this.sources = uniqueSources
+      .map(source => ({
         name: source,
         checked: false,
-      }));
+      }))
+       .sort((a, b) => a.name.localeCompare(b.name));
+
+         
 
       this.cdr.detectChanges(); // now this will properly trigger
     });
@@ -139,7 +147,14 @@ export class Filters implements OnInit {
     return allItems.filter(item => this.selectedSources.includes(item.source));
   }
   onSourceCheckboxChange() {
+  this.allSelected = this.sources.every(s => s.checked);
   this.inputDatas.setSelectedSources(this.selectedSources);
+}
+
+toggleAllSources(selectAll: boolean): void {
+  this.sources.forEach(source => source.checked = selectAll);
+  this.allSelected = selectAll;
+  this.onSourceCheckboxChange(); 
 }
 
 }
