@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { Item, MagicItem } from '../models/item-model';
-import { InputDatas, RandomInputData } from '../input-datas';
+import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
 
 @Component({
   selector: 'app-generated-form',
@@ -26,7 +26,8 @@ export class GeneratedForm implements OnInit {
   constructor(
     private dataShare: InputDatas,
     private randomDataShare: RandomInputData,
-    private http: HttpClient
+    private http: HttpClient,
+    private newItemDataShare: NewItemData,
   ) {}
 
   ngOnInit(): void {
@@ -59,14 +60,26 @@ export class GeneratedForm implements OnInit {
           const itemsJson = `[${data.randomItems}]`;
           this.manualItems = JSON.parse(itemsJson);
         } catch (e) {
-          console.error('Erro ao parsear itens manuais JSON:', e);
+          console.error('Failed to parse new item JSON:', e);
           this.manualItems = [];
         }
       } else {
         this.manualItems = [];
       }
-      // Update data source with current random + manual items
       this.dataSource.data = [...this.randomItems, ...this.manualItems];
+    });
+
+    // Subscribe to new items from CreateItem component
+    this.newItemDataShare.newItemData$.subscribe(newItemData => {
+      if (newItemData?.newItemData) {
+        try {
+          const newItem = JSON.parse(newItemData.newItemData);
+          this.manualItems.push(newItem);
+          this.dataSource.data = [...this.randomItems, ...this.manualItems];
+        } catch (error) {
+          console.error('Failed to parse new item JSON:', error);
+        }
+      }
     });
   }
 
@@ -83,9 +96,10 @@ export class GeneratedForm implements OnInit {
     const rareCount = parseInt(this.formValues.rareItems, 10);
     const veryRareCount = parseInt(this.formValues.veryRareItems, 10);
     const legendaryCount = parseInt(this.formValues.legendaryItems, 10);
+    const artifactCount = parseInt(this.formValues.artifactItems, 10);
 
     if (
-      [mundaneCount, commonCount, uncommonCount, rareCount, veryRareCount, legendaryCount].every(
+      [mundaneCount, commonCount, uncommonCount, rareCount, veryRareCount, legendaryCount, artifactCount].every(
         c => isNaN(c) || c <= 0
       )
     ) {
@@ -106,32 +120,31 @@ export class GeneratedForm implements OnInit {
       result.push(...shuffledMundane.slice(0, mundaneCount));
     }
 
-const addMagicItemsByRarity = (rarity: string | string[], count: number) => {
-  if (!isNaN(count) && count > 0) {
-    let filtered = this.allMagicItems.filter(item =>
-      Array.isArray(rarity)
-        ? rarity.includes(item.rarity)
-        : item.rarity === rarity
-    );
+    const addMagicItemsByRarity = (rarity: string | string[], count: number) => {
+      if (!isNaN(count) && count > 0) {
+        let filtered = this.allMagicItems.filter(item =>
+          Array.isArray(rarity)
+            ? rarity.includes(item.rarity)
+            : item.rarity === rarity
+        );
 
-    if (this.selectedSources.length > 0) {
-      filtered = filtered.filter(item =>
-        this.selectedSources.includes(item.source)
-      );
-    }
+        if (this.selectedSources.length > 0) {
+          filtered = filtered.filter(item =>
+            this.selectedSources.includes(item.source)
+          );
+        }
 
-    const shuffled = this.shuffleArray([...filtered]);
-    result.push(...shuffled.slice(0, count));
-  }
-};
+        const shuffled = this.shuffleArray([...filtered]);
+        result.push(...shuffled.slice(0, count));
+      }
+    };
 
-    addMagicItemsByRarity(['Com.', 'Var.'], commonCount);
-addMagicItemsByRarity(['Unc.', 'Var.'], uncommonCount);
-addMagicItemsByRarity(['Rare', 'Var.'], rareCount);
-addMagicItemsByRarity(['V.Rare', 'Var.'], veryRareCount);
-addMagicItemsByRarity(['Leg.', 'Var.'], legendaryCount);
-
-    
+    addMagicItemsByRarity(['Com.'], commonCount);
+    addMagicItemsByRarity(['Unc.', 'Var.'], uncommonCount);
+    addMagicItemsByRarity(['Rare', 'Var.'], rareCount);
+    addMagicItemsByRarity(['V.Rare', 'Var.'], veryRareCount);
+    addMagicItemsByRarity(['Leg.', 'Var.'], legendaryCount);
+    addMagicItemsByRarity(['Art.', 'Var.'], artifactCount);
 
     this.randomItems = result;
     this.dataSource.data = [...this.randomItems, ...this.manualItems];
@@ -144,4 +157,9 @@ addMagicItemsByRarity(['Leg.', 'Var.'], legendaryCount);
     }
     return array;
   }
+  clearItems(): void {
+  this.randomItems = [];
+  this.manualItems = [];
+  this.dataSource.data = [];
+}
 }

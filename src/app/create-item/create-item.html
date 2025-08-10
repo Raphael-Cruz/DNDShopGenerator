@@ -1,47 +1,48 @@
 <div class="createItem-container">
 
-  <h3>Create your Own Items</h3>
+  <h3>Create Your Own Items</h3>
 
   <hr>
 
-  <form class="createItem-wrap">
-      <!-- Name-->
-  <mat-form-field class="example-full-width">
+  <form class="createItem-wrap" (ngSubmit)="createNewItem()">
+
+  <mat-form-field class="">
     <mat-label>Item Name</mat-label>
-    <input matInput placeholder="Ex. Sword of Answering" >
+    <input matInput placeholder="Ex. Sword of Answering" [(ngModel)]="itemName" name="itemName" required>
   </mat-form-field>
-<!-- Type-->
-   <mat-form-field class="example-full-width">
+
+  <mat-form-field class="">
     <mat-label>Type</mat-label>
-    <input matInput placeholder="Ex. Martial Weapon, Melee Weapon">
+    <input matInput placeholder="Ex. Martial Weapon, Melee Weapon" [(ngModel)]="itemType" name="itemType" required>
   </mat-form-field>
- <!-- Weight-->
-    <mat-form-field class="example-full-width">
+
+    <mat-form-field class="">
+    <mat-label>Cost</mat-label>
+    <input matInput placeholder="Ex. 1,000 gp" [(ngModel)]="itemCost" name="itemCost">
+  </mat-form-field>
+
+  <mat-form-field class="">
     <mat-label>Weight</mat-label>
-    <input matInput placeholder="Ex. 3 lb">
+    <input matInput placeholder="Ex. 3 lb" [(ngModel)]="itemWeight" name="itemWeight">
   </mat-form-field>
 
-  <!-- Rarity-->
-   
-<mat-form-field>
-  <mat-label>Rarity</mat-label>
-  <mat-select [(ngModel)]="selectedRarity" name="rarity">
-    @for (rarity of uniqueRarities; track rarity) {
-      <mat-option [value]="rarity" [matTooltip]="getTipForRarity(rarity)">
-        {{ rarity }}
-      </mat-option>
-    }
-  </mat-select>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Rarity</mat-label>
+    <mat-select [(ngModel)]="selectedRarity" name="rarity" required>
+      @for (rarity of uniqueRarities; track rarity) {
+        <mat-option [value]="rarity" [matTooltip]="getTipForRarity(rarity)">
+          {{ rarity }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 
-  <!-- Source-->
-    <mat-form-field class="example-full-width">
+  <mat-form-field class="">
     <mat-label>Source</mat-label>
-    <input matInput placeholder="Ex. DMG'14">
+    <input matInput placeholder="Ex. DMG'14" [(ngModel)]="itemSource" name="itemSource" required>
   </mat-form-field>
 
-  <button matButton="filled"> Register New Item</button>
-    <button matButton="filled"> Add New Item To New Shop</button>
+  <button mat-button type="submit" mat-raised-button>Register New Item</button>
 </form>
 </div>
 

@@ -7,10 +7,10 @@ import { Item, MagicItem } from '../app/models/item-model';
 })
 export class InputDatas {
   // existing form data behavior subject
-  private formData = new BehaviorSubject<{ mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string } | null>(null);
+  private formData = new BehaviorSubject<{ mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string, artifactItems: string } | null>(null);
   formData$ = this.formData.asObservable();
 
-  setFormData(data: { mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string }) {
+  setFormData(data: { mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string,  artifactItems: string }) {
     this.formData.next(data);
   }
 
@@ -71,4 +71,26 @@ export class RandomInputData {
 
     this.randomData.next({ randomItems: newValue });
   }
+
+  
 }
+
+@Injectable({
+  providedIn: 'root'  
+})
+export class NewItemData {
+  private newItemData = new BehaviorSubject<{ newItemData: string } | null>({ newItemData: '' });
+  newItemData$ = this.newItemData.asObservable();
+
+  setNewItemData(data: { newItemData: string }) {
+    const current = this.newItemData.value;
+    const existing = current?.newItemData ?? '';
+    const newValue = existing
+      ? `${existing}, ${data.newItemData}`
+      : data.newItemData;
+
+    this.newItemData.next({ newItemData: newValue });
+  }
+}
+
+

@@ -271,3 +271,34 @@
     width: 100%;
   }
 }
+
+ /* override Material styles in generated-form */
+::ng-deep .reset-button {
+  background-color: #9b2226 !important;
+  color: white;
+
+  padding: 8px 14px;
+  
+}
+
+::ng-deep .print-button {
+  background-color: #0a9396 !important;
+  color: white;
+  padding: 8px 14px;
+    margin: 12px;
+}
+
+
+::ng-deep .save-button {
+  background-color: #ee9b00 !important;
+  color: white;
+  padding: 8px 14px;
+  
+}
+
+.button-container{
+  
+  display: flex;
+  align-items: center;
+  justify-content: center
+}

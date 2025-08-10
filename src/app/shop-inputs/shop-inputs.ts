@@ -15,6 +15,7 @@ export class ShopInputs {
   rareItems: string = '';
   veryRareItems: string = '';
   legendaryItems: string = '';
+  artifactItems: string = '';
 
   selectedOptionMundane = 'one';
   selectedOptionCommon = 'one';
@@ -22,6 +23,7 @@ export class ShopInputs {
   selectedOptionRare = 'one';
   selectedOptionVeryRare = 'one';
   selectedOptionLegendary = 'one';
+  selectedOptionArtifact = 'one';
 
   constructor(private dataShare: InputDatas) {}
 
@@ -32,6 +34,7 @@ export class ShopInputs {
     rareItems: string;
     veryRareItems: string;
     legendaryItems: string;
+    artifactItems: string;
   }>();
 
   isInputEnabled(option: string): boolean {
@@ -95,6 +98,10 @@ export class ShopInputs {
         this.legendaryItems = value;
         this.selectedOptionLegendary = option;
         break;
+      case 'artifactItems':
+        this.artifactItems = value;
+        this.selectedOptionLegendary = option;
+        break;
     }
   }
 
@@ -107,7 +114,27 @@ export class ShopInputs {
       rareItems: this.rareItems,
       veryRareItems: this.veryRareItems,
       legendaryItems: this.legendaryItems,
+      artifactItems: this.artifactItems,
+    
     });
+
+    //reset
+   this.mundaneItems = '';
+   this.commonItems = '';
+   this.uncommonItems = '';
+   this.rareItems = '';
+   this.veryRareItems = '';
+   this.legendaryItems = '';
+   this.artifactItems = '';
+
+  this.selectedOptionMundane = 'one';
+  this.selectedOptionCommon = 'one';
+  this.selectedOptionUncommon = 'one';
+  this.selectedOptionRare = 'one';
+  this.selectedOptionVeryRare = 'one';
+  this.selectedOptionLegendary = 'one';
+  this.selectedOptionArtifact = 'one';
+
   }
 
   // funções de dados
@@ -131,4 +158,6 @@ export class ShopInputs {
     const isCrit = Math.floor(Math.random() * 20) + 1 === 20;
     return isCrit ? 1 : 0;
   }
+
+
 }

@@ -137,6 +137,28 @@
     </mat-form-field>
   </div>
 
+    <!-- ARTIFACT -->
+  <div>
+    <mat-form-field class="form-items">
+      <mat-label>ARTIFACT ITEMS</mat-label>
+      <input matInput [(ngModel)]="artifactItems" [disabled]="!isInputEnabled(selectedOptionArtifact)" />
+      <mat-hint>How many artifact items</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Suggestions</mat-label>
+      <mat-select [(ngModel)]="selectedOptionArtifact" (selectionChange)="onSelectChange('artifactItems', $event.value)">
+        <mat-option value="one">0</mat-option>
+        <mat-option value="two">5</mat-option>
+        <mat-option value="three">10</mat-option>
+        <mat-option value="four">1d3</mat-option>
+        <mat-option value="five">2d4</mat-option>
+        <mat-option value="six">1d12</mat-option>
+        <mat-option value="seven">1d4+3</mat-option>
+        <mat-option value="eight">1d20-19</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
   <br />
 
   <button matButton="filled" (click)="onInputChange()" routerLink="/generatedshop" >GENERATE</button>
@@ -156,5 +178,6 @@
 
   </main>
    
- 
+
+
 <app-footer></app-footer>

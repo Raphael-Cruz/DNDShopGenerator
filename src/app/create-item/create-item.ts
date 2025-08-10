@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Item, MagicItem} from '../models/item-model';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, NgZone  } from '@angular/core';
-import { InputDatas } from '../input-datas';
+import { InputDatas, NewItemData } from '../input-datas';
 
 
 @Component({
@@ -17,13 +17,27 @@ export class CreateItem implements OnInit{
   items: Item[] = [];
   magicItems: Item[] = [];
   allMagicItems: MagicItem[] = [];
-  selectedRarity: string = '';
+  
   uniqueRarities: string[] = [];
 
+   newItems: (Item | MagicItem)[] = [];
+   formValues: any;
+
+  
+  itemName = '';
+  itemType = '';
+  itemWeight = '';
+  selectedRarity = '';
+  itemSource = '';
+  itemCost = '';
+  
   constructor(private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private zone: NgZone,
-    private inputDatas: InputDatas ) {}
+    private inputDatas: InputDatas,
+    private dataShare: InputDatas,
+    private newItemDataShare: NewItemData,
+  ) {}
 
 
 
@@ -63,11 +77,58 @@ ngOnInit(): void {
       
       //console.log('Unique rarities:', this.uniqueRarities);
       
-
+      this.dataShare.formData$.subscribe(data => {
+      this.formValues = data;
+    
     });
+
+  }
+
+ );
  
 }
+
+
   getTipForRarity(rarity: string): string {
   return this.sourceFortips[rarity] ?? "Unknown rarity";
+  
 }
+
+
+   createNewItem() {
+    if (!this.itemName || !this.itemType || !this.selectedRarity) {
+      alert('Please fill in required fields: Item Name, Type, Rarity and Source.');
+      return;
+    }
+
+    const newItem: Item | MagicItem = {
+      name: this.itemName,
+      type: this.itemType,
+      weight: this.itemWeight,
+      rarity: this.selectedRarity,
+      source: this.itemSource,
+      cost: this.itemCost
+     
+    };
+
+    // Convert to JSON string to send to your service
+    const itemStr = JSON.stringify(newItem);
+
+    // Send new item string to your service
+    this.newItemDataShare.setNewItemData({ newItemData: itemStr });
+
+    // clear form fields after submission
+    this.itemName = '';
+    this.itemType = '';
+    this.itemWeight = '';
+    this.selectedRarity = '';
+    this.itemSource = '';
+     this.itemCost = '';
+
+    alert('New item registered and sent!');
+
+    //no need to say, but, our json is static for now, only way to update the json is send the new item JSON via HTTP POST to that backend
+  }
 }
+
+
