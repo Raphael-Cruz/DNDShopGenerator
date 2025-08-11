@@ -12,6 +12,17 @@
   <section class="shop-table">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
+       <!-- Qtdy -->
+     <ng-container matColumnDef="qtdy">
+  <th mat-header-cell *matHeaderCellDef> Qty </th>
+  <td mat-cell *matCellDef="let element; let i = index">
+    <ng-container *ngIf="editingIndex === i; else qtyView">
+      <input type="number" min="1" [(ngModel)]="element.quantity" style="width: 60px;">
+    </ng-container>
+    <ng-template #qtyView>{{ element.quantity }}</ng-template>
+  </td>
+</ng-container>
+
       <!-- Name -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -32,9 +43,14 @@
 
       <!-- Cost -->
       <ng-container matColumnDef="cost">
-        <th mat-header-cell *matHeaderCellDef> Cost </th>
-        <td mat-cell *matCellDef="let element"> {{element.cost}} </td>
-      </ng-container>
+  <th mat-header-cell *matHeaderCellDef> Cost </th>
+  <td mat-cell *matCellDef="let element; let i = index">
+    <ng-container *ngIf="editingIndex === i; else costView">
+      <input type="text" [(ngModel)]="element.cost" style="width: 80px;">
+    </ng-container>
+    <ng-template #costView>{{ element.cost }}</ng-template>
+  </td>
+</ng-container>
 
       <!-- Weight -->
       <ng-container matColumnDef="weight">
@@ -46,6 +62,23 @@
       <ng-container matColumnDef="source">
         <th mat-header-cell *matHeaderCellDef> Source </th>
         <td mat-cell *matCellDef="let element"> {{element.source}} </td>
+      </ng-container>
+
+      
+      <!-- Edit -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          @if (editingIndex === i) {
+            <button mat-icon-button class="save-button" (click)="saveEdit()">
+              <mat-icon>save</mat-icon>
+            </button>
+          } @else {
+            <button mat-icon-button class="edit-button" (click)="editItems(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          }
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -11,7 +11,7 @@ import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
   styleUrl: '../main-comp/main-comp.css'
 })
 export class GeneratedForm implements OnInit {
-  displayedColumns: string[] = ['name', 'type', 'rarity', 'cost', 'weight', 'source'];
+  displayedColumns: string[] = ['qtdy','name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
   dataSource = new MatTableDataSource<Item | MagicItem>();
 
   formValues: any;
@@ -115,10 +115,13 @@ export class GeneratedForm implements OnInit {
     if (this.selectedSources.length > 0) {
       filteredMundane = filteredMundane.filter(item => this.selectedSources.includes(item.source));
     }
-    if (!isNaN(mundaneCount) && mundaneCount > 0) {
-      const shuffledMundane = this.shuffleArray([...filteredMundane]);
-      result.push(...shuffledMundane.slice(0, mundaneCount));
-    }
+   if (!isNaN(mundaneCount) && mundaneCount > 0) {
+  const shuffledMundane = this.shuffleArray([...filteredMundane])
+    .slice(0, mundaneCount)
+    .map(item => ({ ...item, quantity: 1 })); // default 1
+  result.push(...shuffledMundane);
+}
+    
 
     const addMagicItemsByRarity = (rarity: string | string[], count: number) => {
       if (!isNaN(count) && count > 0) {
@@ -134,8 +137,10 @@ export class GeneratedForm implements OnInit {
           );
         }
 
-        const shuffled = this.shuffleArray([...filtered]);
-        result.push(...shuffled.slice(0, count));
+       const shuffled = this.shuffleArray([...filtered])
+        .slice(0, count)
+        .map(item => ({ ...item, quantity: 1 }));
+      result.push(...shuffled);
       }
     };
 
@@ -162,4 +167,14 @@ export class GeneratedForm implements OnInit {
   this.manualItems = [];
   this.dataSource.data = [];
 }
+editingIndex: number | null = null;
+
+editItems(index: number) {
+  this.editingIndex = index;
+}
+
+saveEdit() {
+  this.editingIndex = null;
+}
+
 }

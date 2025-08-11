@@ -5,6 +5,7 @@ export interface Item {
   rarity: string;
   weight: string;
   source: string;
+  quantity?: number; 
 }
 
 export interface MagicItem {
@@ -14,6 +15,7 @@ export interface MagicItem {
   rarity: string;
   weight: string;
    source: string;
+   quantity?: number; 
 
 }
 

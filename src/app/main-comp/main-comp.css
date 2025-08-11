@@ -289,12 +289,7 @@
 }
 
 
-::ng-deep .save-button {
-  background-color: #ee9b00 !important;
-  color: white;
-  padding: 8px 14px;
-  
-}
+
 
 .button-container{
   
@@ -302,3 +297,14 @@
   align-items: center;
   justify-content: center
 }
+
+
+
+.edit-button {
+    color: #ffa600ff;
+   
+}
+
+.save-button{
+    color: #310bddff;
+   }
