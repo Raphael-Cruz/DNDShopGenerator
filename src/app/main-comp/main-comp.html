@@ -1,5 +1,6 @@
-<app-navbar />
+<app-navbar (openModal)="authModal.openModal()"></app-navbar>
 
+  <app-auth-modal #authModal></app-auth-modal>
 <main class="container">
      
   <div class="main-content">  
@@ -18,49 +19,11 @@
       </mat-card-actions>
     </mat-card>
     </div>
-<!--
-      <div class="left-panel">
-        <h2>Select Your Inputs</h2>
-         <app-shop-inputs ></app-shop-inputs>
-      </div>
 
-      <div class="middle-panel">
-        <div class="advanced-options">
-          <h2>Advanced Options</h2>
-          <app-advanced-tree></app-advanced-tree>
-        </div>
-        <div class="item-search">
-         
-          <mat-accordion >
-            <mat-expansion-panel  showToggle>
-             <mat-expansion-panel-header>
-              <mat-panel-title>  Item Search </mat-panel-title>
-      
-             </mat-expansion-panel-header>
-               <app-item-table></app-item-table>
-            </mat-expansion-panel>
-            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-      </div>
-
-    <div class="right-panel">
-      <div class=" sidemenuitem">
-                <h1>Preset</h1>
-                <a class="sidemenuitem">Village</a>
-                <a class="sidemenuitem">Small Town</a>
-                <a class="sidemenuitem" >Large Town</a>
-                <a class="sidemenuitem" >Small City</a>
-                <a class="sidemenuitem" >Large City</a>
-                <a class="sidemenuitem" >General Store</a>
-        </div>
-       
-      </div>
-      <app-generated-form></app-generated-form>-->
     </div>
    
   </main>
+
 
  <app-footer />
                

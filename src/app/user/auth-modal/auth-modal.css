@@ -1,0 +1,90 @@
+
+
+.account-dialog {
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 1rem;
+}
+
+/* Full screen fixed modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent; /* just to avoid flicker */
+}
+
+/* Semi-transparent dark backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1499;
+}
+
+/* Container that centers the modal card */
+.modal-container {
+  position: relative;
+  z-index: 1501;
+  width: 400px;
+  max-width: 95vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Angular Material Card */
+.modal-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px
+}
+
+/* Full width for form fields and buttons */
+.full-width {
+  width: 100%;
+  margin:  10px 0 10px 0;
+}
+
+/* Header styling */
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  
+  
+}
+
+/* Close button aligned top right */
+.close-btn {
+  margin-left: auto;
+}
+
+/* Card content should scroll if content is tall */
+mat-card-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-top: 0;
+  padding-bottom: 16px;
+}
