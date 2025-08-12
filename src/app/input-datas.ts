@@ -2,15 +2,35 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Item, MagicItem } from '../app/models/item-model';
 
+type FormDataType = {
+  mundaneItems: string;
+  commonItems: string;
+  uncommonItems: string;
+  rareItems: string;
+  veryRareItems: string;
+  legendaryItems: string;
+  artifactItems: string;
+};
+
+interface IShop {
+  id: string;
+  formData: FormDataType;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class InputDatas {
+  
+private shops:IShop[] = []
+
+
   // existing form data behavior subject
-  private formData = new BehaviorSubject<{ mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string, artifactItems: string } | null>(null);
+private formData = new BehaviorSubject<FormDataType | null>(null);
   formData$ = this.formData.asObservable();
 
-  setFormData(data: { mundaneItems: string; commonItems: string, uncommonItems: string, rareItems: string, veryRareItems: string, legendaryItems: string,  artifactItems: string }) {
+  setFormData(data: FormDataType) {
     this.formData.next(data);
   }
 
@@ -53,7 +73,29 @@ export class InputDatas {
       );
     }
   }
+
+
+registerNewShop(): string | null {
+  const id = crypto.randomUUID();
+  const currentFormData = this.formData.value;
+
+  if (!currentFormData) {
+    console.warn('No form data to save for this shop.');
+    return null;
+  }
+
+  this.shops.push({ id, formData: currentFormData });
+  console.log("New shop registered:", id, currentFormData);
+
+  return id;
 }
+
+getShopById(id: string): IShop | undefined {
+  return this.shops.find(shop => shop.id === id);
+}
+
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -92,5 +134,4 @@ export class NewItemData {
     this.newItemData.next({ newItemData: newValue });
   }
 }
-
 

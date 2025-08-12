@@ -17,14 +17,14 @@ set selectedIndex(value: number) {
   this.activeTab = value === 0 ? 'login' : 'register';
 }
 
-  isVisible = false; // controls modal visibility
-  activeTab: 'login' | 'register' = 'login'; // track which tab is active
+  isVisible = false; 
+  activeTab: 'login' | 'register' = 'login';
 
   loginForm: FormGroup;
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    // Initialize forms
+   
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

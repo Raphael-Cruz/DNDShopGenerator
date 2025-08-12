@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { InputDatas } from '../input-datas';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop-inputs',
@@ -25,7 +26,7 @@ export class ShopInputs {
   selectedOptionLegendary = 'one';
   selectedOptionArtifact = 'one';
 
-  constructor(private dataShare: InputDatas) {}
+  constructor(private dataShare: InputDatas, private router: Router) {}
 
   @Output() newItemEvent = new EventEmitter<{
     mundaneItems: string;
@@ -118,6 +119,9 @@ export class ShopInputs {
     
     });
 
+   this.registerShop();
+
+ 
     //reset
    this.mundaneItems = '';
    this.commonItems = '';
@@ -136,6 +140,22 @@ export class ShopInputs {
   this.selectedOptionArtifact = 'one';
 
   }
+
+registerShop() {
+  const newShopId = this.dataShare.registerNewShop();
+  console.log('New shop ID:', newShopId);
+
+  if (newShopId) {
+    console.log('Navigating to generatedshop with ID:', newShopId);
+    this.router.navigate(['/generatedshop', newShopId]).then(success => {
+      console.log('Navigation success?', success);
+    }).catch(err => {
+      console.error('Navigation error:', err);
+    });
+  } else {
+    console.error('Failed to register shop. No form data available.');
+  }
+}
 
   // funções de dados
   roll1d3(): number {

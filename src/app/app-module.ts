@@ -27,6 +27,7 @@ import { Filters } from './filters/filters';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CreateItem } from './create-item/create-item';
 import { UserModule } from './user/user-module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -69,7 +70,8 @@ import { UserModule } from './user/user-module';
     MatToolbarModule,
     MatChipsModule,
     MatTooltipModule,
-    UserModule
+    UserModule,
+    RouterModule
     
  
     

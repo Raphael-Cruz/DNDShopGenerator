@@ -11,6 +11,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 
+import { RouterModule } from '@angular/router';
+
 @NgModule({
   declarations: [
     AuthModal
@@ -24,7 +26,8 @@ import {MatCardModule} from '@angular/material/card';
     MatIconModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    RouterModule
 
   ], exports: [
     AuthModal

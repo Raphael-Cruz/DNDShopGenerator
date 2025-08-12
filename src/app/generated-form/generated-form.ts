@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { Item, MagicItem } from '../models/item-model';
 import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-generated-form',
@@ -11,9 +13,10 @@ import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
   styleUrl: '../main-comp/main-comp.css'
 })
 export class GeneratedForm implements OnInit {
+
   displayedColumns: string[] = ['qtdy','name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
   dataSource = new MatTableDataSource<Item | MagicItem>();
-
+  shopId: string | null = null;
   formValues: any;
   randomItems: (Item | MagicItem)[] = [];
   manualItems: (Item | MagicItem)[] = [];
@@ -23,14 +26,27 @@ export class GeneratedForm implements OnInit {
 
   selectedSources: string[] = []; // <-- track selected sources here
 
-  constructor(
+ constructor(
     private dataShare: InputDatas,
     private randomDataShare: RandomInputData,
     private http: HttpClient,
     private newItemDataShare: NewItemData,
+    private route: ActivatedRoute,    // <--- add here
   ) {}
 
   ngOnInit(): void {
+     this.shopId = this.route.snapshot.paramMap.get('id');
+    
+    if (this.shopId) {
+      const shopData = this.dataShare.getShopById(this.shopId);
+      if (shopData) {
+        this.formValues = shopData.formData;
+        this.updateItemsList();
+      } else {
+        console.warn(`Shop with id ${this.shopId} not found.`);
+      }
+    }
+    
     this.http
       .get<{ items: Item[]; magicItems: { name: string; children: MagicItem[] }[] }>('assets/data/full_magic_items_list.json')
       .subscribe((data) => {

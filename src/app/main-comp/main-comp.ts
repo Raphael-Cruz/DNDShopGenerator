@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-
+import { Component, signal, ViewChild } from '@angular/core';
+import { AuthModal } from '../user/auth-modal/auth-modal';
 
 @Component({
   selector: 'app-main-comp',
@@ -10,4 +10,6 @@ import { Component, signal } from '@angular/core';
 export class MainComp {
 
   readonly panelOpenState = signal(false);
+
+
 }
