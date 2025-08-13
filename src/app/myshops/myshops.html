@@ -1,5 +1,6 @@
+<main >
 <app-navbar/>
-<main class="container">
+<div class="container">
     <h1 class="shop-title">My Shops</h1>
   <div class="main-content"> 
      
@@ -10,7 +11,7 @@
         <mat-card class="shop-card" appearance="outlined">
         <mat-card-header>
         <div mat-card-avatar class="shop-header-image"></div>
-            <mat-card-title> {{ shop.name }}</mat-card-title>
+            <h3 *ngFor="let shop of shops" class="shop-card-title"> {{ shop.name | propercase }}</h3>
         </mat-card-header>
             <img mat-card-image src="assets/images/shop-image.png" alt="Photo of a magic shop">
         <mat-card-actions>
@@ -26,7 +27,7 @@
     </div>
         </div>
     </div>
-  
+      </div>
    </main>
 
    <app-footer/>

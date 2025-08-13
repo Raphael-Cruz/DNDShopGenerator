@@ -1,5 +1,5 @@
 import { Component,EventEmitter, Output } from '@angular/core';
-
+import { AuthModalService } from '../input-datas';
 @Component({
   selector: 'app-navbar',
   standalone: false,
@@ -10,11 +10,13 @@ import { Component,EventEmitter, Output } from '@angular/core';
 
 export class Navbar {
 
+  constructor(private authService: AuthModalService) {}
 
+  openLogin() {
+    this.authService.open('login');   
+  }
 
- @Output() openModal = new EventEmitter<void>();
-
-  onOpenModalClick() {
-    this.openModal.emit();
+  openRegister() {
+    this.authService.open('register'); 
   }
 }

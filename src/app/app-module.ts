@@ -29,7 +29,7 @@ import { CreateItem } from './create-item/create-item';
 import { UserModule } from './user/user-module';
 import { RouterModule } from '@angular/router';
 import { Myshops } from './myshops/myshops';
-
+import { SharedModule } from './shared/shared-module';
 
 
 
@@ -74,6 +74,7 @@ import { Myshops } from './myshops/myshops';
     MatTooltipModule,
     UserModule,
     RouterModule,
+    SharedModule
     
     
  

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  Pipe, PipeTransform } from '@angular/core';
 import { InputDatas } from '../input-datas';
 import { Router } from '@angular/router';
+import { ProperCasePipe } from '../shared/pipes/pipes';
 
 
 
@@ -10,9 +11,11 @@ import { Router } from '@angular/router';
   templateUrl: './myshops.html',
   styleUrl: './myshops.css'
 })
+
 export class Myshops {
 
 shops: { name: string; id: string; formData: any }[] = [];
+
 
   constructor(private shopdata: InputDatas, private router: Router) {}
 

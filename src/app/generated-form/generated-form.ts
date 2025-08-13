@@ -14,6 +14,8 @@ import { Subscription } from 'rxjs';
 })
 export class GeneratedForm implements OnInit, OnDestroy {
 
+  shops: { name: string; id: string; formData: any }[] = [];
+
   displayedColumns: string[] = ['qtdy', 'name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
   dataSource = new MatTableDataSource<Item | MagicItem>();
   shopId: string | null = null;
@@ -38,9 +40,13 @@ export class GeneratedForm implements OnInit, OnDestroy {
     private http: HttpClient,
     private newItemDataShare: NewItemData,
     private route: ActivatedRoute,
+    
   ) {}
 
   ngOnInit(): void {
+
+     this.shops = this.dataShare.getShops(); 
+
     // Subscribe to route params to handle navigation within the same component
     this.routeSub = this.route.paramMap.subscribe(params => {
       this.shopId = params.get('id');
@@ -84,19 +90,13 @@ export class GeneratedForm implements OnInit, OnDestroy {
     });
 
     this.randomDataSub = this.randomDataShare.randomData$.subscribe(data => {
-      if (data && data.randomItems) {
-        try {
-          const itemsJson = `[${data.randomItems}]`;
-          this.manualItems = JSON.parse(itemsJson);
-        } catch (e) {
-          console.error('Failed to parse new item JSON:', e);
-          this.manualItems = [];
-        }
-      } else {
-        this.manualItems = [];
-      }
-      this.dataSource.data = [...this.randomItems, ...this.manualItems];
-    });
+  if (data && data.randomItemsArray) {
+    this.manualItems = [...data.randomItemsArray]; // directly use the array
+  } else {
+    this.manualItems = [];
+  }
+  this.dataSource.data = [...this.randomItems, ...this.manualItems];
+});
 
     this.newItemDataSub = this.newItemDataShare.newItemData$.subscribe(newItemData => {
       if (newItemData?.newItemData) {

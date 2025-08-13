@@ -40,11 +40,8 @@ export class ItemTable implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  addItem(item: Item | MagicItem) {
-  // Converte o item para string JSON para mandar no RandomInputData (que é string)
-  // Você pode mandar só o nome se quiser, mas aqui vamos mandar o objeto todo em JSON string
-  const itemStr = JSON.stringify(item);
+addItem(item: Item | MagicItem) {
+  this.randomDataShare.setRandomData({ randomItems: { ...item, quantity: 1 } });
+}
+}
 
-  this.randomDataShare.setRandomData({ randomItems: itemStr });
-}
-}

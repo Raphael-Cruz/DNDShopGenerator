@@ -105,19 +105,22 @@ export class InputDatas {
   providedIn: 'root'
 })
 export class RandomInputData {
-  private randomData = new BehaviorSubject<{ randomItems: string } | null>({ randomItems: '' });
-  randomData$ = this.randomData.asObservable();
+  private randomData = new BehaviorSubject<{ randomItemsArray: (Item | MagicItem)[] }>({ randomItemsArray: [] });
+randomData$ = this.randomData.asObservable();
 
-  setRandomData(data: { randomItems: string }) {
-    const current = this.randomData.value;
-    const existing = current?.randomItems ?? '';
-    const newValue = existing
-      ? `${existing}, ${data.randomItems}`
-      : data.randomItems;
+ setRandomData(data: { randomItems: Item | MagicItem }) {
+  const current = this.randomData.value;
+  const existingArray: (Item | MagicItem)[] = current?.randomItemsArray ?? [];
 
-    this.randomData.next({ randomItems: newValue });
-  }
+  // Add quantity if missing
+  const itemWithQuantity = { ...data.randomItems, quantity: data.randomItems.quantity ?? 1 };
+
+  const newArray = [...existingArray, itemWithQuantity];
+
+  this.randomData.next({ randomItemsArray: newArray });
 }
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -134,5 +137,22 @@ export class NewItemData {
       : data.newItemData;
 
     this.newItemData.next({ newItemData: newValue });
+  }
+
+  
+}
+
+
+@Injectable({ providedIn: 'root' })
+export class AuthModalService {
+  private modalSubject = new BehaviorSubject<'login' | 'register' | null>(null);
+  modal$ = this.modalSubject.asObservable();
+
+  open(tab: 'login' | 'register' = 'login') {
+    this.modalSubject.next(tab);
+  }
+
+  close() {
+    this.modalSubject.next(null);
   }
 }

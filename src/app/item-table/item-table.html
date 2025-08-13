@@ -32,7 +32,7 @@
       <ng-container matColumnDef="source">
         <th mat-header-cell *matHeaderCellDef> </th>
        <td mat-cell *matCellDef="let item">
-          <button matButton="tonal" (click)="addItem(item)">Add Item</button>
+          <button matButton="tonal" class="add-button" (click)="addItem(item)">Add Item</button>
       </td>
 
        
@@ -47,12 +47,13 @@
     <mat-paginator
       [pageSizeOptions]="[5, 10, 25]"
       showFirstLastButtons
-      [pageSize]="10"
+      [pageSize]="5"
       [length]="dataSource.data.length">
     </mat-paginator>
-  </section>
-
-  <footer>
+     <footer>
     <p>📜 All items are subject to Dungeon Master's discretion.</p>
   </footer>
+  </section>
+
+ 
 </div>

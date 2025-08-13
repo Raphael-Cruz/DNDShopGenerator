@@ -14,17 +14,16 @@ body {
 }
 
 .container {
-  max-width: 900px;
-  
+  max-width: 800px;
+  height: 400px;
   margin: 20px auto;
-
-  background-color: #2c2320;
+  padding: 15px;
+  background-color: #e9ecef;
   border: 1px solid #3d2b24;
-  padding: 30px;
-  border-radius: 10px;
   box-shadow: 0 0 15px #00000080;
 }
 
+/* Header */
 header {
   text-align: center;
   margin-bottom: 30px;
@@ -32,7 +31,7 @@ header {
 
 header h1 {
   font-size: 2.5rem;
-  color: #e0b084;
+  color: #ced4da;
 }
 
 header p {
@@ -41,59 +40,73 @@ header p {
   margin-top: 10px;
 }
 
+/* Shop Table */
+.shop-table {
+  max-height: 100%; /* table fits inside container */
+  overflow-y: auto;  /* vertical scroll if needed */
+}
+
 .shop-table table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-.shop-table th, .shop-table td {
+.shop-table th,
+.shop-table td {
   padding: 12px 15px;
   text-align: left;
 }
 
+.shop-table tr {
+  height: 40px;
+}
 
+.shop-table tr:nth-child(odd) {
+color: #0f0e0dff;
+  background-color: #adb5bd;
+}
 
-.shop-table tr:nth-child(odd)  {
-  color: #e8e6e3;
-  background-color: #3a2f2b;
+.shop-table tr:nth-child(even) {
+  color: #0f0e0dff;
+  background-color: #ced4da;
 }
 
 .shop-table th {
   color: #0f0e0dff;
-  background-color: #e8e6e3;
-  border-bottom: 2px solid #6a4e42;
-}
-
-.shop-table tr:nth-child(even)  {
-  color: #e8e6e3;
-  background-color: #6a4e42;
+  background-color: #6c757d;
+  border-bottom: 2px solid #6c757d;
 }
 
 
+
+/* Footer */
 footer {
   text-align: center;
-  padding-top: 15px;
-  color: #b9a695;
+  padding: 15px;
+  font-size: large;
+  color: #080502ff;
   border-top: 1px solid #3d2b24;
 }
 
-.item-filter{
-    
-  
-    margin-right: 2px;
-     
-    padding-right:20px;
-    padding-left: 20px;
-    color: #000000ff;
-  background-color: #b9a695;
+/* Filters */
+.item-filter {
+  margin-right: 2px;
+  padding: 0 20px;
+  color: #000000ff;
+  background-color: #ced4da;
   font-weight: 500;
 }
 
-.filter-wrap{
+.filter-wrap {
   padding: 1rem;
-   background-color: #b9a695;
+  background-color: #ced4da;
 }
-.filter-input{
-padding: 0.30rem;
+
+.filter-input {
+  padding: 0.3rem;
+}
+
+.add-button{
+  padding: 20px
 }

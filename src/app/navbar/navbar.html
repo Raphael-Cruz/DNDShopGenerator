@@ -1,4 +1,4 @@
-<mat-toolbar>
+     <mat-toolbar>
   <div class="nav">
     <a href="/" class="d-inline-block logo-print d-print-block">
       <svg
@@ -19,31 +19,32 @@
 
     <span class="nav-spacer"></span>
     <div class="nav-div">
-      <button
-        mat-icon-button
-        class="share-icon login-button"
-        aria-label="login button"
-      >
-        <mat-icon>info</mat-icon>
-        <span class="login-label">About Us</span>
-      </button>
-      
-    </div>
-    <div class="nav-div">
-      <button
-        mat-icon-button
-        class="share-icon login-button"
-        aria-label="login button"
-      (click)="onOpenModalClick()">
-        <mat-icon>login</mat-icon>
-        <span class="login-label">Login</span>
-      </button>
+    <button
+  mat-icon-button
+  class="login-button"
+  aria-label="login button"
+  (click)="openLogin()"
+>
+  <mat-icon>login</mat-icon>
+  <span class="login-label">Login</span>
+</button>
+
      
+      
       
     </div>
 
   </div>
 </mat-toolbar>
+
+
+
+
+
+
+     
+      
+      
 
 
 
