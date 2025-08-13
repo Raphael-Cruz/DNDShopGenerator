@@ -5,6 +5,9 @@ import { Item, MagicItem } from '../models/item-model';
 import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import {jsPDF} from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-generated-form',
@@ -14,6 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class GeneratedForm implements OnInit, OnDestroy {
 
+  
   shops: { name: string; id: string; formData: any }[] = [];
 
   displayedColumns: string[] = ['qtdy', 'name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
@@ -213,4 +217,97 @@ export class GeneratedForm implements OnInit, OnDestroy {
   saveEdit() {
     this.editingIndex = null;
   }
+
+downloadPDF() {
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = pdf.internal.pageSize.getHeight();
+
+  // Load parchment image
+  const parchmentImg = new Image();
+  parchmentImg.src = '/assets/images/scroll.png';
+
+  parchmentImg.onload = () => {
+    const leftMargin = 25; // left margin for table
+    const topMargin = 60;
+    const lineHeight = 8;
+    const maxRowsPerPage = 18; // hard limit of rows per page
+
+    // Column widths: Qty, Name, Type, Cost, Weight
+    const columnWidths = [12, 50, 60, 30, 20];
+    const headers = ['Qty', 'Name', 'Type', 'Cost', 'Weight'];
+
+    let y = topMargin;
+    let rowCount = 0;
+
+    // Draw full-page parchment background
+    pdf.addImage(parchmentImg, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+    // Draw Shop Header
+    pdf.setFont('MedievalSharp', 'normal');
+    pdf.setFontSize(16);
+    pdf.text('Magic Shop', pdfWidth / 2, 20, { align: 'center' });
+    pdf.setFontSize(12);
+    pdf.text('Providing quality magical wares since 1368 DR', pdfWidth / 2, 28, { align: 'center' });
+
+    // Draw table header function
+    const drawTableHeader = () => {
+      pdf.setFontSize(10);
+      let x = leftMargin;
+      headers.forEach((header, i) => {
+        pdf.text(header, x, y);
+        x += columnWidths[i];
+      });
+      y += lineHeight;
+    };
+
+    drawTableHeader();
+
+    // Draw table rows
+    this.dataSource.data.forEach(item => {
+      if (rowCount >= maxRowsPerPage) {
+        pdf.addPage();
+        pdf.addImage(parchmentImg, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+        y = topMargin;
+        drawTableHeader();
+        rowCount = 0;
+      }
+
+      let x = leftMargin;
+      const row = [
+        item.quantity?.toString() || '1',
+        item.name,
+        item.type,
+        item.cost,
+        item.weight
+      ];
+
+      row.forEach((cell, i) => {
+        if (headers[i] === 'Name' || headers[i] === 'Type') {
+          // Word-wrap for Name and Type columns
+          const splitText = pdf.splitTextToSize(cell, columnWidths[i] - 2);
+          pdf.text(splitText, x, y);
+          if (splitText.length > 1) {
+            y += (splitText.length - 1) * lineHeight;
+          }
+        } else {
+          pdf.text(cell, x, y);
+        }
+        x += columnWidths[i];
+      });
+
+      y += lineHeight;
+      rowCount++;
+    });
+
+    pdf.save('magic-shop-scroll.pdf');
+  };
+
+  parchmentImg.onerror = (err) => {
+    console.error('Failed to load parchment image', err);
+  };
 }
+
+
+}
+

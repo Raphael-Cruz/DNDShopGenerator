@@ -392,3 +392,67 @@ main{
     color: #712135ff;
    }
 
+
+   /********* PDF PARCHMENT ******/
+
+
+.parchment-container {
+  background-image: url('/assets/parchment-burned.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 40px;
+  font-family: 'MedievalSharp', cursive;
+  color: #3b1e08; /* deep brown ink */
+  border-radius: 12px;
+}
+
+.scroll-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.scroll-header h1 {
+  font-size: 38px;
+  margin: 0;
+}
+
+.scroll-header p {
+  font-size: 18px;
+  margin: 0;
+  font-style: italic;
+}
+
+table {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  border-collapse: collapse;
+  word-break: break-word;
+}
+
+th {
+  background-color: rgba(210, 180, 140, 0.7);
+  word-break: break-word;
+}
+
+td, th {
+  border: 1px solid #273b08ff;
+word-break: break-word;
+  padding: 8px;
+}
+
+.pdf-button-container {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.parchment-page {
+  font-family: 'MedievalSharp', cursive;
+  color: #3b2f1a; /* Dark brown ink look */
+}
+
+.print-tip p{
+  display: flex;
+   justify-content: center;
+ font-size: 1.2rem;
+}
