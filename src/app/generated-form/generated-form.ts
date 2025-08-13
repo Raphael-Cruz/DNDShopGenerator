@@ -228,76 +228,82 @@ downloadPDF() {
   parchmentImg.src = '/assets/images/scroll.png';
 
   parchmentImg.onload = () => {
-    const leftMargin = 25; // left margin for table
-    const topMargin = 60;
-    const lineHeight = 8;
-    const maxRowsPerPage = 18; // hard limit of rows per page
+    const leftMargin = 25; // left margin
+    const topMargin = 60;  // start after header
+    const lineHeight = 8;  // row spacing
+    const maxRowsPerPage = 22;
+
+    let y = topMargin;
+    let rowCount = 0;
 
     // Column widths: Qty, Name, Type, Cost, Weight
     const columnWidths = [12, 50, 60, 30, 20];
     const headers = ['Qty', 'Name', 'Type', 'Cost', 'Weight'];
 
-    let y = topMargin;
-    let rowCount = 0;
-
-    // Draw full-page parchment background
+    // Draw full-page parchment
     pdf.addImage(parchmentImg, 'JPEG', 0, 0, pdfWidth, pdfHeight);
 
-    // Draw Shop Header
+    // Draw shop header
     pdf.setFont('MedievalSharp', 'normal');
     pdf.setFontSize(16);
-    pdf.text('Magic Shop', pdfWidth / 2, 20, { align: 'center' });
+    pdf.text('Magic Shoppe', pdfWidth / 2, 20, { align: 'center' });
     pdf.setFontSize(12);
     pdf.text('Providing quality magical wares since 1368 DR', pdfWidth / 2, 28, { align: 'center' });
 
-    // Draw table header function
-    const drawTableHeader = () => {
-      pdf.setFontSize(10);
-      let x = leftMargin;
-      headers.forEach((header, i) => {
-        pdf.text(header, x, y);
-        x += columnWidths[i];
-      });
-      y += lineHeight;
-    };
-
-    drawTableHeader();
+    // Draw table header
+    pdf.setFontSize(10);
+    let x = leftMargin;
+    headers.forEach((header, i) => {
+      pdf.text(header, x, y);
+      x += columnWidths[i];
+    });
+    y += lineHeight;
 
     // Draw table rows
     this.dataSource.data.forEach(item => {
-      if (rowCount >= maxRowsPerPage) {
-        pdf.addPage();
-        pdf.addImage(parchmentImg, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-        y = topMargin;
-        drawTableHeader();
-        rowCount = 0;
-      }
+      x = leftMargin;
+      rowCount++;
 
-      let x = leftMargin;
       const row = [
         item.quantity?.toString() || '1',
-        item.name,
-        item.type,
-        item.cost,
-        item.weight
+        item.name || '',
+        item.type || '',
+        item.cost || '',
+        item.weight || ''
       ];
 
       row.forEach((cell, i) => {
+        const text = cell ? cell.toString() : '';
         if (headers[i] === 'Name' || headers[i] === 'Type') {
-          // Word-wrap for Name and Type columns
-          const splitText = pdf.splitTextToSize(cell, columnWidths[i] - 2);
+          // Word-wrap for Name and Type
+          const splitText = pdf.splitTextToSize(text, columnWidths[i] - 2);
           pdf.text(splitText, x, y);
           if (splitText.length > 1) {
             y += (splitText.length - 1) * lineHeight;
           }
         } else {
-          pdf.text(cell, x, y);
+          pdf.text(text, x, y);
         }
         x += columnWidths[i];
       });
 
       y += lineHeight;
-      rowCount++;
+
+      // New page if row limit reached or bottom exceeded
+      if (rowCount >= maxRowsPerPage || y > pdfHeight - 20) {
+        pdf.addPage();
+        pdf.addImage(parchmentImg, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+        y = topMargin;
+        rowCount = 0;
+
+        // Re-draw table header on new page
+        x = leftMargin;
+        headers.forEach((header, i) => {
+          pdf.text(header, x, y);
+          x += columnWidths[i];
+        });
+        y += lineHeight;
+      }
     });
 
     pdf.save('magic-shop-scroll.pdf');
