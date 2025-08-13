@@ -1,0 +1,32 @@
+<app-navbar/>
+<main class="container">
+    <h1 class="shop-title">My Shops</h1>
+  <div class="main-content"> 
+     
+    <div class="main-card">
+       <div class="shops-container">
+        
+             @for (shop of shops; track shop.id) {
+        <mat-card class="shop-card" appearance="outlined">
+        <mat-card-header>
+        <div mat-card-avatar class="shop-header-image"></div>
+            <mat-card-title> {{ shop.name }}</mat-card-title>
+        </mat-card-header>
+            <img mat-card-image src="assets/images/shop-image.png" alt="Photo of a magic shop">
+        <mat-card-actions>
+            <div class="div-shop-button">
+             <button mat-raised-button color="primary" (click)="viewShop(shop.id)">
+                    <mat-icon>storefront</mat-icon>
+                    View Shop
+                </button>
+            </div>
+        </mat-card-actions>
+        </mat-card>
+    }
+    </div>
+        </div>
+    </div>
+  
+   </main>
+
+   <app-footer/>

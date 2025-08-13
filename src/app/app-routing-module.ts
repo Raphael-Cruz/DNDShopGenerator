@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainComp } from './main-comp/main-comp';
 import { ShopInputs } from './shop-inputs/shop-inputs';
 import { GeneratedForm } from './generated-form/generated-form';
+import { Myshops } from './myshops/myshops';
 
 
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'shop', component: ShopInputs },
   { path: 'generatedshop/:id', component: GeneratedForm },
   { path: 'generatedshop', component: GeneratedForm },
+    { path: 'myshops', component: Myshops },
   { path: '**', redirectTo: '' }
 ];
 

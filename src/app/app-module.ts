@@ -28,6 +28,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { CreateItem } from './create-item/create-item';
 import { UserModule } from './user/user-module';
 import { RouterModule } from '@angular/router';
+import { Myshops } from './myshops/myshops';
 
 
 
@@ -51,7 +52,8 @@ import { RouterModule } from '@angular/router';
     Footer,
     Navbar,
     Filters,
-    CreateItem
+    CreateItem,
+    Myshops
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,8 @@ import { RouterModule } from '@angular/router';
     MatChipsModule,
     MatTooltipModule,
     UserModule,
-    RouterModule
+    RouterModule,
+    
     
  
     

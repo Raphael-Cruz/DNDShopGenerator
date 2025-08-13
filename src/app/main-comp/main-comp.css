@@ -197,6 +197,9 @@
 .form-items {
   padding: 1.25rem;
 }
+.shop-name{
+  display: flex
+}
 
   /* Checkbox input styling */
   .input-checkbox {

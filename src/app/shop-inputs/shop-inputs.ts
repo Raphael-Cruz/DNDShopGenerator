@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShopInputs {
+
+  shopName: string = '' ;  
   mundaneItems: string = '';
   commonItems: string = '';
   uncommonItems: string = '';
@@ -29,6 +31,7 @@ export class ShopInputs {
   constructor(private dataShare: InputDatas, private router: Router) {}
 
   @Output() newItemEvent = new EventEmitter<{
+    shopName: string;
     mundaneItems: string;
     commonItems: string;
     uncommonItems: string;
@@ -37,6 +40,21 @@ export class ShopInputs {
     legendaryItems: string;
     artifactItems: string;
   }>();
+
+get isFormValid(): boolean {
+  return (
+    this.shopName.trim() !== '' &&
+    (
+      this.mundaneItems.trim() !== '' ||
+      this.commonItems.trim() !== '' ||
+      this.uncommonItems.trim() !== '' ||
+      this.rareItems.trim() !== '' ||
+      this.veryRareItems.trim() !== '' ||
+      this.legendaryItems.trim() !== '' ||
+      this.artifactItems.trim() !== '' 
+    )
+  );
+}
 
   isInputEnabled(option: string): boolean {
     return option === 'one' || !option;
@@ -109,6 +127,7 @@ export class ShopInputs {
   //aqui to mandando isso para o service datashare
   onInputChange() {
     this.dataShare.setFormData({
+      shopName: this.shopName,
       mundaneItems: this.mundaneItems,
       commonItems: this.commonItems,
       uncommonItems: this.uncommonItems,
@@ -123,6 +142,7 @@ export class ShopInputs {
 
  
     //reset
+   this.shopName = '';
    this.mundaneItems = '';
    this.commonItems = '';
    this.uncommonItems = '';
@@ -143,11 +163,11 @@ export class ShopInputs {
 
 registerShop() {
   const newShopId = this.dataShare.registerNewShop();
-  console.log('New shop ID:', newShopId);
+//  console.log('New shop ID:', newShopId);
 
   if (newShopId) {
-    console.log('Navigating to generatedshop with ID:', newShopId);
-    this.router.navigate(['/generatedshop', newShopId]).then(success => {
+    console.log('Navigating to my shops');
+    this.router.navigate(['/myshops']).then(success => {
       console.log('Navigation success?', success);
     }).catch(err => {
       console.error('Navigation error:', err);

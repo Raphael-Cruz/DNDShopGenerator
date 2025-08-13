@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { Item, MagicItem } from '../models/item-model';
 import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
 import { ActivatedRoute } from '@angular/router';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-generated-form',
   standalone: false,
   templateUrl: './generated-form.html',
-  styleUrl: '../main-comp/main-comp.css'
+  styleUrls: ['../main-comp/main-comp.css']  
 })
-export class GeneratedForm implements OnInit {
+export class GeneratedForm implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['qtdy','name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
+  displayedColumns: string[] = ['qtdy', 'name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
   dataSource = new MatTableDataSource<Item | MagicItem>();
   shopId: string | null = null;
   formValues: any;
@@ -24,33 +24,46 @@ export class GeneratedForm implements OnInit {
   allItems: Item[] = [];
   allMagicItems: MagicItem[] = [];
 
-  selectedSources: string[] = []; // <-- track selected sources here
+  selectedSources: string[] = [];
 
- constructor(
+  private routeSub?: Subscription;
+  private formDataSub?: Subscription;
+  private selectedSourcesSub?: Subscription;
+  private randomDataSub?: Subscription;
+  private newItemDataSub?: Subscription;
+
+  constructor(
     private dataShare: InputDatas,
     private randomDataShare: RandomInputData,
     private http: HttpClient,
     private newItemDataShare: NewItemData,
-    private route: ActivatedRoute,    // <--- add here
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-     this.shopId = this.route.snapshot.paramMap.get('id');
-    
-    if (this.shopId) {
-      const shopData = this.dataShare.getShopById(this.shopId);
-      if (shopData) {
-        this.formValues = shopData.formData;
-        this.updateItemsList();
+    // Subscribe to route params to handle navigation within the same component
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.shopId = params.get('id');
+      if (this.shopId) {
+        const shopData = this.dataShare.getShopById(this.shopId);
+        if (shopData) {
+          this.formValues = shopData.formData;
+          this.updateItemsList();
+        } else {
+          console.warn(`Shop with id ${this.shopId} not found.`);
+          this.formValues = null;
+          this.updateItemsList();
+        }
       } else {
-        console.warn(`Shop with id ${this.shopId} not found.`);
+        this.formValues = null;
+        this.updateItemsList();
       }
-    }
-    
+    });
+
     this.http
       .get<{ items: Item[]; magicItems: { name: string; children: MagicItem[] }[] }>('assets/data/full_magic_items_list.json')
-      .subscribe((data) => {
-        this.allItems = data.items.filter(item => item.rarity === "Mun.");
+      .subscribe(data => {
+        this.allItems = data.items.filter(item => item.rarity === 'Mun.');
 
         const allowedRarities = ['Mun','Com.', 'Var.', 'Rare', 'V.Rare','Unc.', 'Leg.', 'Art.', 'Unk.'];
         this.allMagicItems = data.magicItems
@@ -60,17 +73,17 @@ export class GeneratedForm implements OnInit {
         this.updateItemsList();
       });
 
-    this.dataShare.formData$.subscribe(data => {
+    this.formDataSub = this.dataShare.formData$.subscribe(data => {
       this.formValues = data;
       this.updateItemsList();
     });
 
-    this.dataShare.selectedSources$.subscribe(sources => {
+    this.selectedSourcesSub = this.dataShare.selectedSources$.subscribe(sources => {
       this.selectedSources = sources;
       this.updateItemsList();
     });
 
-    this.randomDataShare.randomData$.subscribe(data => {
+    this.randomDataSub = this.randomDataShare.randomData$.subscribe(data => {
       if (data && data.randomItems) {
         try {
           const itemsJson = `[${data.randomItems}]`;
@@ -85,8 +98,7 @@ export class GeneratedForm implements OnInit {
       this.dataSource.data = [...this.randomItems, ...this.manualItems];
     });
 
-    // Subscribe to new items from CreateItem component
-    this.newItemDataShare.newItemData$.subscribe(newItemData => {
+    this.newItemDataSub = this.newItemDataShare.newItemData$.subscribe(newItemData => {
       if (newItemData?.newItemData) {
         try {
           const newItem = JSON.parse(newItemData.newItemData);
@@ -97,6 +109,14 @@ export class GeneratedForm implements OnInit {
         }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub?.unsubscribe();
+    this.formDataSub?.unsubscribe();
+    this.selectedSourcesSub?.unsubscribe();
+    this.randomDataSub?.unsubscribe();
+    this.newItemDataSub?.unsubscribe();
   }
 
   private updateItemsList(): void {
@@ -131,13 +151,12 @@ export class GeneratedForm implements OnInit {
     if (this.selectedSources.length > 0) {
       filteredMundane = filteredMundane.filter(item => this.selectedSources.includes(item.source));
     }
-   if (!isNaN(mundaneCount) && mundaneCount > 0) {
-  const shuffledMundane = this.shuffleArray([...filteredMundane])
-    .slice(0, mundaneCount)
-    .map(item => ({ ...item, quantity: 1 })); // default 1
-  result.push(...shuffledMundane);
-}
-    
+    if (!isNaN(mundaneCount) && mundaneCount > 0) {
+      const shuffledMundane = this.shuffleArray([...filteredMundane])
+        .slice(0, mundaneCount)
+        .map(item => ({ ...item, quantity: 1 }));
+      result.push(...shuffledMundane);
+    }
 
     const addMagicItemsByRarity = (rarity: string | string[], count: number) => {
       if (!isNaN(count) && count > 0) {
@@ -153,10 +172,10 @@ export class GeneratedForm implements OnInit {
           );
         }
 
-       const shuffled = this.shuffleArray([...filtered])
-        .slice(0, count)
-        .map(item => ({ ...item, quantity: 1 }));
-      result.push(...shuffled);
+        const shuffled = this.shuffleArray([...filtered])
+          .slice(0, count)
+          .map(item => ({ ...item, quantity: 1 }));
+        result.push(...shuffled);
       }
     };
 
@@ -178,19 +197,20 @@ export class GeneratedForm implements OnInit {
     }
     return array;
   }
+
   clearItems(): void {
-  this.randomItems = [];
-  this.manualItems = [];
-  this.dataSource.data = [];
-}
-editingIndex: number | null = null;
+    this.randomItems = [];
+    this.manualItems = [];
+    this.dataSource.data = [];
+  }
 
-editItems(index: number) {
-  this.editingIndex = index;
-}
+  editingIndex: number | null = null;
 
-saveEdit() {
-  this.editingIndex = null;
-}
+  editItems(index: number) {
+    this.editingIndex = index;
+  }
 
+  saveEdit() {
+    this.editingIndex = null;
+  }
 }

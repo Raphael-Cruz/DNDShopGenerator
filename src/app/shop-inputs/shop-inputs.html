@@ -3,7 +3,17 @@
    <main class="container">
   <div class="main-content">  
   <div class="wrap">
+    
 <div class="form">
+
+  <!-- SHOP NAME-->
+     <mat-form-field class="shop-name">
+      <mat-label>Shop Name</mat-label>
+  
+      <input matInput placeholder="Ex. Blacksmith Shop " [(ngModel)]="shopName" name="shopName" required/>
+      <mat-hint>Give your shop a name</mat-hint>
+    </mat-form-field>
+
 
   <!-- MUNDANE -->
   <div>
@@ -161,7 +171,7 @@
 
   <br />
 
-  <button matButton="filled" (click)="onInputChange()" routerLink="/generatedshop" >GENERATE SHOP</button>
+  <button matButton="filled" (click)="onInputChange()" routerLink="/myshops"  [disabled]="!isFormValid"> GENERATE SHOP</button>
   <br />
 
 
@@ -179,5 +189,5 @@
   </main>
    
 
-
+<app-myshops></app-myshops>
 <app-footer></app-footer>
