@@ -1,7 +1,65 @@
+/* Footer wrapper stays at bottom */
+app-footer,
+footer,
 .footer {
-    padding: 2px
+  flex-shrink: 0;
+  background-color: #577590;
+  color: #ccc;
+  padding: 2rem 1rem 1rem;
+  font-family: Arial, sans-serif;
 }
 
+/* Footer container layout */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Footer sections */
+.footer-section {
+  flex: 1 1 200px;
+}
+
+.footer-section h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer links */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-section a:hover {
+  color: #ffcc00;
+}
+
+/* Social icons */
+.social-icons a {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* Footer bottom bar */
 .footer-bottom {
-  margin-top: 2px;
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  border-top: 1px solid #333;
+  padding-top: 1rem;
 }

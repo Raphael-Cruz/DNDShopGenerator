@@ -1,39 +1,18 @@
-     <mat-toolbar>
+<mat-toolbar>
   <div class="nav">
-    <a href="/" class="d-inline-block logo-print d-print-block">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 4746.023 1060.231"
-        width="100%"
-        height="90px"
-        class="logo-5ems"
-      >
-        <image
-          href="assets/images/logo.png"
-          width="2746.023"
-          height="1360.231"
-          preserveAspectRatio="xMidYMid meet"
-        />
-      </svg>
-    </a>
+    <div class="logo">
+      <a href="/" class="logo-print">
+        <img src="assets/images/logo.png" alt="Logo" class="logo-img" />
+      </a>
 
-    <span class="nav-spacer"></span>
-    <div class="nav-div">
-    <button
-  mat-icon-button
-  class="login-button"
-  aria-label="login button"
-  (click)="openLogin()"
->
-  <mat-icon>login</mat-icon>
-  <span class="login-label">Login</span>
-</button>
-
-     
-      
-      
     </div>
-
+      <span class="nav-spacer"></span>
+      <div class="nav-div">
+    <button mat-button class="login-button" aria-label="Login" (click)="openLogin()">
+      <mat-icon>login</mat-icon>
+      <span class="login-label">Login</span>
+    </button>
+      </div>
   </div>
 </mat-toolbar>
 

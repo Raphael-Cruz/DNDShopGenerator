@@ -1,32 +1,20 @@
-  <main >
-    <app-navbar></app-navbar>
-
-
-
-
+<main >
 <div class="container">
   <div class="main-content">  
-    <div class="main-card">
-    <mat-card class="shop-card" appearance="outlined">
+    <div class="card">
+    <mat-card  appearance="outlined">
        <mat-card-header>
       <div mat-card-avatar class="shop-header-image"></div>
         <mat-card-title>Magic Shop Generator</mat-card-title>
-
       </mat-card-header>
         <img mat-card-image src="assets/images/shop-image.png" alt="Photo of a magic shop">
       <mat-card-actions>
-     <button matButton="filled" routerLink="/shop" >GENERATE
-      
-     </button>
+       <button mat-raised-button color="primary" class="generate-button" routerLink="/shop">
+      GENERATE SHOP
+    </button>
       </mat-card-actions>
     </mat-card>
     </div>
-
-    </div>
-    
+    </div> 
 </div>
-
- 
-</main>
- <app-footer />
-         
+</main>  

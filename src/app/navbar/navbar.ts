@@ -4,7 +4,7 @@ import { AuthModalService } from '../input-datas';
   selector: 'app-navbar',
   standalone: false,
   templateUrl: './navbar.html',
-  styleUrl: '../main-comp/main-comp.css'
+  styleUrl: './navbar.css'
 })
 
 
@@ -14,9 +14,11 @@ export class Navbar {
 
   openLogin() {
     this.authService.open('login');   
+    console.log("loggin called")
   }
 
   openRegister() {
     this.authService.open('register'); 
+     console.log("loggin called")
   }
 }
