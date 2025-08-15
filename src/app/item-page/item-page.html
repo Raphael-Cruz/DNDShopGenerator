@@ -1,0 +1,94 @@
+<main class="layout">
+  <!-- LEFT: Items table -->
+  <section class="card table-card" aria-labelledby="itemsHeading">
+    <h2 id="itemsHeading" class="sr-only">Items</h2>
+
+    <div class="table-wrap" role="region" aria-label="Items table" tabindex="0">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let item"
+              (click)="selectItem(item)"
+              [class.is-selected]="selectedItem?.name === item.name"
+              tabindex="0"
+              (keydown.enter)="selectItem(item)"
+              (keydown.space)="selectItem(item); $event.preventDefault()">
+            {{ item.name }}
+          </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let item">{{ item.type || '-' }}</td>
+        </ng-container>
+
+        <!-- Rarity Column -->
+        <ng-container matColumnDef="rarity">
+          <th mat-header-cell *matHeaderCellDef> Rarity </th>
+          <td mat-cell *matCellDef="let item">{{ item.rarity }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef> Weight </th>
+          <td mat-cell *matCellDef="let item">{{ item.weight || '-' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25]"
+        showFirstLastButtons
+        [pageSize]="5"
+        [length]="dataSource.data.length">
+      </mat-paginator>
+    </div>
+  </section>
+
+  <!-- RIGHT: Item state panel -->
+  <aside class="card state-card" aria-labelledby="stateHeading">
+    <h2 id="stateHeading">Item State</h2>
+    <ng-container *ngIf="selectedItem; else noSelection">
+      <div class="state-grid">
+        <div>
+          <div class="label">Name</div>
+          <div class="value">{{ selectedItem.name }}</div>
+        </div>
+        <div>
+          <div class="label">Type</div>
+          <div class="value">{{ selectedItem.type || '-' }}</div>
+        </div>
+        <div>
+          <div class="label">Rarity</div>
+          <div class="value rarity-{{ selectedItem.rarity | lowercase }}">
+            {{ selectedItem.rarity }}
+          </div>
+        </div>
+        <div>
+          <div class="label">Weight</div>
+          <div class="value">{{ selectedItem.weight || '-' }}</div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noSelection>
+      <p class="muted">Click an item to view its state.</p>
+    </ng-template>
+  </aside>
+
+  <!-- BOTTOM: Description panel -->
+  <section class="card desc-card" aria-labelledby="descHeading">
+    <h2 id="descHeading">Description</h2>
+    <ng-container *ngIf="selectedItem?.entries; else noDescription">
+      <article class="desc">
+        <div *ngFor="let entry of selectedItem?.entries">{{ entry }}</div>
+      </article>
+    </ng-container>
+    <ng-template #noDescription>
+      <p class="muted">Select an item to see its description…</p>
+    </ng-template>
+  </section>
+</main>

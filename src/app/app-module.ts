@@ -30,6 +30,7 @@ import { UserModule } from './user/user-module';
 import { RouterModule } from '@angular/router';
 import { Myshops } from './myshops/myshops';
 import { SharedModule } from './shared/shared-module';
+import { ItemPage } from './item-page/item-page';
 
 
 
@@ -53,7 +54,8 @@ import { SharedModule } from './shared/shared-module';
     Navbar,
     Filters,
     CreateItem,
-    Myshops
+    Myshops,
+    ItemPage
   ],
   imports: [
     BrowserModule,

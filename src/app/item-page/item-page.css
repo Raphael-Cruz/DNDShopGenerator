@@ -1,0 +1,154 @@
+/* === Global Styles === */
+:host {
+  display: block;
+  font-family: 'Georgia', serif;
+  background-color: #f7f1e3;
+  color: #3e2723;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+h1, h2 {
+  font-weight: bold;
+  margin: 0 0 0.5rem;
+}
+
+.muted {
+  color: #8d6e63;
+  font-style: italic;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* === Layout === */
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+.table-card {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.state-card {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.desc-card {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* === Card Styles === */
+.card {
+  background: #fff8e1;
+  border: 2px solid #795548;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 2px 2px 8px rgba(60, 40, 20, 0.2);
+  overflow: hidden;
+}
+
+/* === Table Styles === */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items-table th, .items-table td {
+  border: 1px solid #a1887f;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.items-table th {
+  background: #d7ccc8;
+}
+
+.items-table tr:hover {
+  background: #efebe9;
+  cursor: pointer;
+}
+
+.items-table tr.is-selected {
+  background: #ffe082 !important;
+}
+
+/* === State Panel === */
+.state-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #5d4037;
+}
+
+.value {
+  font-weight: bold;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.badge {
+  background: #ffcc80;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid #ffb74d;
+}
+
+/* === Description Panel === */
+.desc {
+  line-height: 1.4;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* === Rarity Colors === */
+.rarity-common { color: #4e342e; }
+.rarity-uncommon { color: #2e7d32; }
+.rarity-rare { color: #1565c0; }
+.rarity-very-rare { color: #6a1b9a; } /* fixed class name */
+.rarity-legendary { color: #e65100; }
+
+/* === Responsive === */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .table-card,
+  .state-card,
+  .desc-card {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+
