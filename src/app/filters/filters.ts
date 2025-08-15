@@ -11,7 +11,7 @@ import { InputDatas } from '../input-datas';
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.html',
-  styleUrls: ['./filters.css'],
+  styleUrl: './filters.css',
   standalone: false,
 })
 

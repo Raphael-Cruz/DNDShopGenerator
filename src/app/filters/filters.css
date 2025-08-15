@@ -5,36 +5,49 @@
   margin: auto;
   border: solid 1px black;
   overflow-y: auto; /* Add scrolling if content overflows vertically */
+    background-color: hsla(206, 27%, 90%, 0.44)!important;
+    
 }
 
 .source-list {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  padding-left: 0;
-  gap: 8px;
+  padding-left: 2px;
+  gap: 16px;
+  
+
 }
 
 .source-list li {
+  
   flex: 1 1 150px; 
   max-width: 100px; /* limit how wide each checkbox can get */
+}
+
+/* font control */
+::ng-deep .mat-internal-form-field>label {
+    font-size: 18px !important;
+    padding-left: 0  !important;
+    
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px; 
+  gap: 10px; 
   margin-bottom: 10px;
 
 }
 
 
 mat-chip {
-  padding: 4px 0 4px 0 !important;
+  padding: 10px 0 10px 0 !important;
   height: 12px;
   font-size: 6px;
   display: inline-flex;
   align-items: center;
+  background-color: #f8f9fa !important;
   
 }
 

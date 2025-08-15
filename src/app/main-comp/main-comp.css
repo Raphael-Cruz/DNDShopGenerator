@@ -75,12 +75,6 @@
     padding: 10px;
   }
 /* Main grows and shrinks to fill space between navbar and footer */
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, #E8B743 0%, rgba(207, 124, 72, 1) 50%, #5F83A3 100%);
- }
 
 
   /* Responsive behavior */
@@ -186,39 +180,7 @@ main {
     background-color: #a9a496;
   }
 
-  /* Form styling */
-  .form {
-    padding: 1.25rem;
-    word-wrap: break-word;
-    background-clip: border-box;
-    background-color: hsla(0, 0%, 100%, 0.9);
-    border: 0;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-    font-weight: 400;
-    min-width: 0;
-    position: relative;
-    display: inline-block;
-  }
-
-.form-items {
-  padding: 1.25rem;
-}
-.shop-name{
-  display: flex
-}
-
-  /* Checkbox input styling */
-  .input-checkbox {
-    padding: 0.25rem;
-    margin-right: 10px;
-    background-color: hsla(201, 50%, 84%, 0.46);
-    display: flex;
-    font-weight: 400;
-    min-width: 0;
-    position: relative;
-    display: inline-block;
-  }
+  
 
   .advanced-div {
     padding-top: 1rem;
@@ -230,51 +192,6 @@ main {
   }
   
 
-  @media (max-width: 992px) {
-  .wrap {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .form, .test {
-    max-width: 100%;
-  }
-
-  h1 {
-    font-size: 48px;
-  }
-
-  h2 {
-    font-size: 32px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .wrap {
-    gap: 0.5rem;
-  }
-
-  .form {
-    padding: 0.75rem;
-  }
-
-  .form-items {
-    padding: 0.75rem;
-  }
-
-  h1 {
-    font-size: 28px;
-  }
-
-  h2 {
-    font-size: 22px;
-  }
-
-  button[matButton="filled"] {
-    width: 100%;
-  }
-}
 
  /* override Material styles in generated-form */
 ::ng-deep .reset-button {

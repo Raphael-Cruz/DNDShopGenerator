@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   selector: 'app-shop-inputs',
   standalone: false,
   templateUrl: './shop-inputs.html',
-  styleUrl: '../main-comp/main-comp.css',
+  styleUrl: './shop-inputs.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShopInputs {
