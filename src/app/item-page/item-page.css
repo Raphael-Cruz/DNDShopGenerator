@@ -33,8 +33,7 @@ h1, h2 {
 .layout {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 1rem;
+ gap: 1rem;
 }
 
 .table-card {
@@ -60,6 +59,7 @@ h1, h2 {
   padding: 1rem;
   box-shadow: 2px 2px 8px rgba(60, 40, 20, 0.2);
   overflow: hidden;
+
 }
 
 /* === Table Styles === */
@@ -72,24 +72,33 @@ h1, h2 {
   border-collapse: collapse;
 }
 
-.items-table th, .items-table td {
-  border: 1px solid #a1887f;
-  padding: 0.5rem;
-  text-align: left;
+table.mat-mdc-table {
+  width: 100% !important;
+  table-layout: fixed; 
 }
 
-.items-table th {
-  background: #d7ccc8;
-}
-
-.items-table tr:hover {
-  background: #efebe9;
-  cursor: pointer;
-}
-
-.items-table tr.is-selected {
+.mat-mdc-cell:hover   {
   background: #ffe082 !important;
+  cursor: pointer!important;
 }
+
+.mat-mdc-row:nth-child(even){
+  background: #fff8e1 !important;
+  cursor: pointer!important;
+  
+}
+.mat-mdc-row:nth-child(odd){
+  background: #f2e8cf !important;
+  cursor: pointer!important;
+  
+}
+
+.mat-mdc-header-cell{
+    background: #ffe6a7 !important;
+}
+
+
+
 
 /* === State Panel === */
 .state-grid {
@@ -115,7 +124,7 @@ h1, h2 {
 }
 
 .badge {
-  background: #ffcc80;
+  background: #ffcc80 !important;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -133,7 +142,7 @@ h1, h2 {
 .rarity-common { color: #4e342e; }
 .rarity-uncommon { color: #2e7d32; }
 .rarity-rare { color: #1565c0; }
-.rarity-very-rare { color: #6a1b9a; } /* fixed class name */
+.rarity-very.rare { color: #6a1b9a; } 
 .rarity-legendary { color: #e65100; }
 
 /* === Responsive === */
@@ -152,3 +161,14 @@ h1, h2 {
 }
 
 
+/* === Paginator === */
+
+.mat-mdc-paginator {
+  background-color: transparent !important
+}
+
+.search-bar {
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 400px;
+}

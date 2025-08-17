@@ -1,0 +1,95 @@
+/* === General description styling === */
+.desc {
+  font-family: 'Georgia', serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  margin-top: 0.5rem;
+}
+
+/* === Nested entries spacing === */
+.nested-entries {
+  margin-left: 1.5rem;
+  border-left: 2px solid #ccc;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+}
+
+.custom-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+
+.custom-table thead th {
+  background-color: #3e2723; 
+  color: #fff;
+  padding: 0.5rem;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.custom-table tbody td {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: top;
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #f7f1e3; 
+}
+
+.col-2.text-center {
+  text-align: center;
+}
+.col-5.text-center {
+  text-align: center;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+
+/* === List entries === */
+ul {
+  margin: 0.5rem 0 0.5rem 1.5rem;
+  padding: 0;
+  list-style-type: disc;
+}
+
+ul.list-hang-notitle {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+ul.list-hang-notitle li {
+  margin-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  text-indent: -0.5rem; /* Hanging indent style */
+}
+
+/* === Optional: minor responsive tweaks === */
+@media (max-width: 768px) {
+  .custom-table th,
+  .custom-table td {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .nested-entries {
+    margin-left: 1rem;
+    padding-left: 0.8rem;
+  }
+}

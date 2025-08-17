@@ -1,0 +1,40 @@
+<ng-container *ngIf="entry">
+
+  <!-- String entry -->
+  <div *ngIf="typeof entry === 'string'">{{ entry }}</div>
+
+  <!-- Table entry -->
+  <table *ngIf="isTable(entry)" class="custom-table">
+    <caption *ngIf="entry.caption">{{ entry.caption }}</caption>
+    <thead>
+      <tr>
+        <th *ngFor="let label of entry.colLabels; let i = index" [class]="entry.colStyles[i]">
+          {{ label }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of entry.rows">
+        <td *ngFor="let cell of row; let i = index" [class]="entry.colStyles[i]">{{ cell }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- List entry -->
+  <ul *ngIf="isList(entry)" [class]="entry.style || ''">
+    <li *ngFor="let item of entry.items">
+      <ng-container *ngIf="typeof item === 'string'; else nestedEntry">
+        {{ item }}
+      </ng-container>
+      <ng-template #nestedEntry>
+        <app-entry-block [entry]="item"></app-entry-block>
+      </ng-template>
+    </li>
+  </ul>
+
+  <!-- Nested entries -->
+  <div *ngIf="isEntries(entry)" class="nested-entries">
+    <app-entry-block *ngFor="let subEntry of entry.entries" [entry]="subEntry"></app-entry-block>
+  </div>
+
+</ng-container>

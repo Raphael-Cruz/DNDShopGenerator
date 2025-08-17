@@ -31,6 +31,7 @@ import { RouterModule } from '@angular/router';
 import { Myshops } from './myshops/myshops';
 import { SharedModule } from './shared/shared-module';
 import { ItemPage } from './item-page/item-page';
+import { EntryBlock } from './entry-block/entry-block';
 
 
 
@@ -55,7 +56,8 @@ import { ItemPage } from './item-page/item-page';
     Filters,
     CreateItem,
     Myshops,
-    ItemPage
+    ItemPage,
+    EntryBlock
   ],
   imports: [
     BrowserModule,
