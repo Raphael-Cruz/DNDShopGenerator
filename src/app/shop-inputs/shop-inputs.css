@@ -2,8 +2,12 @@
     display: flex;
     flex-direction: row;
     align-content: center;
-  align-items: flex-start;
+     align-items: flex-start;
     justify-content: space-evenly
+}
+main {
+ 
+ background: #fff8e1 !important; 
 }
 
 /* ===Form styling=== */
@@ -11,7 +15,7 @@
     padding: 1.25rem;
     word-wrap: break-word;
     background-clip: border-box;
-    background-color: #e9ecef;
+    background-color: #fff8e1;
     border: 0;
     border-radius: 0.25rem;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
@@ -52,7 +56,7 @@ justify-content: space-evenly;
   }
 
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #dee2e6 !important;
+  background-color: transparent !important;
 }
 
 .form-button-div{
@@ -60,33 +64,41 @@ display: flex;
 justify-content: center;
 }
 
-::ng-deep .button{
-     background-image: linear-gradient(to right, #bdc3c7 0%, #2c3e50  51%, #bdc3c7  100%);
 
-}  
-::ng-deep .button:hover {
-            background-position: right center; 
-            color: #fff !important;
-            text-decoration: none;
-}
+
 ::ng-deep .button {
-           margin: 10px;
-            padding: 22px 25px 35px 25px;
-            text-align: center;
-            text-transform: uppercase;
-            transition: 0.5s;
-            background-size: 200% auto;
-            color: #d1c8c8ff !important;            
-            box-shadow: 0 0 20px #eee;
-            border-radius: 10px;
-            display: block;
+    margin: 10px;
+    padding: 22px 25px 35px 25px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #fff8e1 0%, #3e2723  51%, #fff8e1  100%) !important;
+
+    background-size: 200% auto;
+    color: #3e2723 !important;
+   
+    transition: all 0.5s ease;
 }
 
+::ng-deep .button:hover {
+    background-position: right center; 
+    color: #fff8e1 !important; 
+   
+}
+
+
+::ng-deep .button:hover span.mat-button-wrapper {
+    color: #fff8e1 !important;
+}
 
 .filter-wrap{
 display: flex;
 width: 45%;
 padding: 2rem;
 }
+
+
 
 

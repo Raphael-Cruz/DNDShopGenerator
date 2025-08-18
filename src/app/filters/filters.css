@@ -3,11 +3,13 @@
   max-width: 100%;
   max-height: 50vh !important;
   margin: auto;
-  border: solid 1px black;
+  border: solid 2px #3e2723;
   overflow-y: auto; /* Add scrolling if content overflows vertically */
-    background-color: hsla(206, 27%, 90%, 0.44)!important;
+  background-color: #fff8e1 !important;
     
 }
+
+
 
 .source-list {
   display: flex;
@@ -15,6 +17,7 @@
   list-style: none;
   padding-left: 2px;
   gap: 16px;
+  
   
 
 }
@@ -49,6 +52,10 @@ mat-chip {
   align-items: center;
   background-color: #f8f9fa !important;
   
+}
+
+::ng-deep .mat-internal-form-field > label {
+  color: #3e2723 !important;
 }
 
 mat-chip mat-icon {

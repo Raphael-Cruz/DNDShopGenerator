@@ -2,7 +2,7 @@
 :host {
   display: block;
   font-family: 'Georgia', serif;
-  background-color: #f7f1e3;
+  background-color: #f7f1e3 ;
   color: #3e2723;
   min-height: 100vh;
   padding: 1rem;
@@ -53,7 +53,7 @@ h1, h2 {
 
 /* === Card Styles === */
 .card {
-  background: #fff8e1;
+  background: #fff8e1 ;
   border: 2px solid #795548;
   border-radius: 8px;
   padding: 1rem;
@@ -96,7 +96,6 @@ table.mat-mdc-table {
 .mat-mdc-header-cell{
     background: #ffe6a7 !important;
 }
-
 
 
 
