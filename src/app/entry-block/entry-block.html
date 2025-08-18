@@ -1,40 +1,64 @@
-<ng-container *ngIf="entry">
-
+@if(entry){
   <!-- String entry -->
-  <div *ngIf="typeof entry === 'string'">{{ entry }}</div>
+  @if(typeof entry  === 'string'){
+  {{ entry }}
+  }
+
 
   <!-- Table entry -->
-  <table *ngIf="isTable(entry)" class="custom-table">
-    <caption *ngIf="entry.caption">{{ entry.caption }}</caption>
+   @if(isTable(entry)){
+  <table class="custom-table">
+    @if(entry.caption){ 
+      {{ entry.caption }}
+    }
     <thead>
       <tr>
-        <th *ngFor="let label of entry.colLabels; let i = index" [class]="entry.colStyles[i]">
-          {{ label }}
-        </th>
+        @for(label of entry.colLabels; track label){
+          <th [class]="entry.colStyles[entry.colLabels.indexOf(label)]">{{ label }}</th>
+        }
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of entry.rows">
-        <td *ngFor="let cell of row; let i = index" [class]="entry.colStyles[i]">{{ cell }}</td>
+      @for(row of entry.rows; track row){
+        <tr>
+          @for(cell of row; track cell){
+            <td [class]="entry.colStyles[row.indexOf(cell)]">{{ cell }}</td>
+          
+        }
       </tr>
+      }
     </tbody>
   </table>
+   } 
+
 
   <!-- List entry -->
-  <ul *ngIf="isList(entry)" [class]="entry.style || ''">
-    <li *ngFor="let item of entry.items">
-      <ng-container *ngIf="typeof item === 'string'; else nestedEntry">
-        {{ item }}
-      </ng-container>
-      <ng-template #nestedEntry>
-        <app-entry-block [entry]="item"></app-entry-block>
-      </ng-template>
-    </li>
-  </ul>
+  @if(isList(entry)){
+    <ul [class]="entry.style || ''">
+    @for(item of entry.items; track item){
+  <li>
+       @if(typeof item === 'string'){
+ {{ item }}
+    }
+    @else {
+      <app-entry-block [entry]="item"></app-entry-block>
+    }
+  </li>
+
+    }
+    </ul>
+  }
 
   <!-- Nested entries -->
-  <div *ngIf="isEntries(entry)" class="nested-entries">
-    <app-entry-block *ngFor="let subEntry of entry.entries" [entry]="subEntry"></app-entry-block>
+   @if(isEntries(entry)){
+  <div class="nested-entries">
+    @for(subEntry of entry.entries; track subEntry){
+   <app-entry-block [entry]="subEntry"></app-entry-block>
+    }
+  
   </div>
+   }
 
-</ng-container>
+}
+
+

@@ -1010,7 +1010,7 @@
 			"rarity": "none",
 			"weight": 8,
 			"value": 5000,
-			"additionalEntries": [
+			"entries": [
 				"Alchemist's supplies enable a character to produce useful concoctions, such as acid or alchemist's fire.",
 				{
 					"type": "entries",
@@ -5690,7 +5690,7 @@
 			"rarity": "none",
 			"weight": 9,
 			"value": 2000,
-			"additionalEntries": [
+			"entries": [
 				"Brewing is the art of producing beer. Not only does beer serve as an alcoholic beverage, but the process of brewing purifies water. Crafting beer takes weeks of fermentation, but only a few hours of work.",
 				{
 					"type": "entries",
@@ -6003,7 +6003,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 1000,
-			"additionalEntries": [
+			"entries": [
 				"Calligraphy treats writing as a delicate, beautiful art. Calligraphers produce text that is pleasing to the eye, using a style that is difficult to forge. Their supplies also give them some ability to examine scripts and determine if they are legitimate, since a calligrapher's training involves long hours of studying writing and attempting to replicate its style and design.",
 				{
 					"type": "entries",
@@ -6317,7 +6317,7 @@
 			"rarity": "none",
 			"weight": 6,
 			"value": 800,
-			"additionalEntries": [
+			"entries": [
 				"Skill at carpentry enables a character to construct wooden structures. A carpenter can build a house, a shack, a wooden cabinet, or similar items.",
 				{
 					"type": "entries",
@@ -6576,7 +6576,7 @@
 			"rarity": "none",
 			"weight": 6,
 			"value": 1500,
-			"additionalEntries": [
+			"entries": [
 				"Using cartographer's tools, you can create accurate maps to make travel easier for yourself and those who come after you. These maps can range from large-scale depictions of mountain ranges to diagrams that show the layout of a dungeon level.",
 				{
 					"type": "entries",
@@ -6818,7 +6818,7 @@
 			"rarity": "none",
 			"weight": 100,
 			"value": 25000,
-			"additionalEntries": [
+			"entries": [
 				{
 					"type": "inset",
 					"name": "Chariots",
@@ -7473,7 +7473,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 500,
-			"additionalEntries": [
+			"entries": [
 				"Although the cobbler's trade might seem too humble for an adventurer, a good pair of boots will see a character across rugged wilderness and through deadly dungeons.",
 				{
 					"type": "entries",
@@ -7815,7 +7815,7 @@
 			"rarity": "none",
 			"weight": 8,
 			"value": 100,
-			"additionalEntries": [
+			"entries": [
 				"Adventuring is a hard life. With a cook along on the journey, your meals will be much better than the typical mix of hardtack and dried fruit.",
 				{
 					"type": "entries",
@@ -10549,10 +10549,8 @@
 			"rarity": "none",
 			"weight": 3,
 			"value": 2500,
+		
 			"entries": [
-				"This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise."
-			],
-			"additionalEntries": [
 				"The perfect tool for anyone who wants to engage in trickery, a disguise kit enables its owner to adopt a false identity.",
 				{
 					"type": "entries",
@@ -13939,10 +13937,8 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 1500,
+		
 			"entries": [
-				"This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document."
-			],
-			"additionalEntries": [
 				"A forgery kit is designed to duplicate documents and to make it easier to copy a person's seal or signature.",
 				{
 					"type": "entries",
@@ -14401,7 +14397,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 3000,
-			"additionalEntries": [
+			"entries": [
 				"Someone who is proficient with glassblower's tools has not only the ability to shape glass, but also specialized knowledge of the methods used to produce glass objects.",
 				{
 					"type": "entries",
@@ -16297,10 +16293,9 @@
 			"rarity": "none",
 			"weight": 3,
 			"value": 500,
+		
 			"entries": [
-				"This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to identify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing."
-			],
-			"additionalEntries": [
+				"This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to identify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing.",
 				"Proficiency with an herbalism kit allows you to identify plants and safely collect their useful elements.",
 				{
 					"type": "entries",
@@ -19420,7 +19415,7 @@
 			"rarity": "none",
 			"weight": 2,
 			"value": 2500,
-			"additionalEntries": [
+			"entries": [
 				"Training with jeweler's tools includes the basic techniques needed to beautify gems. It also gives you expertise in identifying precious stones.",
 				{
 					"type": "entries",
@@ -20326,7 +20321,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 500,
-			"additionalEntries": [
+			"entries": [
 				"Knowledge of leatherworking extends to lore concerning animal hides and their properties. It also confers knowledge of leather armor and similar goods.",
 				{
 					"type": "entries",
@@ -21694,7 +21689,7 @@
 			"rarity": "none",
 			"weight": 8,
 			"value": 1000,
-			"additionalEntries": [
+			"entries": [
 				"Mason's tools allow you to craft stone structures, including walls and buildings crafted from brick.",
 				{
 					"type": "entries",
@@ -22982,11 +22977,9 @@
 			"rarity": "none",
 			"weight": 2,
 			"value": 2500,
+			
 			"entries": [
-				"This set of instruments is used for navigation at sea. Proficiency with navigator's tools lets you chart a ship's course and follow navigation charts. In addition, these tools allow you to add your proficiency bonus to any ability check you make to avoid getting lost at sea."
-			],
-			"additionalEntries": [
-				"Proficiency with navigator's tools helps you determine a true course based on observing the stars. It also grants you insight into charts and maps while developing your sense of direction.",
+				"This set of instruments is used for navigation at sea. Proficiency with navigator's tools lets you chart a ship's course and follow navigation charts. In addition, these tools allow you to add your proficiency bonus to any ability check you make to avoid getting lost at sea. Proficiency with navigator's tools helps you determine a true course based on observing the stars. It also grants you insight into charts and maps while developing your sense of direction.",
 				{
 					"type": "entries",
 					"name": "Components",
@@ -24580,7 +24573,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 1000,
-			"additionalEntries": [
+			"entries": [
 				"Proficiency with painter's supplies represents your ability to paint and draw. You also acquire an understanding of art history, which can aid you in examining works of art.",
 				{
 					"type": "entries",
@@ -25496,11 +25489,10 @@
 			"rarity": "none",
 			"weight": 2,
 			"value": 5000,
+		
 			"entries": [
 				"A poisoner's kit includes the vials, chemicals, and other equipment necessary for the creation of poisons. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to craft or use poisons.",
-				"Additionally, the {@book Crafting and Harvesting Poison|dmg|8|Crafting and Harvesting Poison} rules require the use of a poisoner's kit."
-			],
-			"additionalEntries": [
+				"Additionally, the {@book Crafting and Harvesting Poison|dmg|8|Crafting and Harvesting Poison} rules require the use of a poisoner's kit.",
 				"A poisoner's kit is a favored resource for thieves, assassins, and others who engage in skulduggery. It allows you to apply poisons and create them from various materials. Your knowledge of poisons also helps you treat them.",
 				{
 					"type": "entries",
@@ -26528,7 +26520,7 @@
 			"rarity": "none",
 			"weight": 3,
 			"value": 1000,
-			"additionalEntries": [
+			"entries": [
 				"Potter's tools are used to create a variety of ceramic objects, most typically pots and similar vessels.",
 				{
 					"type": "entries",
@@ -31738,7 +31730,7 @@
 			"rarity": "none",
 			"weight": 8,
 			"value": 2000,
-			"additionalEntries": [
+			"entries": [
 				"Smith's tools allow you to work metal, heating it to alter its shape, repair damage, or work raw ingots into useful items.",
 				{
 					"type": "entries",
@@ -36676,10 +36668,9 @@
 			"rarity": "none",
 			"weight": 1,
 			"value": 2500,
+
 			"entries": [
-				"This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks."
-			],
-			"additionalEntries": [
+				"This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.",
 				"Perhaps the most common tools used by adventurers, thieves' tools are designed for picking locks and foiling traps. Proficiency with the tools also grants you a general knowledge of traps and locks.",
 				{
 					"type": "entries",
@@ -36900,7 +36891,7 @@
 			"rarity": "none",
 			"weight": 10,
 			"value": 5000,
-			"additionalEntries": [
+			"entries": [
 				"A set of tinker's tools is designed to enable you to repair many mundane objects. Though you can't manufacture much with tinker's tools, you can mend torn clothes, sharpen a worn sword, and patch a tattered suit of chain mail.",
 				{
 					"type": "entries",
@@ -40233,7 +40224,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 100,
-			"additionalEntries": [
+			"entries": [
 				"Weaver's tools allow you to create cloth and tailor it into articles of clothing.",
 				{
 					"type": "entries",
@@ -41203,7 +41194,7 @@
 			"rarity": "none",
 			"weight": 5,
 			"value": 100,
-			"additionalEntries": [
+			"entries": [
 				"Woodcarver's tools allow you to craft intricate objects from wood, such as wooden tokens or arrows.",
 				{
 					"type": "entries",
