@@ -5,11 +5,16 @@
   width: 100%;
   padding: 0;       
   margin: 0;        
-  background-color: #f9c74f; 
+  background-color: #fff8e1; 
+
 }
 
 
-.mat-toolbar-row, .mat-toolbar-single-row { padding: 3.5rem; background-color: #f9c74f; }
+.mat-toolbar-row, .mat-toolbar-single-row { 
+  padding: 3.5rem; 
+  background-color: #fff8e1; 
+   
+}
 
 
 .logo{
@@ -45,7 +50,7 @@ height:150px;
   gap: 3px;
   margin: 2px;
   min-width: 56px;
-  padding: 24px 36px;
+  padding: 32px 32px;
 }
 
 .login-label {

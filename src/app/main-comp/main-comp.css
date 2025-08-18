@@ -9,8 +9,8 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  font-family: 'Georgia', serif;
 }
-
 
   .mat-mdc-card-outlined {
       
@@ -38,28 +38,6 @@
       padding: 16px 16px 0;
   }
 
-  .main-card{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 8px;
-       }
-
-  .left-panel {
-    flex: 2;
-    min-width: 300px;
-    border: 2px solid black;
-    padding: 10px;
-  }
-
-  .middle-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 1.2;
-    min-width: 250px;
-  }
 
   .advanced-options,
   .item-search {
@@ -68,12 +46,69 @@
     flex: 1;
   }
 
-  .right-panel {
-    flex: 0.8;
-    min-width: 150px;
-    border: 2px solid black;
-    padding: 10px;
-  }
+  /* === Layout === */
+.layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.table-card {
+  display: flex;
+  flex-direction: column;
+  grid-row: 1 ;
+  break-word: word-break;
+  max-width: 800px;
+  margin: 1rem ;
+}
+
+.state-card{
+  display: flex;
+        justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+}
+
+p {
+  max-width: 65ch;
+  margin: 1rem auto; 
+  text-align: left;
+}
+
+p:first-letter {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #6b4226;
+}
+
+a {
+  color: #8b0000;
+  text-decoration: none;
+  border-bottom: 1px solid #c97d63; 
+  cursor: pointer
+}
+
+a:hover {
+  color: #b22222;
+  border-bottom-color: #8b0000;
+}
+
+.card2{
+  background: #fff8e1 ;
+  border: 2px solid #795548;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 2px 2px 8px rgba(60, 40, 20, 0.2);
+  overflow: hidden;
+
+}
+
+.itemsHeading{
+display: flex;
+justify-content: center;
+padding: 1rem;
+color: #54331cff
+
+}
 /* Main grows and shrinks to fill space between navbar and footer */
 
 
@@ -149,15 +184,38 @@
 
   /* Card styling */
 
-  .card {
+ .card {
+  font-weight: 400;
+  width: 350px;
+  max-width: 280px;
+  background: #fff8e1 !important;
+  border-radius: 8px;
   
-    font-weight: 400;
-    width: 400px;
-    max-width: 400px;
-    
+  box-shadow: 2px 2px 8px rgba(60, 40, 20, 0.2);
+  overflow: hidden;
   }
 
+.card-title {
+    background-color: #fff8e1;
+    display: flex;
+    justify-content: center
+ }
 
+.mat-mdc-card-header[_ngcontent-ng-c3836510627] {
+
+   background-color: #fff8e1 !important;
+   padding: 20px;
+ 
+}
+::ng-deep .mat-mdc-card-actions {
+     background-color: #fff8e1 !important;
+}
+
+ .mat-mdc-card-avatar {
+display: none;
+ background-color: #fff8e1 !important;
+
+}
   /* Side menu */
   .sidemenuitem {
     display: inline-block;

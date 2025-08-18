@@ -3,9 +3,9 @@ app-footer,
 footer,
 .footer {
   flex-shrink: 0;
-  background-color: #577590;
+  background-color: #3e2723;
   color: #ccc;
-  padding: 2rem 1rem 1rem;
+
   font-family: Arial, sans-serif;
 }
 
@@ -17,11 +17,12 @@ footer,
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: center
 }
 
 /* Footer sections */
 .footer-section {
-  flex: 1 1 200px;
+  flex: 1 1 auto;
 }
 
 .footer-section h3 {
@@ -58,7 +59,7 @@ footer,
 /* Footer bottom bar */
 .footer-bottom {
   text-align: center;
-  margin-top: 2rem;
+
   font-size: 0.85rem;
   border-top: 1px solid #333;
   padding-top: 1rem;
