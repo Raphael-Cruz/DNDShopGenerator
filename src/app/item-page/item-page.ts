@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { MatPaginator } from '@angular/material/paginator';
 
-// Table entry interface
+
 export interface TableEntry {
   type: 'table';
   caption?: string;
@@ -28,10 +28,12 @@ export interface Item {
   weaponCategory?: string;
   weight?: number;
   type?: string;
+  wondrous: boolean; 
   entries?: Entry[];
+  reqAttuneTags: any[];
 }
 
-// Union type for entries: string or TableEntry
+
 type Entry = string | TableEntry | ListEntry;
 
 @Component({
@@ -50,10 +52,10 @@ export class ItemPage implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Item>();
   items: Item[] = [];
 
-  // selectedItem matches Item but with entries typed as Entry[]
+
   selectedItem?: Item & { entries?: Entry[] };
 
-  // Type guard for table entries
+ 
 isTableEntry(entry: Entry): entry is TableEntry {
   return typeof entry === 'object' && entry.type === 'table';
 }
@@ -79,12 +81,23 @@ ngOnInit(): void {
   }
 
 selectItem(item: Item) {
-  // Cast here in TypeScript
+
   this.selectedItem = {
     ...item,
-    entries: item.entries as Entry[] // now entries are typed correctly
+    entries: item.entries as Entry[] 
   };
 }
+
+hasReqAttuneClasses(item: Item): boolean {
+  return !!item.reqAttuneTags?.some(tag => tag.class);
+}
+
+getReqAttuneClasses(item: Item): string {
+  return item.reqAttuneTags?.map(tag => tag.class).join(', ') || '';
+}
+
+
+
  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

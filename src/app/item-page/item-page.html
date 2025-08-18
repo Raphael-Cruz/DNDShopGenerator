@@ -67,9 +67,21 @@
     @if (selectedItem) {
       <div class="state-grid">
         <div>
-          <div class="label">Name</div>
+         <div class="label">Name</div>
           <div class="value">{{ selectedItem.name }}</div>
+          
+       @if(hasReqAttuneClasses(selectedItem)) {
+             <p class="label"> wondrous item, {{ selectedItem.rarity }}, (requires attunement by a {{ getReqAttuneClasses(selectedItem) }})
+          </p>
+          }
+          @else {
+        <p class="label">
+          wondrous item, {{ selectedItem.rarity }}, requires attunement
+        </p>
+      }
+         
         </div>
+        
         <div>
           <div class="label">Type</div>
           <div class="value">{{ selectedItem.type || '-' }}</div>
@@ -84,6 +96,10 @@
           <div class="label">Weight</div>
           <div class="value">{{ selectedItem.weight || '-' }}</div>
         </div>
+          <div>
+          <div class="label">Source:</div>
+          <div class="value">{{ selectedItem.source || '-' }}, page {{ selectedItem.page || '-' }} </div>
+        </div>
       </div>
     } @else {
       <p class="muted">Click an item to view its state.</p>
@@ -92,13 +108,22 @@
 <!-- BOTTOM: Description panel -->
 <section class="card desc-card" aria-labelledby="descHeading">
   <h2 id="descHeading">Description</h2>
-
-  <p class="muted" *ngIf="!selectedItem">Select an item to see its description…</p>
-  <p class="muted" *ngIf="selectedItem && (!selectedItem.entries || !selectedItem.entries.length)">
+    @if(!selectedItem){
+    <p class="muted">Select an item to see its description…</p>
+    }
+   @if(selectedItem && (!selectedItem.entries || !selectedItem.entries.length)){
+     <p class="muted" >
     No description available for this item
   </p>
+    }
 
-  <article class="desc" *ngIf="selectedItem?.entries?.length">
-    <app-entry-block *ngFor="let entry of selectedItem?.entries" [entry]="entry"></app-entry-block>
-  </article>
+    @if(selectedItem?.entries?.length){
+    <article class="desc">
+      @for(entry of selectedItem?.entries; track entry){
+       <app-entry-block [entry]="entry"></app-entry-block>
+      }
+       
+      </article>
+    }
+ 
 </section>

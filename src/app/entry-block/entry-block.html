@@ -1,11 +1,11 @@
 @if(entry){
-  <!-- String entry -->
+  <!-- ===String entry=== -->
   @if(typeof entry  === 'string'){
   {{ entry }}
   }
 
 
-  <!-- Table entry -->
+  <!-- ===Table entry=== -->
    @if(isTable(entry)){
   <table class="custom-table">
     @if(entry.caption){ 
@@ -32,7 +32,7 @@
    } 
 
 
-  <!-- List entry -->
+  <!-- ===List entry=== -->
   @if(isList(entry)){
     <ul [class]="entry.style || ''">
     @for(item of entry.items; track item){
@@ -49,7 +49,7 @@
     </ul>
   }
 
-  <!-- Nested entries -->
+  <!-- ===Nested entries=== -->
    @if(isEntries(entry)){
   <div class="nested-entries">
     @for(subEntry of entry.entries; track subEntry){

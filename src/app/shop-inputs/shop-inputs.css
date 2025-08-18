@@ -6,7 +6,7 @@
     justify-content: space-evenly
 }
 
-/* Form styling */
+/* ===Form styling=== */
   .form {
     padding: 1.25rem;
     word-wrap: break-word;
@@ -65,7 +65,7 @@ justify-content: center;
 
 }  
 ::ng-deep .button:hover {
-            background-position: right center; /* change the direction of the change here */
+            background-position: right center; 
             color: #fff !important;
             text-decoration: none;
 }
