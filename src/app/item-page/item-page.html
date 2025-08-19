@@ -31,10 +31,21 @@
         </ng-container>
 
         <!-- Type Column -->
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef> Type </th>
-          <td mat-cell *matCellDef="let item">{{ item.weaponCategory || '-' }}</td>
-        </ng-container>
+      <ng-container matColumnDef="type"> 
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let item">
+              @if (item.weaponCategory) {
+                {{ item.weaponCategory }}
+              } @else if (item.type) {
+                {{ item.type | tipfortype | propercase }}
+              } @else if (!item.type && !item.weaponCategory) {
+                Wondrous Item
+   
+              } @else {
+                Unknown Type
+              }
+            </td> 
+          </ng-container>
 
         <!-- Rarity Column -->
         <ng-container matColumnDef="rarity">
