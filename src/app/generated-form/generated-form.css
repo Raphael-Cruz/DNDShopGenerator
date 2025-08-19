@@ -1,0 +1,284 @@
+
+.generated-header{
+   display: flex;
+  justify-content: center;
+  padding: 5px;
+
+  border-right: 0;
+  border-left: 0;
+
+}
+
+.shop-name {
+  max-width: 65ch;
+  margin: 1rem auto; 
+  text-align: left;
+}
+
+.shop-name:first-letter {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #6b4226;
+}
+
+a {
+  color: #8b0000;
+  text-decoration: none;
+  border-bottom: 1px solid #c97d63; 
+  cursor: pointer
+}
+
+a:hover {
+  color: #b22222;
+  border-bottom-color: #8b0000;
+}
+
+
+  /* Typography */
+  h1 {
+    font-size: 78px;
+  }
+
+  h2 {
+    font-size: 48px;
+  }
+
+.generated-container {
+  
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  padding: 1rem;
+  margin: 20px auto;
+  background-color: #fff8e1;
+  border: 1px solid #3d2b24;
+  box-shadow: 0 0 15px #00000080;
+   
+}
+
+
+
+    .container{
+ 
+    justify-content: center !important;
+    padding: 1rem;
+  }
+
+.shop-table{
+  
+ width: 100% !important;
+  max-width: 100%;      
+  margin: 0;             
+  padding: 1rem;
+  overflow-x: auto;
+  max-height: calc(5 * 6rem + 2rem); /* 5 rows x row height + header/footer */
+  
+}
+
+.table th{
+ background-color: #ffe6a7;
+  border: solid 1px black;
+ 
+}
+.table{
+
+  border: solid 2px #3d2b24;
+ 
+}
+
+.table tr:nth-child(odd){
+ background-color: #f2e8cf;
+}
+
+.table tr:nth-child(even){
+ background-color: #fff8e1;
+}
+
+.th-rarity, .th-cost, .th-qtdy, .th-weight{
+    width: 80px
+}
+
+
+
+
+/*==== SEARCH AND ADD ITEMS====*/
+
+.search-content{
+  
+flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;         
+  padding: 1rem;
+ 
+  background-color: #fff8e1;
+  border: 1px solid #3d2b24;
+  box-shadow: 0 0 15px #00000080;
+  overflow-y: auto;     
+}
+
+
+.add-items-div {
+     
+  
+  justify-content: center;
+  margin-top: 2rem;
+  border-right: 0;
+  border-left: 0;
+  margin: 1rem auto; 
+
+}
+
+.add-items-div:first-letter {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #6b4226 !important;
+}
+
+ /* ===BUTTONS==== */
+
+.button-container{
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+}
+.edit-button {
+    color: #0008ffff;
+}
+.saveEdit-button{
+ color: #670404ff;
+}
+
+.reset-button {background-image: linear-gradient(to right, #e52d27 0%, #b31217  51%, #e52d27  100%)}
+.reset-button {
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+display: block;
+}
+
+.reset-button:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+         
+          
+.save-button {background-image: linear-gradient(to right, #348F50 0%, #56B4D3  51%, #348F50  100%)}
+.save-button {
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.save-button:hover {
+ background-position: right center; /* change the direction of the change here */
+ color: #fff;
+ text-decoration: none;
+}
+         
+
+.print-button {background-image: linear-gradient(to right, #314755 0%, #26a0da  51%, #314755  100%)}
+.print-button {
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+display: block;
+}
+
+.print-button:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+         
+
+   /********* PDF PARCHMENT ******/
+
+
+.parchment-container {
+  background-image: url('/assets/parchment-burned.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 40px;
+  font-family: 'MedievalSharp', cursive;
+  color: #3b1e08; /* deep brown ink */
+  border-radius: 12px;
+}
+
+.scroll-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.scroll-header h1 {
+  font-size: 38px;
+  margin: 0;
+}
+
+.scroll-header p {
+  font-size: 18px;
+  margin: 0;
+  font-style: italic;
+}
+
+table {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  border-collapse: collapse;
+  word-break: break-word;
+ 
+}
+
+th {
+  background-color: rgba(210, 180, 140, 0.7);
+  word-break: break-word;
+}
+
+td, th {
+  border: 1px solid #273b08ff;
+word-break: break-word;
+  padding: 8px;
+}
+
+.pdf-button-container {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.parchment-page {
+  font-family: 'MedievalSharp', cursive;
+  color: #3b2f1a; /* Dark brown ink look */
+}
+
+.print-tip p{
+  display: flex;
+   justify-content: center;
+ font-size: 1.2rem;
+}
+
+
+

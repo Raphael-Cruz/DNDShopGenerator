@@ -33,7 +33,7 @@ export interface Item {
   grantsProficiency?: boolean;
 
   // Physical details
-  weight?: number;
+  weight?: number | string;
 
   // Descriptive text
   entries: string[];

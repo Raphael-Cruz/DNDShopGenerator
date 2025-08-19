@@ -13,24 +13,30 @@
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let item"> {{ item.name }} </td>
       </ng-container>
+          <ng-container matColumnDef="type"> 
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let item">
+              @if (item.weaponCategory) {
+                {{ item.weaponCategory }}
+              } @else if (item.type) {
+                {{ item.type | tipfortype | propercase }}
+              } @else if (!item.type && !item.weaponCategory) {
+                Wondrous Item
+   
+              } @else {
+                Unknown Type
+              }
+            </td> 
+          </ng-container>
 
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let item"> {{ item.type }} </td>
+          <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef> Source </th>
+        <td mat-cell *matCellDef="let item"> {{ item.source | tipforsource | propercase}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="cost">
-        <th mat-header-cell *matHeaderCellDef> Cost </th>
-        <td mat-cell *matCellDef="let item"> {{ item.cost }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef> Weight </th>
-        <td mat-cell *matCellDef="let item"> {{ item.weight }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="source">
-        <th mat-header-cell *matHeaderCellDef> </th>
+      
+      <ng-container matColumnDef="add-button" class="edit">
+        <th mat-header-cell *matHeaderCellDef> ADD Item</th>
        <td mat-cell *matCellDef="let item">
           <button matButton="tonal" class="add-button" (click)="addItem(item)">Add Item</button>
       </td>
@@ -51,7 +57,7 @@
       [length]="dataSource.data.length">
     </mat-paginator>
      <footer>
-    <p>📜 All items are subject to Dungeon Master's discretion.</p>
+    <p>📜 All items are subject to the Dungeon Master's discretion.</p>
   </footer>
   </section>
 

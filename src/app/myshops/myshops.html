@@ -1,21 +1,24 @@
 <main >
 <div class="container">
     <div class="main-content"> 
+     
         <h1 class="shop-title">My Shops</h1>
-   
-     <div class="main-card">
+        <div class="main-card">
        <div class="shops-container">
         
              @for (shop of shops; track shop.id) {
             <mat-card class="shop-card" appearance="outlined">
             <mat-card-header>
             <div mat-card-avatar class="shop-header-image"></div>
-                <h3 *ngFor="let shop of shops" class="shop-card-title"> {{ shop.name | propercase }}</h3>
+            @for(shop of shops; track shop){
+                <h3 class="card-title"> {{ shop.name | propercase }}</h3>
+            }
+              
             </mat-card-header>
                 <img mat-card-image src="assets/images/shop-image.png" alt="Photo of a magic shop">
             <mat-card-actions>
                 <div class="div-shop-button">
-                <button mat-raised-button color="primary" (click)="viewShop(shop.id)">
+                <button mat-raised-button color="primary" class="generate-button" (click)="viewShop(shop.id)">
                         <mat-icon>storefront</mat-icon>
                         View Shop
                     </button>

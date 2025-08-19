@@ -32,6 +32,7 @@
 			"name": "+1 Amulet of the Devout",
 			"source": "TCE",
 			"page": 119,
+			"type": "Wondrous Item",
 			"rarity": "uncommon",
 			"reqAttune": "by a cleric or paladin",
 			"reqAttuneTags": [
@@ -245,6 +246,7 @@
 			"source": "TCE",
 			"page": 119,
 			"rarity": "rare",
+			"type": "Wondrous Item",
 			"reqAttune": "by a cleric or paladin",
 			"reqAttuneTags": [
 				{
@@ -457,6 +459,7 @@
 			"source": "TCE",
 			"page": 119,
 			"rarity": "very rare",
+			"type": "Wondrous Item",
 			"reqAttune": "by a cleric or paladin",
 			"reqAttuneTags": [
 				{
@@ -1407,7 +1410,7 @@
 			"name": "Amulet of dinosaur feathers (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$",
+			"type": "Wondrous Item",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -1416,6 +1419,7 @@
 			"source": "NRH-AT",
 			"page": 8,
 			"rarity": "legendary",
+			"type": "SFC",
 			"reqAttune": true,
 			"wondrous": true,
 			"entries": [
@@ -1440,6 +1444,7 @@
 			"basicRules": true,
 			"tier": "major",
 			"rarity": "rare",
+			"type": "Wondrous Item",
 			"reqAttune": true,
 			"wondrous": true,
 			"weight": 1,
@@ -1467,6 +1472,7 @@
 			"srd": true,
 			"tier": "major",
 			"rarity": "uncommon",
+			"type": "Wondrous Item",
 			"reqAttune": true,
 			"wondrous": true,
 			"weight": 1,
@@ -1485,6 +1491,7 @@
 			"rarity": "rare",
 			"reqAttune": true,
 			"wondrous": true,
+			"type": "Wondrous Item",
 			"weight": 1,
 			"entries": [
 				"While you wear this amulet of silver and turquoise, you have advantage on saving throws against effects that turn undead.",
@@ -1498,6 +1505,7 @@
 			"rarity": "very rare",
 			"reqAttune": true,
 			"wondrous": true,
+			"type": "Wondrous Item",
 			"weight": 1,
 			"recharge": "dawn",
 			"rechargeAmount": "{@dice 1d6}",
@@ -1551,6 +1559,7 @@
 			"source": "EGW",
 			"page": 265,
 			"rarity": "uncommon",
+			"type": "Wondrous Item",
 			"wondrous": true,
 			"entries": [
 				"This amulet smells of old, ale-stained wood. While wearing it, you can regain {@dice 4d4 + 4} hit points when you drink a pint of beer, ale, mead, or wine. Once the amulet has restored hit points, it can't do so again until the next dawn."
@@ -1566,6 +1575,7 @@
 			"rarity": "very rare",
 			"reqAttune": true,
 			"wondrous": true,
+			"type": "Wondrous Item",
 			"weight": 1,
 			"entries": [
 				"While wearing this amulet, you can use an action to name a location that you are familiar with on another plane of existence. Then make a DC 15 Intelligence check. On a successful check, you cast the {@spell plane shift} spell. On a failure, you and each creature and object within 15 feet of you travel to a random destination. Roll a {@dice d100}. On a 1-60, you travel to a random location on the plane you named. On a 61-100, you travel to a randomly determined plane of existence."
@@ -7437,7 +7447,7 @@
 			"name": "Clothing, cold weather",
 			"source": "IDRotF",
 			"page": 20,
-			"type": "G",
+			"type": "Clothing",
 			"rarity": "none",
 			"weight": 5,
 			"value": 1000,

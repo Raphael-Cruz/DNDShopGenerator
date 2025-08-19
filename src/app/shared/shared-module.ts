@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProperCasePipe } from './pipes/pipes';
+import { ProperCasePipe, TipForSourcePipe, TipForTypePipe } from './pipes/pipes';
 import { Pipes } from './pipes/pipes';
 
 
@@ -11,9 +11,15 @@ import { Pipes } from './pipes/pipes';
   ],
   imports: [
     CommonModule,
-    ProperCasePipe
+    ProperCasePipe,
+    TipForSourcePipe,
+    TipForTypePipe,
+    
   ], exports: [
-    ProperCasePipe
+    ProperCasePipe,
+    TipForSourcePipe,
+    TipForTypePipe,
+    
   ]
 })
 export class SharedModule { }

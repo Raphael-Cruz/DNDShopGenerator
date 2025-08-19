@@ -1,59 +1,12 @@
 
-main{
-    background: linear-gradient(180deg, #E8B743 0%, rgba(207, 124, 72, 1) 50%, #5F83A3 100%);
-}
-
-.container {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1rem;
-  width: 100%;
-  height: 100%;
-}
-
-.main-content {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: row;
-    justify-content: center;
-   
-}
 
   .main-card{
       display: flex;
       flex-direction: row;
       justify-content: center;
       
-      
-
   }
-.card{
-    padding-left: 5px
-    
-}
-.shop-card-title, h3{
-    font-size: large;
-   word-break: break-all;
-   padding: 5px;
-   font-weight: normal
-  
-}
 
-.mat-mdc-card-avatar {
-    height: 30px;
-    width: 0px;
-    
-}
-    .mat-mdc-card-header {
-      display: flex;
-      padding: 0px;
-      align-items: center;
-      justify-content: center;
-      
-  }
 
   .mat-mdc-card-actions {
     min-height: 30px;
@@ -62,8 +15,8 @@ main{
 
 .div-shop-button{
     display: flex;
-     flex-direction: row;
-       transform: scale(0.7);
+    flex-direction: row;
+    transform: scale(0.7);
        
 }
 
@@ -77,17 +30,131 @@ justify-content: center;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  max-width: 960px;
+  width: 100%;          
+  max-width: 1200px;      
   padding: 16px;
-  
+  justify-content: center; 
+  align-items: flex-start;
 }
 
-  .shop-card {
-    max-width: 200px;
-    max-height: 350px;
-  }
+
+  main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;   
+  justify-content: flex-start;
+  width: 100%;
+  background: linear-gradient(...);
+  border-top: solid 3px #3e2723;
+  min-height: 100vh;      
+}
+
 
   .shop-title{
-  display: flex;
-  justify-content: center;
+
+  word-break: break-all;
+  padding: 5px;
+  font-weight: normal;
+  max-width: 65ch;
+  margin: 1rem auto; 
+  text-align: left;
+    font-size: 1.8em;
+    text-transform: uppercase;
   }
+
+
+:host ::ng-deep h1:first-letter {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #6b4226 !important;
+}
+
+
+/*====button=====*/
+
+
+::ng-deep .generate-button {
+    margin: 10px;
+    padding: 22px 25px 35px 25px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #fff8e1 0%, #3e2723  51%, #fff8e1  100%) !important;
+
+    background-size: 200% auto;
+    color: #3e2723 !important;
+   
+    transition: all 0.5s ease;
+}
+
+::ng-deep .generate-button:hover {
+    background-position: right center; 
+    color: #fff8e1 !important; 
+   
+}
+
+
+::ng-deep .generate-button:hover span.mat-button-wrapper {
+    color: #fff8e1 !important;
+}
+
+
+
+/*=====CARD=====/*
+
+
+  /* Card styling */
+
+ .shop-card {
+  font-weight: 400;
+  width: 350px;
+  max-width: 350px;
+  max-height: 550px;
+  background: #fff8e1 !important;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(60, 40, 20, 0.2);
+  overflow: hidden;
+  flex-shrink: 0;   
+  flex-grow: 0;     
+  flex-basis: 350px;
+  }
+
+
+
+   .card-title{
+
+  word-break: break-all;
+  padding: 5px;
+  font-weight: normal;
+  max-height: 50px;
+  max-width: 65ch;
+  margin: 1rem auto; 
+  text-align: left;
+    font-size: 1.8em;
+  }
+
+
+:host ::ng-deep .card-title:first-letter {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #6b4226 !important;
+}
+
+
+.mat-mdc-card-header{
+
+   background-color: #fff8e1 !important;
+   padding: 5px;
+ 
+}
+::ng-deep .mat-mdc-card-actions {
+     background-color: #fff8e1 !important;
+}
+
+ .mat-mdc-card-avatar {
+display: none;
+ background-color: #fff8e1 !important;
+
+}

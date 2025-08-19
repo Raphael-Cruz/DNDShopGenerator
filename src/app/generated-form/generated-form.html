@@ -1,6 +1,6 @@
 <main>
   <!-- Shop Header -->
-  <header class="generated-header">
+  <header class="">
     @for (shop of shops; track shop.name) {
       <h2 class="shop-name">{{ shop.name | propercase }}</h2>
     }
@@ -22,7 +22,7 @@
 
             <!-- Qty -->
             <ng-container matColumnDef="qtdy">
-              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <th mat-header-cell class="th-qtdy" *matHeaderCellDef> Qty </th>
               <td mat-cell *matCellDef="let element; let i = index">
                 @if (editingIndex === i) {
                   <input type="number" min="1" [(ngModel)]="element.quantity" style="width: 60px;">
@@ -34,44 +34,53 @@
 
             <!-- Name -->
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <th mat-header-cell  class="th-name" *matHeaderCellDef> Name </th>
               <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
             </ng-container>
 
             <!-- Type -->
             <ng-container matColumnDef="type">
-              <th mat-header-cell *matHeaderCellDef> Type </th>
-              <td mat-cell *matCellDef="let element"> {{ element.type }} </td>
+              <th mat-header-cell class="th-type" *matHeaderCellDef> Type </th>
+              <td mat-cell *matCellDef="let element"> {{ element.type | tipfortype }} </td>
             </ng-container>
 
             <!-- Rarity -->
             <ng-container matColumnDef="rarity">
-              <th mat-header-cell *matHeaderCellDef> Rarity </th>
+              <th mat-header-cell class="th-rarity" *matHeaderCellDef> Rarity </th>
               <td mat-cell *matCellDef="let element"> {{ element.rarity }} </td>
             </ng-container>
 
             <!-- Cost -->
             <ng-container matColumnDef="cost">
-              <th mat-header-cell *matHeaderCellDef> Cost </th>
+              <th mat-header-cell class="th-cost" *matHeaderCellDef> Cost </th>
               <td mat-cell *matCellDef="let element; let i = index">
                 @if (editingIndex === i) {
                   <input type="text" [(ngModel)]="element.cost" style="width: 80px;">
                 } @else {
-                  {{ element.cost }}
+                  <span>  {{ element.cost }} </span>
+                 
                 }
               </td>
             </ng-container>
 
             <!-- Weight -->
             <ng-container matColumnDef="weight">
-              <th mat-header-cell *matHeaderCellDef> Weight </th>
-              <td mat-cell *matCellDef="let element"> {{ element.weight }} </td>
+              <th mat-header-cell  class="th-weight" *matHeaderCellDef> Weight </th>
+             
+               <td mat-cell *matCellDef="let element; let i = index">
+                @if (editingIndex === i) {
+                  <input type="text" min="1" [(ngModel)]="element.weight" style="width: 60px;">
+                } @else {
+                  {{ element.weight }}
+                }
+              </td>
+              
             </ng-container>
 
             <!-- Source -->
             <ng-container matColumnDef="source">
               <th mat-header-cell *matHeaderCellDef> Source </th>
-              <td mat-cell *matCellDef="let element"> {{ element.source }} </td>
+              <td mat-cell *matCellDef="let element"> {{ element.source |tipforsource }} </td>
             </ng-container>
 
             <!-- Edit -->
@@ -79,7 +88,7 @@
               <th mat-header-cell *matHeaderCellDef> Edit </th>
               <td mat-cell *matCellDef="let element; let i = index">
                 @if (editingIndex === i) {
-                  <button mat-icon-button class="save-button" (click)="saveEdit()">
+                  <button mat-icon-button class="saveEdit-button" (click)="saveEdit()">
                     <mat-icon>save</mat-icon>
                   </button>
                 } @else {
@@ -98,24 +107,23 @@
         </section>
       </div>
 
-      <!-- Action buttons -->
+     
+    </div>
+     <!-- Action buttons -->
       <div class="button-container">
         <button mat-flat-button class="save-button"> Save Shop </button>
         <button mat-flat-button class="print-button" (click)="downloadPDF()"> Print Shop </button>
         <button mat-flat-button class="reset-button" (click)="clearItems()"> Reset Shop </button>
       </div>
-<div class="print-tip">
-  <p>**Printing to PDF hides the *Rarity and *Source columns</p>
-</div>
-    </div>
+      <div class="print-tip">
+        <p>**Printing to PDF hides the *Rarity and *Source columns</p>
+      </div>
   </div>
 
   <!-- Add items section -->
-  <div class="add-items">
-    <div class="main-content">
-      <h2 class="add-items-div">Search and Add Items</h2>
-      <app-item-table></app-item-table>
-    </div>
-  </div>
+<article class="search-content">
+  <h2 class="add-items-div">Search and Add Items</h2>
+  <app-item-table class="shop-table"></app-item-table>
+</article>
 </main>
 

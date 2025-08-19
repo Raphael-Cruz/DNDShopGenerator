@@ -6,14 +6,16 @@ import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {jsPDF} from 'jspdf';
-import html2canvas from 'html2canvas';
+import { TipForTypePipe} from '../shared/pipes/pipes';
+
 
 
 @Component({
   selector: 'app-generated-form',
   standalone: false,
   templateUrl: './generated-form.html',
-  styleUrls: ['../main-comp/main-comp.css']  
+  
+  styleUrls: ['./generated-form.css']  
 })
 export class GeneratedForm implements OnInit, OnDestroy {
 
@@ -32,6 +34,8 @@ export class GeneratedForm implements OnInit, OnDestroy {
 
   selectedSources: string[] = [];
 
+
+
   private routeSub?: Subscription;
   private formDataSub?: Subscription;
   private selectedSourcesSub?: Subscription;
@@ -39,11 +43,13 @@ export class GeneratedForm implements OnInit, OnDestroy {
   private newItemDataSub?: Subscription;
 
   constructor(
+      
     private dataShare: InputDatas,
     private randomDataShare: RandomInputData,
     private http: HttpClient,
     private newItemDataShare: NewItemData,
     private route: ActivatedRoute,
+    private tipForTypePipe: TipForTypePipe,
     
   ) {}
 
@@ -70,6 +76,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
       }
     });
 
+    
     this.http
       .get<{ items: Item[]; magicItems: { name: string; children: MagicItem[] }[] }>('assets/data/full_magic_items_list.json')
       .subscribe(data => {
@@ -95,7 +102,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
 
     this.randomDataSub = this.randomDataShare.randomData$.subscribe(data => {
   if (data && data.randomItemsArray) {
-    this.manualItems = [...data.randomItemsArray]; // directly use the array
+    this.manualItems = [...data.randomItemsArray]; 
   } else {
     this.manualItems = [];
   }
@@ -208,7 +215,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
     this.dataSource.data = [];
   }
 
-  editingIndex: number | null = null;
+  editingIndex: number | string |null = null;
 
   editItems(index: number) {
     this.editingIndex = index;
@@ -267,7 +274,7 @@ downloadPDF() {
       const row = [
         item.quantity?.toString() || '1',
         item.name || '',
-        item.type || '',
+        this.tipForTypePipe.transform(item.type || ''),
         item.cost || '',
         item.weight || ''
       ];

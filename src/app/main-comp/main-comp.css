@@ -182,7 +182,7 @@ color: #54331cff
   border-left: 0;
 }
 
-  /* Card styling */
+  /* =====Card styling==== */
 
  .card {
   font-weight: 400;
@@ -216,7 +216,7 @@ display: none;
  background-color: #fff8e1 !important;
 
 }
-  /* Side menu */
+  /* =====Side menu==== */
   .sidemenuitem {
     display: inline-block;
     width: 100%;
@@ -260,9 +260,7 @@ display: none;
   
 }
 
-::ng-deep .generate-button{
-  padding: 8px 14px;
-}
+
 
 ::ng-deep .print-button {
   background-color: #0a9396 !important;
@@ -358,3 +356,31 @@ word-break: break-word;
 }
 
 
+
+
+::ng-deep .generate-button {
+    margin: 10px;
+    padding: 22px 25px 35px 25px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #fff8e1 0%, #3e2723  51%, #fff8e1  100%) !important;
+
+    background-size: 200% auto;
+    color: #3e2723 !important;
+   
+    transition: all 0.5s ease;
+}
+
+::ng-deep .generate-button:hover {
+    background-position: right center; 
+    color: #fff8e1 !important; 
+   
+}
+
+
+::ng-deep .generate-button:hover span.mat-button-wrapper {
+    color: #fff8e1 !important;
+}

@@ -12,24 +12,32 @@ import { RandomInputData } from '../input-datas';
   styleUrls: ['./item-table.css']
 })
 export class ItemTable implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'type', 'cost', 'weight', 'source'];
-  dataSource = new MatTableDataSource<Item | MagicItem>();
+  displayedColumns: string[] = ['name', 'type',  'source', 'add-button'];
+
+  dataSource = new MatTableDataSource<Item>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+    items: Item[] = [];
 
   constructor(
     private http: HttpClient,
     private randomDataShare: RandomInputData
   ) {}
 
+
+	
+
+
   ngOnInit(): void {
-    this.http.get<{ items: Item[], magicItems: { name: string, children: MagicItem[] }[] }>('assets/data/items.json')
+    this.http.get<{ item: Item[] }>('assets/data/items.json')
       .subscribe(data => {
-        const allMagicItems = data.magicItems.flatMap(group => group.children);
-        const allItems: (Item | MagicItem)[] = [...data.items, ...allMagicItems];
-        this.dataSource.data = allItems;
+        this.items = data.item;
+        this.dataSource.data = this.items;
+       
        
       });
   }
+
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -43,5 +51,7 @@ export class ItemTable implements OnInit, AfterViewInit {
 addItem(item: Item | MagicItem) {
   this.randomDataShare.setRandomData({ randomItems: { ...item, quantity: 1 } });
 }
+
+
 }
 
