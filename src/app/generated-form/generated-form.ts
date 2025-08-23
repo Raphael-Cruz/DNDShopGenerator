@@ -22,7 +22,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
   
   shops: { name: string; id: string; formData: any }[] = [];
 
-  displayedColumns: string[] = ['qtdy', 'name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit'];
+  displayedColumns: string[] = ['qtdy', 'name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit', 'delete'];
   dataSource = new MatTableDataSource<Item | MagicItem>();
   shopId: string | null = null;
   formValues: any;
@@ -33,6 +33,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
   allMagicItems: MagicItem[] = [];
 
   selectedSources: string[] = [];
+
 
 
 
@@ -225,6 +226,26 @@ export class GeneratedForm implements OnInit, OnDestroy {
     this.editingIndex = null;
   }
 
+deleteItems(element: Item | MagicItem): void {
+  // Remove from manualItems if found
+  const manualIndex = this.manualItems.findIndex(
+    i => i.name === element.name && i.type === element.type
+  );
+  if (manualIndex > -1) {
+    this.manualItems.splice(manualIndex, 1);
+  }
+
+  // Remove from randomItems if found
+  const randomIndex = this.randomItems.findIndex(
+    i => i.name === element.name && i.type === element.type
+  );
+  if (randomIndex > -1) {
+    this.randomItems.splice(randomIndex, 1);
+  }
+
+  // Refresh table
+  this.dataSource.data = [...this.randomItems, ...this.manualItems];
+}
 downloadPDF() {
   const pdf = new jsPDF('p', 'mm', 'a4');
   const pdfWidth = pdf.internal.pageSize.getWidth();

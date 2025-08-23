@@ -149,6 +149,10 @@ flex: 1 1 auto;
     color: #0008ffff;
 }
 .saveEdit-button{
+ color: #29db0eff;
+}
+
+.delete-button{
  color: #670404ff;
 }
 
