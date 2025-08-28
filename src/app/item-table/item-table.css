@@ -60,7 +60,7 @@ body {
 .shop-table td {
   display: column;
   padding: 12px 15px;
-
+  cursor: pointer;
    text-align: center;
    justify-content: center;
 }
@@ -147,3 +147,12 @@ footer {
 ::ng-deep .mat-mdc-paginator-container {
    background-color:  #f3e6bcff;
 }
+
+
+.entry-tooltip {
+  white-space: normal; 
+  text-align: justify !important;
+    display: block;
+      width: 100%;
+}
+
