@@ -101,26 +101,22 @@ export class GeneratedForm implements OnInit, OnDestroy {
       this.updateItemsList();
     });
 
-    this.randomDataSub = this.randomDataShare.randomData$.subscribe(data => {
-  if (data && data.randomItemsArray) {
-    this.manualItems = [...data.randomItemsArray]; 
-  } else {
-    this.manualItems = [];
-  }
+this.randomDataSub = this.randomDataShare.randomData$.subscribe(data => {
+  this.randomItems = data?.randomItemsArray ?? [];
   this.dataSource.data = [...this.randomItems, ...this.manualItems];
 });
 
-    this.newItemDataSub = this.newItemDataShare.newItemData$.subscribe(newItemData => {
-      if (newItemData?.newItemData) {
-        try {
-          const newItem = JSON.parse(newItemData.newItemData);
-          this.manualItems.push(newItem);
-          this.dataSource.data = [...this.randomItems, ...this.manualItems];
-        } catch (error) {
-          console.error('Failed to parse new item JSON:', error);
-        }
-      }
-    });
+ this.newItemDataSub = this.newItemDataShare.newItemData$.subscribe(newItemData => {
+  if (newItemData?.newItemData) {
+    try {
+      const newItem: Item | MagicItem = JSON.parse(newItemData.newItemData);
+      this.manualItems.push(newItem);
+      this.dataSource.data = [...this.randomItems, ...this.manualItems];
+    } catch (error) {
+      console.error('Failed to parse new item JSON:', error);
+    }
+  }
+});
   }
 
   ngOnDestroy(): void {

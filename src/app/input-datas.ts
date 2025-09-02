@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Item, MagicItem } from '../app/models/item-model';
+import { HttpClient } from '@angular/common/http';
+import { v4 as uuidv4 } from 'uuid'; // for generating unique IDs
 
-type FormDataType = {
+// --- Types ---
+export type FormDataType = {
   shopName: string;
   mundaneItems: string;
   commonItems: string;
@@ -13,23 +16,62 @@ type FormDataType = {
   artifactItems: string;
 };
 
-interface IShop {
+export interface IShop {
   name: string;
   id: string;
   formData: FormDataType;
 }
 
+// --- Main Service ---
 @Injectable({
   providedIn: 'root'
 })
 export class InputDatas {
   private shops: IShop[] = [];
 
+  constructor(private http: HttpClient) {}
+
+  // --- GET all local shops ---
   getShops(): IShop[] {
     return this.shops;
   }
 
-  // existing form data behavior subject
+getAllItems(): (Item | MagicItem)[] {
+  return this.allItems;
+}
+
+  // --- Save shop to backend ---
+saveShopToDB(payload: { name: string; items: any[]; formData: FormDataType }) {
+  return this.http.post('http://localhost:3000/myshops', payload);
+}
+
+  registerNewShop(): string | null {
+    const id = uuidv4();
+    const currentFormData = this.formData.value;
+
+    if (!currentFormData) {
+      console.warn('No form data to save for this shop.');
+      return null;
+    }
+
+    const name = currentFormData.shopName || 'Unnamed Shop';
+    const clonedData: FormDataType = JSON.parse(JSON.stringify(currentFormData));
+
+    this.shops.push({ name, id, formData: clonedData });
+    console.log("New shop registered:", id, clonedData);
+
+    return id;
+  }
+
+  
+  getShopById(id: string): IShop | undefined {
+    const shop = this.shops.find(shop => shop.id === id);
+    return shop
+      ? { ...shop, formData: JSON.parse(JSON.stringify(shop.formData)) }
+      : undefined;
+  }
+
+  // --- Form Data ---
   private formData = new BehaviorSubject<FormDataType | null>(null);
   formData$ = this.formData.asObservable();
 
@@ -37,9 +79,8 @@ export class InputDatas {
     this.formData.next(data);
   }
 
-  // --- New part: items + sources + filtered items ---
+  // --- Items ---
   private allItems: (Item | MagicItem)[] = [];
-
   private allItemsSubject = new BehaviorSubject<(Item | MagicItem)[]>([]);
   allItems$ = this.allItemsSubject.asObservable();
 
@@ -66,83 +107,51 @@ export class InputDatas {
       this.filteredItemsSubject.next(this.allItems);
     } else {
       this.filteredItemsSubject.next(
-        this.allItems.filter(
-          item => item.source && selectedSources.includes(item.source)
-        )
+        this.allItems.filter(item => item.source && selectedSources.includes(item.source))
       );
     }
   }
-
-  registerNewShop(): string | null {
-    const id = crypto.randomUUID();
-    const currentFormData = this.formData.value;
-
-    if (!currentFormData) {
-      console.warn('No form data to save for this shop.');
-      return null;
-    }
-
-    const name = currentFormData.shopName || 'Unnamed Shop';
-
-    // Deep clone to prevent mutation issues for now until backend is up
-    const clonedData: FormDataType = JSON.parse(JSON.stringify(currentFormData));
-
-    this.shops.push({ name, id, formData: clonedData });
-    console.log("New shop registered:", id, clonedData);
-
-    return id;
-  }
-
-  getShopById(id: string): IShop | undefined {
-    const shop = this.shops.find(shop => shop.id === id);
-    return shop
-      ? { ...shop, formData: JSON.parse(JSON.stringify(shop.formData)) }
-      : undefined;
-  }
 }
 
+// --- Random Input Data Service ---
 @Injectable({
   providedIn: 'root'
 })
 export class RandomInputData {
-  private randomData = new BehaviorSubject<{ randomItemsArray: (Item | MagicItem)[] }>({ randomItemsArray: [] });
-randomData$ = this.randomData.asObservable();
+  private randomDataSubject = new BehaviorSubject<{ randomItemsArray: (Item | MagicItem)[] }>({ randomItemsArray: [] });
+  randomData$ = this.randomDataSubject.asObservable();
 
- setRandomData(data: { randomItems: Item | MagicItem }) {
-  const current = this.randomData.value;
-  const existingArray: (Item | MagicItem)[] = current?.randomItemsArray ?? [];
+  setRandomData(data: { randomItems: Item | MagicItem }) {
+    const current = this.randomDataSubject.value;
+    const existingArray: (Item | MagicItem)[] = current?.randomItemsArray ?? [];
 
-  // Add quantity if missing
-  const itemWithQuantity = { ...data.randomItems, quantity: data.randomItems.quantity ?? 1 };
+    const itemWithQuantity = { ...data.randomItems, quantity: data.randomItems.quantity ?? 1 };
+    const newArray = [...existingArray, itemWithQuantity];
 
-  const newArray = [...existingArray, itemWithQuantity];
-
-  this.randomData.next({ randomItemsArray: newArray });
-}
+    this.randomDataSubject.next({ randomItemsArray: newArray });
+  }
 }
 
-
+// --- New Item Data Service ---
 @Injectable({
   providedIn: 'root'
 })
 export class NewItemData {
-  private newItemData = new BehaviorSubject<{ newItemData: string } | null>({ newItemData: '' });
-  newItemData$ = this.newItemData.asObservable();
+  private newItemDataSubject = new BehaviorSubject<{ newItemData: string } | null>({ newItemData: '' });
+  newItemData$ = this.newItemDataSubject.asObservable();
 
   setNewItemData(data: { newItemData: string }) {
-    const current = this.newItemData.value;
+    const current = this.newItemDataSubject.value;
     const existing = current?.newItemData ?? '';
     const newValue = existing
       ? `${existing}, ${data.newItemData}`
       : data.newItemData;
 
-    this.newItemData.next({ newItemData: newValue });
+    this.newItemDataSubject.next({ newItemData: newValue });
   }
-
-  
 }
 
-
+// --- Auth Modal Service ---
 @Injectable({ providedIn: 'root' })
 export class AuthModalService {
   private modalSubject = new BehaviorSubject<'login' | 'register' | null>(null);
