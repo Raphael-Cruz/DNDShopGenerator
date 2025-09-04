@@ -26,7 +26,7 @@ export class CreateItem implements OnInit {
   itemWeight = '';
   selectedRarity = '';
   itemSource = '';
-  itemCost = '';
+  itemCost: number = 0;
 
   // ⚡ Backend URL
   private apiUrl = 'http://localhost:3000/api/items';
@@ -106,7 +106,7 @@ export class CreateItem implements OnInit {
         this.itemWeight = '';
         this.selectedRarity = '';
         this.itemSource = '';
-        this.itemCost = '';
+        this.itemCost = 0;
 
         alert('New item saved to database!');
       },

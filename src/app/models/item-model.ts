@@ -1,10 +1,10 @@
 export interface Item {
   name: string;
-  source: string;
-  page: number;
-  rarity: string;
-  quantity: number;
-  cost: number;
+  source?: string;
+  page?: number;
+  rarity?: string;
+  quantity?: number;
+  cost?: number;
   // Attunement info
   reqAttune?: string;
   reqAttuneTags?: Array<{
@@ -36,13 +36,13 @@ export interface Item {
   weight?: number | string;
 
   // Descriptive text
-  entries: string[];
+  entries?: string[];
 }
 
 export interface MagicItem {
   name: string;
   type: string;
-  cost: string;
+  cost: number;
   rarity: string;
   weight: string;
    source: string;

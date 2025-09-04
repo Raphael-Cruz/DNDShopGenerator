@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Item, MagicItem } from '../models/item-model';
+import { Item } from '../models/item-model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { RandomInputData } from '../input-datas';
@@ -48,10 +48,11 @@ export class ItemTable implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-addItem(item: Item | MagicItem) {
+  /*
+addItem(item: Item ) {
   this.randomDataShare.setRandomData({ randomItems: { ...item, quantity: 1 } });
 }
-
+*/
 
 }
 
