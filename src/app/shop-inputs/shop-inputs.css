@@ -1,104 +1,388 @@
-.wrap{
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-     align-items: flex-start;
-    justify-content: space-evenly
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+
+
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+  --ember: #e05c20;
+  --ember-glow: #ff8c42;
+  --bg-deep: #0a0705;
+  --bg-dark: #110d09;
+  --bg-mid: #1a1410;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b4840;
+  --border: rgba(201, 168, 76, .18);
+  --border-glow: rgba(201, 168, 76, .45);
+  --rare: #7b5ea7;
+  --uncommon: #3a8c5c;
+  --common: #6b7280;
+  --radius: 4px;
+
+  display: block;
+  background: var(--bg-deep);
+  color: var(--text-bright);
+  font-family: 'Crimson Pro', Georgia, serif;
+  overflow-x: hidden;
 }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(224, 92, 32, .12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(201, 168, 76, .06) 0%, transparent 60%),
+    var(--bg-deep);
+  padding: 6rem 1.5rem 8rem;
+}
+
+
+
+/* ── Layout ── */
+.wrap {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
 main {
- 
- background: #fff8e1 !important; 
+
+  background: #fff8e1 !important;
+}
+
+/*noise overlay*/
+main::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .02;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ===Form styling=== */
-  .form {
-    padding: 1.25rem;
-    word-wrap: break-word;
-    background-clip: border-box;
-    background-color: #fff8e1;
-    border: 0;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-    font-weight: 400;
-    min-width: 20%;
-    position: relative;
-    display: inline-block;
-  }
+.form {
+  padding: 1.25rem;
+  word-wrap: break-word;
+  background-clip: border-box;
+  background-color: #fff8e1;
+  border: 0;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  font-weight: 400;
+  min-width: 20%;
+  position: relative;
+  display: inline-block;
+}
 
 .form-items {
   padding: 1.25rem;
 }
-.shop-name{
-display: flex;
-background-color: transparent !important;
+
+.shop-name {
+  display: flex;
+  background-color: transparent !important;
 
 }
 
 ::ng-deep .mat-mdc-form-field.mat-form-field-animations-enabled .mdc-text-field__input {
- background-color: transparent !important;
+  background-color: transparent !important;
 }
 
-.form-items{
-display: flex;
-justify-content: space-evenly;
+.form-items {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .input-checkbox {
-    padding: 0.25rem;
-    margin-right: 10px;
-    background-color: hsla(201, 50%, 84%, 0.46);
-    display: flex;
-    font-weight: 400;
-    min-width: 0;
-    position: relative;
-    display: inline-block;
-    
-  }
+  padding: 0.25rem;
+  margin-right: 10px;
+  background-color: hsla(201, 50%, 84%, 0.46);
+  display: flex;
+  font-weight: 400;
+  min-width: 0;
+  position: relative;
+  display: inline-block;
+
+}
 
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: transparent !important;
 }
 
-.form-button-div{
-display: flex;
-justify-content: center;
+.form-button-div {
+  display: flex;
+  justify-content: center;
+}
+
+
+.filter-wrap {
+  display: flex;
+  width: 45%;
+  padding: 2rem;
+}
+
+
+.shop-name {
+  display: flex;
+  width: 100%;
+  margin-bottom: .5rem;
+}
+
+
+/* ── Tokens ── */
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+
+  font-family: 'Crimson Pro', Georgia, serif;
+}
+
+/* ── Form panel ── */
+.form {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .6),
+    0 24px 60px rgba(0, 0, 0, .5),
+    inset 0 1px 0 rgba(201, 168, 76, .07);
+  padding: 2rem 1.8rem;
+  min-width: 340px;
+  max-width: 480px;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  animation: panel-in .7s ease both;
+}
+
+/* Corner ornaments */
+.form::before,
+.form::after {
+  content: '✦';
+  position: absolute;
+  font-size: .7rem;
+  color: var(--gold-dim);
+  opacity: .5;
+}
+
+.form::before {
+  top: .7rem;
+  left: .9rem;
+}
+
+.form::after {
+  bottom: .7rem;
+  right: .9rem;
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: .06em;
+  margin-bottom: 1.6rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+
+::ng-deep mat-label {
+  color: var(--text-mid);
+}
+
+/* ── Row: input + select side by side ── */
+.form-items {
+  display: flex;
+  gap: .75rem;
+  justify-content: space-between;
+  margin-bottom: .25rem;
+  padding: .6rem .8rem;
+  border-bottom: 1px solid rgba(201, 168, 76, .07);
+  transition: background .2s;
+}
+
+.form-items:hover {
+  background: rgba(201, 168, 76, .03);
+}
+
+/* ── Material overrides — inputs ── */
+::ng-deep .mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: transparent;
+  --mdc-filled-text-field-focus-active-indicator-color: var(--gold);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--gold-dim);
+  --mdc-filled-text-field-label-text-color: var(--text-dim);
+  --mdc-filled-text-field-focus-label-text-color: var(--gold);
+  --mdc-filled-text-field-input-text-color: var(--text-bright);
+  --mat-form-field-subscript-text-color: var(--text-dim);
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled),
+::ng-deep .mat-mdc-form-field.mat-form-field-animations-enabled .mdc-text-field__input {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-floating-label {
+  font-family: 'Cinzel', serif !important;
+  font-size: .72rem !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase;
+}
+
+::ng-deep .mat-mdc-form-field input {
+  font-family: 'Crimson Pro', serif !important;
+  font-size: 1.05rem !important;
+  color: var(--text-bright) !important;
+}
+
+/* Select panel */
+::ng-deep .mat-mdc-select-value-text {
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-mid) !important;
+
+}
+
+::ng-deep .mat-mdc-option {
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-mid) !important;
+  background: var(--bg-surface) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: 5px !important;
+
+
+}
+
+::ng-deep .mat-mdc-option:hover,
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background: #57503f8c !important;
+  color: var(--gold) !important;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: #57503fb8 !important;
+  border: 1px solid var(--border) !important;
 }
 
 
 
-::ng-deep .button {
-    margin: 10px;
-    padding: 22px 25px 35px 25px;
-    text-align: center;
-    text-transform: uppercase;
-    border-radius: 10px;
-    display: inline-block;
-    cursor: pointer;
-    background-image: linear-gradient(to right, #fff8e1 0%, #3e2723  51%, #fff8e1  100%) !important;
 
-    background-size: 200% auto;
-    color: #3e2723 !important;
-   
-    transition: all 0.5s ease;
+/* generate button */
+
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .9rem 2.2rem;
+  font-family: 'Cinzel', serif;
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 60%, #a8782a 100%);
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: filter .2s, transform .2s;
 }
 
-::ng-deep .button:hover {
-    background-position: right center; 
-    color: #fff8e1 !important; 
-   
+.btn-primary:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
+.btn-primary--large {
+  font-size: 1rem;
+  padding: 1.1rem 3rem;
+}
+
+.btn-rune {
+  font-size: 1rem;
+  opacity: .7;
+}
+
+.btn-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .3) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .5s;
+}
+
+.btn-primary:hover .btn-shimmer {
+  transform: translateX(100%);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .9rem 1.8rem;
+  font-family: 'Cinzel', serif;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.btn-ghost:hover {
+  color: var(--gold);
+  border-color: var(--border-glow);
 }
 
 
-::ng-deep .button:hover span.mat-button-wrapper {
-    color: #fff8e1 !important;
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-wrap {
+    width: 100%;
+    max-width: 480px;
+  }
 }
-
-.filter-wrap{
-display: flex;
-width: 45%;
-padding: 2rem;
-}
-
-
-
-

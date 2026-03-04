@@ -1,41 +1,38 @@
 <div class="filter-container">
 
-  <!-- Selected Chips -->
-   @if (selectedSources.length > 0) {
-  <div class="chips" >
+  <!-- ── Active source chips ── -->
+  @if (selectedSources.length > 0) {
+  <div class="chips">
     @for (sourceName of selectedSources; track sourceName) {
-      <mat-chip removable="true" (removed)="removeSource(sourceName)">
-        {{ sourceName }}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
+    <mat-chip removable="true" (removed)="removeSource(sourceName)">
+      {{ sourceName }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
     }
   </div>
-}
+  }
 
   <h3>Filter by Source</h3>
-<hr>
- <div class="small-checkbox-wrapper">
-  <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSources($event.checked)">
-    {{ allSelected ? 'Unselect All' : 'Select All' }}
-  </mat-checkbox>
-</div>
+  <hr />
 
-  
-<!-- Source Checkboxes -->
+  <!-- ── Select All ── -->
+  <div class="small-checkbox-wrapper">
+    <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSources($event.checked)">
+      {{ allSelected ? 'Unselect All' : 'Select All' }}
+    </mat-checkbox>
+  </div>
+
+  <!-- ── Source list ── -->
   <ul class="source-list">
     @for (source of sources; track source.name) {
-      <li>
-       <mat-checkbox
-  [(ngModel)]="source.checked"
-  (change)="onSourceCheckboxChange()"
-  [matTooltip]="getTooltipForSource(source.name)">
-  
-  {{ source.name }}
-</mat-checkbox>
-      </li>
+    <li>
+      <mat-checkbox [(ngModel)]="source.checked" (change)="onSourceCheckboxChange()"
+        [matTooltip]="getTooltipForSource(source.name)">
+        {{ source.name }}
+      </mat-checkbox>
+    </li>
     }
   </ul>
-
 
   <ng-template #noItems>
     <p>No items found for selected source(s).</p>

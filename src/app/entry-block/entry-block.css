@@ -1,72 +1,109 @@
-/* === General description styling === */
-.desc {
-  font-family: 'Georgia', serif;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #333;
-  margin-top: 0.5rem;
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+:host {
+  --gold: #c9a84c;
+  --gold-dim: #7a6030;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b5840;
+  --border: rgba(201, 168, 76, .18);
+  display: block;
+  font-family: 'Crimson Pro', Georgia, serif;
+  color: var(--text-mid);
 }
 
-/* === Nested entries spacing === */
-.nested-entries {
-  margin-left: 1.5rem;
-  border-left: 2px solid #ccc;
-  padding-left: 1rem;
-  margin-top: 0.5rem;
+/* ── Plain text ── */
+.desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-mid);
+  margin-bottom: .6rem;
 }
+
+/* ── Nested entries ── */
+.nested-entries {
+  margin: .6rem 0 .6rem 1.2rem;
+  border-left: 1px solid rgba(201, 168, 76, .2);
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+/* ── Table ── */
+.table-wrap {
+  overflow-x: auto;
+  margin: .8rem 0;
+}
+
 .custom-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1rem 0;
-  font-family: 'Arial', sans-serif;
-  font-size: 0.9rem;
+  font-family: 'Crimson Pro', serif;
+  font-size: .9rem;
 }
 
 .custom-table caption {
   caption-side: top;
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
   text-align: left;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
+  padding-bottom: .5rem;
 }
 
-
 .custom-table thead th {
-  background-color: #3e2723; 
-  color: #fff;
-  padding: 0.5rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  padding: .5rem .8rem;
+  font-family: 'Cinzel', serif;
+  font-size: .6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
   text-align: left;
-  border: 1px solid #ccc;
 }
 
 .custom-table tbody td {
-  padding: 0.4rem 0.5rem;
-  border: 1px solid #ccc;
-  text-align: left;
+  padding: .4rem .8rem;
+  border: 1px solid rgba(201, 168, 76, .1);
+  color: var(--text-mid);
   vertical-align: top;
+  line-height: 1.5;
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background: var(--bg-raised);
 }
 
 .custom-table tbody tr:nth-child(even) {
-  background-color: #f7f1e3; 
+  background: var(--bg-surface);
 }
 
-.col-2.text-center {
-  text-align: center;
-}
-.col-5.text-center {
-  text-align: center;
+.custom-table tbody tr:hover {
+  background: rgba(201, 168, 76, .05);
 }
 
-.table-wrap {
-  overflow-x: auto;
-}
-
-
-/* === List entries === */
+/* ── Lists ── */
 ul {
-  margin: 0.5rem 0 0.5rem 1.5rem;
+  margin: .4rem 0 .4rem 1.2rem;
   padding: 0;
-  list-style-type: disc;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+ul li::before {
+  content: '✦ ';
+  font-size: .5rem;
+  color: var(--gold-dim);
+  opacity: .5;
+  vertical-align: middle;
 }
 
 ul.list-hang-notitle {
@@ -75,21 +112,25 @@ ul.list-hang-notitle {
 }
 
 ul.list-hang-notitle li {
-  margin-bottom: 0.25rem;
-  padding-left: 0.5rem;
-  text-indent: -0.5rem; /* Hanging indent style */
+  padding-left: 1rem;
+  text-indent: -1rem;
 }
 
-/* === Optional: minor responsive tweaks === */
-@media (max-width: 768px) {
+ul.list-hang-notitle li::before {
+  content: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+
   .custom-table th,
   .custom-table td {
-    font-size: 0.85rem;
-    padding: 0.3rem 0.4rem;
+    font-size: .8rem;
+    padding: .3rem .5rem;
   }
 
   .nested-entries {
-    margin-left: 1rem;
-    padding-left: 0.8rem;
+    margin-left: .8rem;
+    padding-left: .6rem;
   }
 }

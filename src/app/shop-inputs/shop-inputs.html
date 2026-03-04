@@ -1,25 +1,31 @@
 <main>
- <div class="container">
-    <div class="main-content">  
+  <div class="container">
+    <div class="main-content">
       <div class="wrap">
+
+
         <div class="form">
-      <!-- SHOP NAME-->
-            <mat-form-field class="shop-name">
-              <mat-label>Shop Name</mat-label>
-              <input matInput placeholder="Ex. Blacksmith Shop " [(ngModel)]="shopName" name="shopName" required/>
-              <mat-hint>Give your shop a name</mat-hint>
-            </mat-form-field>
+          <div class="form-heading">⚔ Forge the Shop ⚔</div>
+
+          <!-- SHOP NAME -->
+          <mat-form-field class="shop-name" appearance="fill">
+            <mat-label>Shop Name</mat-label>
+            <input matInput placeholder="e.g. The Gilded Raven" [(ngModel)]="shopName" name="shopName" required />
+            <mat-hint>Give your shop a name</mat-hint>
+          </mat-form-field>
+
           <!-- MUNDANE -->
           <div class="form-items">
-            <mat-form-field >
-              <mat-label>MUNDANE ITEMS</mat-label>
+            <mat-form-field appearance="fill">
+              <mat-label>Mundane Items</mat-label>
               <input matInput [(ngModel)]="mundaneItems" [disabled]="!isInputEnabled(selectedOptionMundane)" />
-              <mat-hint>How many mundane items</mat-hint>
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionMundane" (selectionChange)="onSelectChange('mundaneItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionMundane"
+                (selectionChange)="onSelectChange('mundaneItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -30,17 +36,19 @@
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- COMMON -->
-           <div class="form-items">
-            <mat-form-field >
-              <mat-label>COMMON ITEMS</mat-label>
+          <div class="form-items">
+            <mat-form-field appearance="fill">
+              <mat-label>Common Items</mat-label>
               <input matInput [(ngModel)]="commonItems" [disabled]="!isInputEnabled(selectedOptionCommon)" />
-              <mat-hint>How many common items</mat-hint>
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionCommon" (selectionChange)="onSelectChange('commonItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionCommon"
+                (selectionChange)="onSelectChange('commonItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -51,17 +59,19 @@
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- UNCOMMON -->
           <div class="form-items">
-            <mat-form-field>
-              <mat-label>UNCOMMON ITEMS</mat-label>
+            <mat-form-field appearance="fill">
+              <mat-label>Uncommon Items</mat-label>
               <input matInput [(ngModel)]="uncommonItems" [disabled]="!isInputEnabled(selectedOptionUncommon)" />
-              <mat-hint>How many uncommon items</mat-hint>
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionUncommon" (selectionChange)="onSelectChange('uncommonItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionUncommon"
+                (selectionChange)="onSelectChange('uncommonItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -72,17 +82,19 @@
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- RARE -->
-           <div class="form-items">
-            <mat-form-field>
-              <mat-label>RARE ITEMS</mat-label>
+          <div class="form-items">
+            <mat-form-field appearance="fill">
+              <mat-label>Rare Items</mat-label>
               <input matInput [(ngModel)]="rareItems" [disabled]="!isInputEnabled(selectedOptionRare)" />
-              <mat-hint>How many rare items</mat-hint>
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionRare" (selectionChange)="onSelectChange('rareItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionRare"
+                (selectionChange)="onSelectChange('rareItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -93,17 +105,19 @@
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- VERY RARE -->
-           <div class="form-items">
-            <mat-form-field>
-              <mat-label>VERY RARE ITEMS</mat-label>
-              <input class="input" matInput [(ngModel)]="veryRareItems" [disabled]="!isInputEnabled(selectedOptionVeryRare)" />
-              <mat-hint>How many very rare items</mat-hint>
+          <div class="form-items">
+            <mat-form-field appearance="fill">
+              <mat-label>Very Rare Items</mat-label>
+              <input matInput [(ngModel)]="veryRareItems" [disabled]="!isInputEnabled(selectedOptionVeryRare)" />
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionVeryRare" (selectionChange)="onSelectChange('veryRareItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionVeryRare"
+                (selectionChange)="onSelectChange('veryRareItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -114,17 +128,19 @@
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- LEGENDARY -->
           <div class="form-items">
-            <mat-form-field>
-              <mat-label>LEGENDARY ITEMS</mat-label>
+            <mat-form-field appearance="fill">
+              <mat-label>Legendary Items</mat-label>
               <input matInput [(ngModel)]="legendaryItems" [disabled]="!isInputEnabled(selectedOptionLegendary)" />
-              <mat-hint>How many legendary items</mat-hint>
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionLegendary" (selectionChange)="onSelectChange('legendaryItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionLegendary"
+                (selectionChange)="onSelectChange('legendaryItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -135,17 +151,19 @@
               </mat-select>
             </mat-form-field>
           </div>
-            <!-- ARTIFACT -->
-           <div class="form-items">
-            <mat-form-field >
-              <mat-label>ARTIFACT ITEMS</mat-label>
+
+          <!-- ARTIFACT -->
+          <div class="form-items">
+            <mat-form-field appearance="fill">
+              <mat-label>Artifact Items</mat-label>
               <input matInput [(ngModel)]="artifactItems" [disabled]="!isInputEnabled(selectedOptionArtifact)" />
-              <mat-hint>How many artifact items</mat-hint>
+              <mat-hint>How many</mat-hint>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Suggestions</mat-label>
-              <mat-select [(ngModel)]="selectedOptionArtifact" (selectionChange)="onSelectChange('artifactItems', $event.value)">
-                <mat-option value="one">0</mat-option>
+            <mat-form-field appearance="fill">
+              <mat-label>Suggestion</mat-label>
+              <mat-select [(ngModel)]="selectedOptionArtifact"
+                (selectionChange)="onSelectChange('artifactItems', $event.value)">
+                <mat-option value="one">— Custom —</mat-option>
                 <mat-option value="two">5</mat-option>
                 <mat-option value="three">10</mat-option>
                 <mat-option value="four">1d3</mat-option>
@@ -156,20 +174,22 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <br />
-          <div class="form-button-div">
-          <button matButton="elevated" class="button" (click)="onSubmit()" routerLink="/myshops"  [disabled]="!isFormValid"> GENERATE SHOP</button>
+
+          <div class="hero-cta">
+            <button class="btn-primary" (click)="onSubmit()" [disabled]="!isFormValid">
+              <span class="btn-rune">᛭</span>
+              Generate a Shop
+              <span class="btn-shimmer"></span>
+            </button>
           </div>
-          <br />
         </div>
+
+        <!-- ══════════════ FILTERS ══════════════ -->
         <div class="filter-wrap">
-        <app-filters />
+          <app-filters />
         </div>
-        <div class="create-item-wrap">
-  
-        </div>
+
       </div>
     </div>
   </div>
 </main>
-

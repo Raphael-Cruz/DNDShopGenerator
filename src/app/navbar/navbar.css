@@ -1,82 +1,292 @@
-/* Navbar container */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+  --ember: #e05c20;
+  --bg-deep: #0a0705;
+  --bg-dark: #110d09;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b5840;
+  --border: rgba(201, 168, 76, .18);
+  --border-glow: rgba(201, 168, 76, .38);
+  display: block;
+  font-family: 'Crimson Pro', Georgia, serif;
+}
+
+/* ── Toolbar shell ── */
+::ng-deep .custom-toolbar {
+  background: var(--bg-dark) !important;
+  color: var(--text-bright) !important;
+  padding: 0 !important;
+  height: auto !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, .6) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gold shimmer line at very top */
+::ng-deep .custom-toolbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent 0%, var(--gold-dim) 25%, var(--gold) 50%, var(--gold-dim) 75%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Subtle ember glow from the left */
+::ng-deep .custom-toolbar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 35% 100% at 0% 50%, rgba(224, 92, 32, .06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Inner nav row ── */
 .nav {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0;       
-  margin: 0;        
-  background-color: #fff8e1; 
-    background: linear-gradient(90deg, #f7f1e3 0%,#b6ad90 50%, #3e2723 100%);
-
+  padding: 0 2rem;
+  margin: 0;
+  min-height: 72px;
+  position: relative;
+  z-index: 1;
 }
 
-
-.mat-toolbar-row, .mat-toolbar-single-row { 
-  padding: 3.5rem; 
-    background: linear-gradient(90deg, #f7f1e3 0%,#b6ad90 50%, #3e2723 90%);
-   
+/* ── Logo ── */
+.logo {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  position: relative;
 }
 
-
-.logo{
-width: 150px;
-height:150px;
+.logo::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, .2);
+  pointer-events: none;
+  animation: logo-pulse 4s ease-in-out infinite;
 }
 
+@keyframes logo-pulse {
+
+  0%,
+  100% {
+    opacity: .3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .7;
+    transform: scale(1.05);
+  }
+}
 
 .logo-print {
-  display: inline-block;
-  width: 150px;   /* desired width */
-  height: 150px;   /* desired height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  text-decoration: none;
 }
 
 .logo-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fills container without distortion */
-  display: block;    /* removes inline gaps */
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 76, .3));
+  transition: filter .3s;
 }
 
-/* Spacer pushes login button to right */
+.logo-print:hover .logo-img {
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, .6));
+}
+
+/* ── Site title (optional text beside logo) ── */
+.site-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  margin-left: 1rem;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  text-shadow: 0 0 20px rgba(201, 168, 76, .25);
+}
+
+/* ── Spacer ── */
 .nav-spacer {
   flex: 1 1 auto;
 }
 
-
-.login-button {
+/* ── User section (logged in) ── */
+.user-section {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 3px;
-  margin: 2px;
-  min-width: 56px;
-  padding: 32px 36px;
-  background:  #f7f1e3;
+  gap: .6rem;
 }
 
-.login-label {
-  font-size: 12px;
-  line-height: 1;
+.user-email-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--text-dim);
+  margin: 0 .8rem 0 0;
+  white-space: nowrap;
 }
 
-/* Responsive layout for mobile */
+/* ── Nav buttons ── */
+
+/* Shared base */
+::ng-deep .nav-btn {
+  font-family: 'Cinzel', serif !important;
+  font-size: .68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  height: 42px !important;
+  padding: 0 1.2rem !important;
+  gap: .4rem !important;
+  transition: color .2s, background .2s, box-shadow .2s !important;
+}
+
+/* Ghost nav buttons (My Items, My Shops) */
+::ng-deep .nav-btn-ghost {
+  color: var(--text-mid) !important;
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%) !important;
+}
+
+::ng-deep .nav-btn-ghost:hover {
+  color: var(--gold) !important;
+  border-color: var(--border-glow) !important;
+  background: rgba(201, 168, 76, .06) !important;
+  box-shadow: 0 0 12px rgba(201, 168, 76, .1) !important;
+}
+
+/* Icons inside ghost buttons */
+::ng-deep .nav-btn-ghost .mat-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: inherit !important;
+}
+
+/* Logout — ember accent */
+::ng-deep .nav-btn-logout {
+  color: var(--text-dim) !important;
+  background: transparent !important;
+  border: 1px solid rgba(224, 92, 32, .2) !important;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%) !important;
+}
+
+::ng-deep .nav-btn-logout:hover {
+  color: var(--ember) !important;
+  border-color: rgba(224, 92, 32, .5) !important;
+  background: rgba(224, 92, 32, .06) !important;
+}
+
+::ng-deep .nav-btn-logout .mat-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: inherit !important;
+}
+
+/* Login / Register — gold filled */
+::ng-deep .nav-btn-login {
+  position: relative !important;
+  color: var(--bg-deep) !important;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 55%, #a8782a 100%) !important;
+  border: none !important;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%) !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .nav-btn-login:hover {
+  filter: brightness(1.1) !important;
+}
+
+::ng-deep .nav-btn-login .mat-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: inherit !important;
+}
+
+/* Shimmer on login button */
+::ng-deep .nav-btn-login::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .25) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .5s;
+  pointer-events: none;
+}
+
+::ng-deep .nav-btn-login:hover::after {
+  transform: translateX(100%);
+}
+
+/* ── Vertical divider between button groups ── */
+.nav-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+  margin: 0 .4rem;
+  flex-shrink: 0;
+}
+
+/* ── Auth buttons (logged out) ── */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
   .nav {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 0 1rem;
+    min-height: 60px;
   }
-  .login-button {
-    width: 100%;
-    padding: 12px;
+
+  .site-title {
+    display: none;
+  }
+
+  .user-email-text {
+    display: none;
+  }
+
+  ::ng-deep .nav-btn {
+    padding: 0 .8rem !important;
+    font-size: .6rem !important;
   }
 }
 
-
+/* ── Print ── */
 @media print {
   .d-print-block {
     display: block !important;
   }
+
   .d-inline-block {
     display: none !important;
   }

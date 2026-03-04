@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InputDatas, RandomInputData, FormDataType } from '../input-datas';
 import { Item, MagicItem } from '../models/item-model';
@@ -10,7 +10,7 @@ import { Item, MagicItem } from '../models/item-model';
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShopInputs {
+export class ShopInputs implements OnInit {
   shopName = '';
   mundaneItems = '';
   commonItems = '';
@@ -32,7 +32,13 @@ export class ShopInputs {
     private dataShare: InputDatas,
     private randomInputData: RandomInputData,
     private router: Router
-  ) {}
+  ) { }
+
+  ngOnInit(): void {
+    if (this.dataShare.getAllItems().length === 0) {
+      this.dataShare.refreshItems();
+    }
+  }
 
   get isFormValid(): boolean {
     return this.shopName.trim() !== '' && (
@@ -49,7 +55,7 @@ export class ShopInputs {
   onSelectChange(field: string, option: string) {
     let value = '';
     if (option === 'one') value = '';
-    else switch(option) {
+    else switch (option) {
       case 'two': value = '5'; break;
       case 'three': value = '10'; break;
       case 'four': value = this.roll1d3().toString(); break;
@@ -62,11 +68,11 @@ export class ShopInputs {
     (this as any)['selectedOption' + field[0].toUpperCase() + field.slice(1)] = option;
   }
 
-  
+
   isInputEnabled(option: string): boolean {
     return option === 'one' || !option;
   }
-  
+
   roll1d3() { return Math.floor(Math.random() * 3) + 1; }
   roll2d4() { return Math.floor(Math.random() * 4) + 1 + Math.floor(Math.random() * 4) + 1; }
   roll1d12() { return Math.floor(Math.random() * 12) + 1; }
@@ -133,8 +139,8 @@ export class ShopInputs {
     const payload = { name: this.shopName || 'Unnamed Shop', items: randomItems, formData };
 
     this.dataShare.saveShopToDB(payload).subscribe({
-      next: () => {
-        this.dataShare.registerNewShop();
+      next: (savedShop) => {
+        console.log('Shop saved successfully', savedShop);
         this.resetForm();
         this.router.navigate(['/myshops']);
       },

@@ -1,0 +1,146 @@
+<section class="hero">
+    <div class="ember-field">
+        <div class="ember" *ngFor="let e of embers" [style]="e.style"></div>
+    </div>
+    <div class="rune-ring rune-ring--outer"></div>
+    <div class="rune-ring rune-ring--inner"></div>
+
+    <div class="hero-content">
+        <div class="eyebrow">
+            <span class="eyebrow-gem"></span>
+            <span>Brought to you by the families of Amn</span>
+            <span class="eyebrow-gem"></span>
+        </div>
+
+        <h1 class="hero-title">
+            <span class="title-line title-line--1">The Merchant's</span>
+            <span class="title-line title-line--2">Grimoire</span>
+        </h1>
+
+        <p class="hero-sub">
+            Conjure fully stocked, lore-rich shops for your campaign in seconds.<br />
+            Rare relics, cursed trinkets, and commonplace wares — all awaiting your adventurers.
+        </p>
+
+        <div class="hero-cta">
+            <button class="btn-primary" routerLink="/shop">
+                <span class="btn-rune">᛭</span>
+                Generate a Shop
+                <span class="btn-shimmer"></span>
+            </button>
+            <button class="btn-ghost" (click)="scrollToFeatures()">
+                See the Magic
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat" *ngFor="let s of stats">
+                <span class="stat-value">{{ s.value }}</span>
+                <span class="stat-label">{{ s.label }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-indicator">
+        <span class="scroll-text">Scroll to uncover</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- ──────────────────────── FEATURES ──────────────────────── -->
+<section class="features" #featuresSection id="features">
+    <div class="section-header">
+        <div class="section-ornament">✦ ── ✦ ── ✦</div>
+        <h2 class="section-title">What the Grimoire Conjures</h2>
+        <p class="section-sub">Every generation is unique. Every shop is alive.</p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card" *ngFor="let f of features; let i = index"
+            [class.feature-card--tall]="i === 0 || i === 3" [style.animation-delay]="i * 100 + 'ms'">
+            <div class="feature-icon">{{ f.icon }}</div>
+            <h3 class="feature-name">{{ f.name }}</h3>
+            <p class="feature-desc">{{ f.desc }}</p>
+            <div class="feature-tag">{{ f.tag }}</div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── PREVIEW ──────────────────────── -->
+<section class="preview">
+    <div class="preview-label">— Live Preview —</div>
+    <h2 class="preview-title">A Shop, Freshly Conjured</h2>
+
+    <div class="shop-card">
+        <div class="shop-card__header">
+            <div class="shop-card__crest">⚜</div>
+            <div>
+                <h3 class="shop-card__name">The Gilded Raven</h3>
+                <p class="shop-card__type">Curio & Antiquities · Neutral Alignment</p>
+            </div>
+            <div class="shop-card__wealth">
+                <span class="coin gold">●</span>
+                <span class="coin silver">●</span>
+                <span class="coin copper">●</span>
+                <span class="wealth-label">Wealthy</span>
+            </div>
+        </div>
+
+        <p class="shop-card__desc">
+            Tucked between a tannery and a collapsed temple, The Gilded Raven reeks of incense and old secrets.
+            Its proprietor, a one-eyed gnome named <strong>Vesper Cratch</strong>, deals in items whose origins
+            she claims not to remember — for a price.
+        </p>
+
+        <div class="inventory-grid">
+            <div class="item-slot" *ngFor="let item of sampleItems">
+                <div class="item-rarity" [class]="'rarity-' + item.rarity"></div>
+                <div class="item-info">
+                    <span class="item-name">{{ item.name }}</span>
+                    <span class="item-price">{{ item.price }}</span>
+                </div>
+                <div class="item-tag">{{ item.type }}</div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+<!-- ──────────────────────── HOW IT WORKS ──────────────────────── -->
+<section class="how-it-works">
+    <div class="section-header">
+        <div class="section-ornament">✦ ── ✦ ── ✦</div>
+        <h2 class="section-title">The Ritual</h2>
+    </div>
+
+    <div class="steps">
+        <div class="step" *ngFor="let step of steps; let i = index">
+            <div class="step-number">{{ i + 1 }}</div>
+            <div class="step-connector" *ngIf="i < steps.length - 1"></div>
+            <div class="step-content">
+                <span class="step-icon">{{ step.icon }}</span>
+                <h3 class="step-name">{{ step.name }}</h3>
+                <p class="step-desc">{{ step.desc }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── CTA BANNER ──────────────────────── -->
+<section class="cta-banner">
+    <div class="cta-runes">
+        <span *ngFor="let r of ctaRunes" class="cta-rune">{{ r }}</span>
+    </div>
+    <h2 class="cta-title">Your Next Session Awaits</h2>
+    <p class="cta-sub">Step behind the counter. Let the Grimoire stock your shelves.</p>
+    <button class="btn-primary btn-primary--large" routerLink="/shop    ">
+        <span class="btn-rune">᛭</span>
+        Open the Grimoire
+        <span class="btn-shimmer"></span>
+    </button>
+
+</section>

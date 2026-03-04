@@ -1,127 +1,176 @@
 @if (isVisible) {
-  <div class="modal-overlay">
-    <!-- Background overlay -->
-    <div class="modal-backdrop" (click)="closeModal()"></div>
+<div class="modal-overlay" [@overlayAnim]>
+  <div class="modal-backdrop" (click)="closeModal()"></div>
 
-    <div class="modal-container mat-elevation-z24">
-      <mat-card class="modal-card">
-        <mat-card-header>
-          <mat-card-title>Your Account</mat-card-title>
-          <button mat-icon-button class="close-btn" (click)="closeModal()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-card-header>
+  <div class="modal-container" [@modalAnim]>
 
-        <mat-card-content>
-          <mat-tab-group
-            [selectedIndex]="activeTab === 'login' ? 0 : 1"
-            (selectedIndexChange)="switchTab($event === 0 ? 'login' : 'register')"
-          >
-            <mat-tab label="Login">
-              <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Email</mat-label>
-                  <input
-                    matInput
-                    type="email"
-                    formControlName="email"
-                    placeholder="Enter Email"
-                    required
-                  />
-                  <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                    Please enter a valid email
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Password</mat-label>
-                  <input
-                    matInput
-                    type="password"
-                    formControlName="password"
-                    placeholder="Password"
-                    required
-                  />
-                  <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                    Password is required
-                  </mat-error>
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" class="full-width" type="submit">
-                  Submit
-                </button>
-              </form>
-            </mat-tab>
-
-            <mat-tab label="Register">
-              <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Name</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    formControlName="name"
-                    placeholder="Enter Name"
-                    required
-                  />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Email</mat-label>
-                  <input
-                    matInput
-                    type="email"
-                    formControlName="email"
-                    placeholder="Enter Email"
-                    required
-                  />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Age</mat-label>
-                  <input matInput type="number" formControlName="age" min="0" />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Password</mat-label>
-                  <input
-                    matInput
-                    type="password"
-                    formControlName="password"
-                    placeholder="Password"
-                    required
-                  />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Confirm Password</mat-label>
-                  <input
-                    matInput
-                    type="password"
-                    formControlName="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                  />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Phone Number</mat-label>
-                  <input
-                    matInput
-                    type="tel"
-                    formControlName="phone"
-                    placeholder="Enter Phone Number"
-                  />
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" class="full-width" type="submit">
-                  Submit
-                </button>
-              </form>
-            </mat-tab>
-          </mat-tab-group>
-        </mat-card-content>
-      </mat-card>
+    <!-- ══ SUCCESS SPLASH ══ -->
+    @if (successMessage) {
+    <div class="success-splash" [@successAnim]>
+      <div class="success-icon">
+        <svg viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="24" stroke="currentColor" stroke-width="2" stroke-dasharray="151"
+            stroke-dashoffset="151" style="animation: ring-draw .6s ease forwards" />
+          <path d="M14 26l8 8 16-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" stroke-dasharray="30" stroke-dashoffset="30"
+            style="animation: check-draw .4s .5s ease forwards" />
+        </svg>
+      </div>
+      <p class="success-title">{{ successMessage }}</p>
+      <p class="success-sub">Redirecting you now…</p>
     </div>
+    }
+
+    @if (!successMessage) {
+    <div class="modal-card">
+
+      <!-- ── Header ── -->
+      <div class="modal-header">
+        <span class="modal-logo">
+          <img src="assets/images/logo.png" alt="Logo" class="logo-img" />
+        </span>
+        <h2 class="modal-title">
+          {{ activeTab === 'login' ? 'Welcome Back' : 'Join the Grimoire' }}
+        </h2>
+        <p class="modal-subtitle">
+          {{ activeTab === 'login'
+          ? 'Sign in to your account'
+          : 'Create a free account to begin' }}
+        </p>
+        <button class="close-btn" (click)="closeModal()" aria-label="Close">✕</button>
+      </div>
+
+      <!-- ── Tabs ── -->
+      <div class="tab-switcher">
+        <button class="tab-btn" [class.active]="activeTab==='login'" (click)="switchTab('login')">Login</button>
+        <button class="tab-btn" [class.active]="activeTab==='register'"
+          (click)="switchTab('register')">Register</button>
+        <div class="tab-indicator" [class.right]="activeTab==='register'"></div>
+      </div>
+
+      <!-- ── Error bar ── -->
+      @if (errorMessage) {
+      <div class="error-bar">⚠ {{ errorMessage }}</div>
+      }
+
+      <!-- ══ LOGIN FORM ══ -->
+      @if (activeTab === 'login') {
+      <form [formGroup]="loginForm" (ngSubmit)="submitLogin()" class="auth-form">
+
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <div class="field-wrap" [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            <input class="field-input" type="email" formControlName="email" placeholder="merchant@email.com" />
+          </div>
+          @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <span class="field-error">Valid email required</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <div class="field-wrap"
+            [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <input class="field-input" [type]="showPass ? 'text' : 'password'" formControlName="password"
+              placeholder="••••••••" />
+            <button type="button" class="eye-btn" (click)="showPass = !showPass">
+              {{ showPass ? '👁' : '👁' }}
+            </button>
+          </div>
+          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <span class="field-error">Password required</span>
+          }
+        </div>
+
+        <button class="submit-btn" type="submit" [disabled]="isLoading">
+          @if (isLoading) { <span class="btn-spinner"></span> } @else { ᛭ &nbsp; Sign In }
+        </button>
+
+      </form>
+      }
+
+      <!-- ══ REGISTER FORM ══ -->
+      @if (activeTab === 'register') {
+      <form [formGroup]="registerForm" (ngSubmit)="submitRegister()" class="auth-form">
+
+        <div class="fields-row">
+          <div class="field-group">
+            <label class="field-label">Full Name</label>
+            <div class="field-wrap">
+              <input class="field-input" type="text" formControlName="name" placeholder="Linene Graywind" />
+            </div>
+            @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+            <span class="field-error">Name required</span>
+            }
+          </div>
+          <div class="field-group">
+            <label class="field-label">Age</label>
+            <div class="field-wrap">
+              <input class="field-input" type="number" formControlName="age" placeholder="25" min="13" />
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <div class="field-wrap">
+            <input class="field-input" type="email" formControlName="email" placeholder="graywind@lionshield.com" />
+          </div>
+          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <span class="field-error">Email required</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            Phone <span class="optional">optional</span>
+          </label>
+          <div class="field-wrap">
+            <input class="field-input" type="tel" formControlName="phone" placeholder="+1 555 000 0000" />
+          </div>
+        </div>
+
+        <div class="fields-row">
+          <div class="field-group">
+            <label class="field-label">Password</label>
+            <div class="field-wrap">
+              <input class="field-input" [type]="showPass ? 'text' : 'password'" formControlName="password"
+                placeholder="••••••••" />
+            </div>
+            @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+            <span class="field-error">Password required</span>
+            }
+          </div>
+          <div class="field-group">
+            <label class="field-label">Confirm</label>
+            <div class="field-wrap" [class.invalid]="passwordMismatch">
+              <input class="field-input" [type]="showPass ? 'text' : 'password'" formControlName="confirmPassword"
+                placeholder="••••••••" />
+            </div>
+            @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+            <span class="field-error">Confirm password required</span>
+            }
+            @if (passwordMismatch) {
+            <span class="field-error">Passwords don't match</span>
+            }
+          </div>
+        </div>
+
+        <label class="show-pass-toggle">
+          <input type="checkbox" [(ngModel)]="showPass" [ngModelOptions]="{standalone: true}" />
+          <span>Show passwords</span>
+        </label>
+
+        <button class="submit-btn" type="submit" [disabled]="isLoading">
+          @if (isLoading) { <span class="btn-spinner"></span> } @else { ᛭ &nbsp; Create Account }
+        </button>
+
+      </form>
+      }
+
+    </div>
+    }
+
   </div>
+</div>
 }

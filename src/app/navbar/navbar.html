@@ -1,38 +1,57 @@
-<mat-toolbar>
+<mat-toolbar class="custom-toolbar">
   <div class="nav">
+
+    <!-- ── Logo ── -->
     <div class="logo">
-      <a href="/" class="logo-print">
+      <a routerLink="/" class="logo-print">
         <img src="assets/images/logo.png" alt="Logo" class="logo-img" />
       </a>
+    </div>
+
+    <!-- ── Site title ── -->
+    <span class="site-title">The Merchant's Grimoire</span>
+
+    <span class="nav-spacer"></span>
+
+    <!-- ══ Logged IN ══ -->
+    <div *ngIf="authService.isLoggedIn()" class="user-section">
+
+      <span class="user-email-text">
+        Welcome, {{ authService.getCurrentUser()?.email }}
+      </span>
+
+      <div class="nav-divider"></div>
+
+      <button mat-button class="nav-btn nav-btn-ghost" routerLink="/my-items">
+        <mat-icon>inventory_2</mat-icon>
+        My Items
+      </button>
+
+      <button mat-button class="nav-btn nav-btn-ghost" routerLink="/myshops">
+        <mat-icon>storefront</mat-icon>
+        My Shops
+      </button>
+
+      <div class="nav-divider"></div>
+
+      <button mat-button class="nav-btn nav-btn-logout" (click)="authService.logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
 
     </div>
-      <span class="nav-spacer"></span>
 
-        <button mat-button class="login-button" aria-label="Login" (click)="openItemStats()">
-
-        <span class="login-label">Item Stats</span>
+    <!-- ══ Logged OUT ══ -->
+    <div *ngIf="!authService.isLoggedIn()" class="auth-buttons">
+      <button mat-button class="nav-btn nav-btn-login" (click)="modalOpen = true">
+        <mat-icon>login</mat-icon>
+        Login / Register
       </button>
-      <div class="nav-div">
-      
-    
+    </div>
 
-    <button mat-button class="login-button" aria-label="Login" (click)="openLogin()">
-      <mat-icon>login</mat-icon>
-      <span class="login-label">Login</span>
-    </button>
-      </div>
   </div>
 </mat-toolbar>
 
-
-
-
-
-     
-      
-      
-
-
-
-
-
+<!-- Auth Modal -->
+<app-auth-modal [isVisible]="modalOpen" (closed)="modalOpen = false">
+</app-auth-modal>

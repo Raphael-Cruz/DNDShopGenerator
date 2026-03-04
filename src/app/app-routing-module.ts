@@ -5,15 +5,16 @@ import { ShopInputs } from './shop-inputs/shop-inputs';
 import { GeneratedForm } from './generated-form/generated-form';
 import { Myshops } from './myshops/myshops';
 import { ItemPage } from './item-page/item-page';
+import { LandingPageComponent } from './landingPage/landing-page-component/landing-page-component';
 
 
 const routes: Routes = [
-  { path: '', component: MainComp },
+  { path: '', component: LandingPageComponent },
   { path: 'shop', component: ShopInputs },
   { path: 'generatedshop/:id', component: GeneratedForm },
   { path: 'generatedshop', component: GeneratedForm },
-    { path: 'myshops', component: Myshops },
-        { path: 'item-stats', component: ItemPage },
+  { path: 'myshops', component: Myshops },
+  { path: 'my-items', component: ItemPage },
   { path: '**', redirectTo: '' }
 ];
 

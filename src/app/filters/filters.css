@@ -1,44 +1,21 @@
-.filter-container {
-  padding: 5px 5px 5px 5px !important;
-  max-width: 100%;
-  max-height: 50vh !important;
-  margin: auto;
-  border: solid 2px #3e2723;
-  overflow-y: auto; /* Add scrolling if content overflows vertically */
-  background-color: #fff8e1 !important;
-    
-}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
 
 
-.source-list {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  padding-left: 2px;
-  gap: 16px;
-  
-  
 
-}
 
-.source-list li {
-  
-  flex: 1 1 150px; 
-  max-width: 100px; /* limit how wide each checkbox can get */
-}
 
 /* font control */
 ::ng-deep .mat-internal-form-field>label {
-    font-size: 18px !important;
-    padding-left: 0  !important;
-    
+  font-size: 18px !important;
+  padding-left: 0 !important;
+
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; 
+  gap: 10px;
   margin-bottom: 10px;
 
 }
@@ -51,10 +28,10 @@ mat-chip {
   display: inline-flex;
   align-items: center;
   background-color: #f8f9fa !important;
-  
+
 }
 
-::ng-deep .mat-internal-form-field > label {
+::ng-deep .mat-internal-form-field>label {
   color: #3e2723 !important;
 }
 
@@ -65,7 +42,208 @@ mat-chip mat-icon {
   color: red;
 }
 
-mat-icon{
-    color: #6a040f !important;
+mat-icon {
+  color: #6a040f !important;
 }
 
+
+
+
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+  --ember: #e05c20;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --bg-chip: #1e1712;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b5840;
+  --border: rgba(201, 168, 76, .18);
+  --border-glow: rgba(201, 168, 76, .40);
+  display: block;
+  width: 100%;
+  font-family: 'Crimson Pro', Georgia, serif;
+}
+
+/* ── Panel shell ── */
+.filter-container {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .6),
+    0 24px 60px rgba(0, 0, 0, .4),
+    inset 0 1px 0 rgba(201, 168, 76, .07);
+  padding: 1.8rem 1.6rem 2rem;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  animation: panel-in .75s .1s ease both;
+}
+
+.filter-container::before,
+.filter-container::after {
+  content: '✦';
+  position: absolute;
+  font-size: .65rem;
+  color: var(--gold-dim);
+  opacity: .5;
+}
+
+.filter-container::before {
+  top: .7rem;
+  left: .9rem;
+}
+
+.filter-container::after {
+  bottom: .7rem;
+  right: .9rem;
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Heading ── */
+h3 {
+  font-family: 'Cinzel', serif !important;
+  font-size: .8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .18em !important;
+  text-transform: uppercase !important;
+  color: var(--gold) !important;
+  margin: 1.2rem 0 .5rem !important;
+}
+
+/* ── Divider ── */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0 0 1rem;
+}
+
+/* ── Active chips ── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: 1rem;
+}
+
+::ng-deep .chips .mat-mdc-chip {
+  background: var(--bg-raised) !important;
+  border: 1px solid var(--border-glow) !important;
+  color: var(--gold) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: .68rem !important;
+  letter-spacing: .08em !important;
+  height: 28px !important;
+  border-radius: 2px !important;
+}
+
+::ng-deep .chips .mat-mdc-chip .mat-icon {
+  color: var(--gold-dim) !important;
+  font-size: 14px !important;
+}
+
+::ng-deep .chips .mat-mdc-chip:hover {
+  border-color: var(--gold) !important;
+}
+
+/* ── Select-all row ── */
+.small-checkbox-wrapper {
+  margin-bottom: .8rem;
+}
+
+/* ── Checkbox overrides ── */
+::ng-deep .mat-mdc-checkbox .mdc-checkbox__background {
+  border-color: var(--gold-dim) !important;
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
+  border-color: var(--gold) !important;
+  background-color: var(--gold) !important;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-checkbox__checkmark {
+  color: var(--bg-surface) !important;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-label {
+  font-family: 'Crimson Pro', serif !important;
+  font-size: 1rem !important;
+  color: var(--text-mid) !important;
+}
+
+::ng-deep .mat-mdc-checkbox:hover .mdc-label {
+  color: var(--text-bright) !important;
+}
+
+::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-label {
+  color: var(--gold) !important;
+}
+
+
+.source-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 2px;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
+
+}
+
+.source-list li {
+
+  flex: 1 1 150px;
+  max-width: 100px;
+  /* limit how wide each checkbox can get */
+}
+
+.source-list li {
+  padding: .25rem 0;
+  border-bottom: 1px solid rgba(201, 168, 76, .06);
+  transition: background .15s;
+}
+
+.source-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.source-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.source-list::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 2px;
+}
+
+
+.source-list li:hover {
+  background: rgba(201, 168, 76, .04);
+  padding-left: .4rem;
+}
+
+/* ── Empty state ── */
+p {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: .95rem;
+  margin-top: 1rem;
+}

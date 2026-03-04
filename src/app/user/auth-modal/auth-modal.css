@@ -1,90 +1,457 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
-
-.account-dialog {
-  width: 100%;
-  max-width: 500px;
-  padding: 1rem;
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+  --ember: #e05c20;
+  --ember-dim: rgba(224, 92, 32, .18);
+  --bg-deep: #0a0705;
+  --bg-dark: #110d09;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --bg-input: #1a1410;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b5840;
+  --border: rgba(201, 168, 76, .18);
+  --border-glow: rgba(201, 168, 76, .45);
+  --error: #c0392b;
+  --error-bg: rgba(192, 57, 43, .1);
+  font-family: 'Crimson Pro', Georgia, serif;
 }
 
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.full-width {
-  width: 100%;
-}
-
-mat-form-field {
-  margin-bottom: 1rem;
-}
-
-/* Full screen fixed modal overlay */
+/* ── Overlay ── */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 1500;
+  inset: 0;
+  z-index: 1000;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: transparent; /* just to avoid flicker */
+  justify-content: center;
 }
 
-/* Semi-transparent dark backdrop */
 .modal-backdrop {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 1499;
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 3, 2, .82);
+  backdrop-filter: blur(8px);
 }
 
-/* Container that centers the modal card */
+/* ── Container ── */
 .modal-container {
   position: relative;
-  z-index: 1501;
-  width: 400px;
-  max-width: 95vw;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-sizing: border-box;
-  outline: none;
+  z-index: 1;
+  width: min(480px, 95vw);
 }
 
-/* Angular Material Card */
+/* ── Card shell ── */
 .modal-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .7),
+    0 40px 100px rgba(0, 0, 0, .7),
+    inset 0 1px 0 rgba(201, 168, 76, .08);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Corner ornaments */
+.modal-card::before,
+.modal-card::after {
+  content: '✦';
+  position: absolute;
+  font-size: .6rem;
+  color: var(--gold-dim);
+  opacity: .5;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.modal-card::before {
+  top: .75rem;
+  left: 1rem;
+}
+
+.modal-card::after {
+  bottom: .75rem;
+  right: 1rem;
+}
+
+/* ── Header ── */
+.modal-header {
+  position: relative;
+  padding: 2.2rem 2rem 1.8rem;
+  text-align: center;
+  background:
+    linear-gradient(to bottom, rgba(201, 168, 76, .07) 0%, transparent 100%),
+    var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* Ambient ember glow behind header */
+.modal-header::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 120px;
+  background: radial-gradient(ellipse, rgba(224, 92, 32, .12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.modal-logo {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: .6rem;
+  filter: drop-shadow(0 0 10px rgba(201, 168, 76, .4));
+  position: relative;
+  z-index: 1;
+}
+
+.modal-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0 0 .3rem;
+  letter-spacing: .04em;
+  text-shadow: 0 0 20px rgba(201, 168, 76, .3);
+  position: relative;
+  z-index: 1;
+}
+
+.modal-subtitle {
+  font-size: .95rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 30px;
+  height: 30px;
+  background: rgba(201, 168, 76, .08);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: .85rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .2s, border-color .2s, background .2s;
+  z-index: 2;
+}
+
+.close-btn:hover {
+  color: var(--gold);
+  border-color: var(--border-glow);
+  background: rgba(201, 168, 76, .12);
+}
+
+/* ── Tab switcher ── */
+.tab-switcher {
+  display: flex;
+  position: relative;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: .9rem;
+  border: none;
+  background: transparent;
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  transition: color .25s;
+}
+
+.tab-btn.active {
+  color: var(--gold);
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.tab-indicator.right {
+  transform: translateX(100%);
+}
+
+/* ── Error bar ── */
+.error-bar {
+  margin: 1rem 1.8rem 0;
+  padding: .7rem 1rem;
+  background: var(--error-bg);
+  border: 1px solid rgba(192, 57, 43, .35);
+  color: #e07060;
+  font-size: .9rem;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* ── Form ── */
+.auth-form {
+  padding: 1.6rem 1.8rem 2rem;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 10px
+  gap: 1.1rem;
 }
 
-/* Full width for form fields and buttons */
-.full-width {
-  width: 100%;
-  margin:  10px 0 10px 0;
+.fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
 }
 
-/* Header styling */
-mat-card-header {
+.field-group {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.field-label {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.optional {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: .8rem;
+  opacity: .6;
+}
+
+/* Input wrapper */
+.field-wrap {
+  display: flex;
   align-items: center;
-  padding-left: 20px;
-  
-  
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
 }
 
-/* Close button aligned top right */
-.close-btn {
-  margin-left: auto;
+.field-wrap:focus-within {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, .12);
 }
 
-/* Card content should scroll if content is tall */
-mat-card-content {
-  flex-grow: 1;
-  overflow-y: auto;
-  padding-top: 0;
-  padding-bottom: 16px;
+.field-wrap.invalid {
+  border-color: rgba(192, 57, 43, .5);
+  box-shadow: 0 0 0 2px rgba(192, 57, 43, .08);
+}
+
+.field-input {
+  flex: 1;
+  padding: .7rem .9rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: var(--text-bright);
+}
+
+.field-input::placeholder {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Chrome autofill override */
+.field-input:-webkit-autofill,
+.field-input:-webkit-autofill:hover,
+.field-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px var(--bg-input) inset !important;
+  -webkit-text-fill-color: var(--text-bright) !important;
+}
+
+.eye-btn {
+  padding: 0 .8rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: .95rem;
+  color: var(--text-dim);
+  transition: color .2s;
+}
+
+.eye-btn:hover {
+  color: var(--gold);
+}
+
+.field-error {
+  font-size: .78rem;
+  color: #e07060;
+  font-style: italic;
+}
+
+/* Show password toggle */
+.show-pass-toggle {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .9rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-style: italic;
+}
+
+.show-pass-toggle input {
+  accent-color: var(--gold);
+}
+
+/* ── Submit button ── */
+.submit-btn {
+  position: relative;
+  margin-top: .3rem;
+  padding: .9rem;
+  font-family: 'Cinzel', serif;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 55%, #a8782a 100%);
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: filter .2s, transform .2s;
+  box-shadow: 0 4px 20px rgba(201, 168, 76, .2);
+}
+
+.submit-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* Shimmer sweep */
+.submit-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .25) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .5s;
+  pointer-events: none;
+}
+
+.submit-btn:hover:not(:disabled)::after {
+  transform: translateX(100%);
+}
+
+/* Spinner */
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(10, 7, 5, .3);
+  border-top-color: var(--bg-deep);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle;
+}
+
+/* ── Success splash ── */
+.success-splash {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .7),
+    0 40px 100px rgba(0, 0, 0, .7);
+  padding: 4rem 2.5rem;
+  text-align: center;
+}
+
+.success-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.4rem;
+  color: var(--gold);
+  filter: drop-shadow(0 0 12px rgba(201, 168, 76, .4));
+}
+
+.success-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin: 0 0 .5rem;
+  letter-spacing: .04em;
+}
+
+.success-sub {
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Animations ── */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ring-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.logo-img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(201, 168, 76, .4));
 }

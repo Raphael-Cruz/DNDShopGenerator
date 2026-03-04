@@ -1,5 +1,5 @@
-import { Component,EventEmitter, Output } from '@angular/core';
-import { AuthModalService } from '../input-datas';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthService } from '../core/services/auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,17 +12,15 @@ import { Router } from '@angular/router';
 
 export class Navbar {
 
-  constructor(private authService: AuthModalService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) { }
 
-  openLogin() {
-    this.authService.open('login');   
-    console.log("loggin called")
-  }
-  openItemStats() {
-    this.router.navigate(['/item-stats']);
-  }
-  openRegister() {
-    this.authService.open('register'); 
-     console.log("loggin called")
-  }
+  modalOpen = false;
+
+
+
+  openLogin() { this.modalOpen = true; }
+  openItemStats() { /* your logic */ }
+  logout() { this.authService.logout(); }
 }
+
+

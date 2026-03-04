@@ -1,153 +1,185 @@
-<div class="layout">
-
-  
-  <!-- LEFT: Items table -->
-  <section class="card table-card" aria-labelledby="itemsHeading">
-    <h2 id="itemsHeading" class="sr-only">Items</h2>
-     
-  <!-- Search Bar -->
-<div class="search-bar">
-  <mat-form-field appearance="outline">
-    <mat-label>Search by name</mat-label>
-    <input matInput (input)="applyFilter($event)" placeholder="Type item name...">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+<!-- ── Page hero ── -->
+<div class="page-hero">
+  <div class="page-eyebrow">
+    <span class="page-eyebrow-gem"></span>
+    The Artificer's Workshop
+    <span class="page-eyebrow-gem"></span>
+  </div>
+  <h1 class="page-title">My <span>Items</span></h1>
+  <p class="page-sub">Browse your catalogue, inspect lore, and forge new relics.</p>
 </div>
 
-    <div class="table-wrap" role="region" aria-label="Items table" tabindex="0">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="page-wrap">
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let item"
-              (click)="selectItem(item)"
-              [class.is-selected]="selectedItem?.name === item.name"
-              tabindex="0"
-              (keydown.enter)="selectItem(item)"
+  <!-- ══════════════════════════════════════
+       MAIN TWO-COLUMN WORKSHOP
+  ══════════════════════════════════════ -->
+  <div class="layout">
+
+    <!-- ── LEFT: Item table ── -->
+    <section class="panel table-card" aria-labelledby="itemsHeading">
+      <h2 id="itemsHeading" class="sr-only">Items</h2>
+
+      <div class="section-head">
+        <span class="section-head-gem"></span>
+        <span class="section-head-title">Item Catalogue</span>
+        <div class="section-head-line"></div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-bar-wrap">
+        <mat-form-field appearance="fill">
+          <mat-label>Search by name</mat-label>
+          <input matInput (input)="applyFilter($event)" placeholder="e.g. Sword of Answering…">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap" role="region" aria-label="Items table" tabindex="0">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+
+          <!-- Name -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let item" [class.is-selected]="selectedItem?.name === item.name"
+              (click)="selectItem(item)" tabindex="0" (keydown.enter)="selectItem(item)"
               (keydown.space)="selectItem(item); $event.preventDefault()">
-            {{ item.name }}
-          </td>
-        </ng-container>
+              {{ item.name }}
+            </td>
+          </ng-container>
 
-        <!-- Type Column -->
-      <ng-container matColumnDef="type"> 
+          <!-- Type -->
+          <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef>Type</th>
             <td mat-cell *matCellDef="let item">
               @if (item.weaponCategory) {
-                {{ item.weaponCategory }}
+              {{ item.weaponCategory }}
               } @else if (item.type) {
-                {{ item.type | tipfortype | propercase }}
+              {{ item.type | tipfortype | propercase }}
               } @else if (!item.type && !item.weaponCategory) {
-                Wondrous Item
-   
+              Wondrous Item
               } @else {
-                Unknown Type
+              Unknown Type
               }
-            </td> 
+            </td>
           </ng-container>
 
-        <!-- Rarity Column -->
-        <ng-container matColumnDef="rarity">
-          <th mat-header-cell *matHeaderCellDef> Rarity </th>
-          <td mat-cell *matCellDef="let item">{{ item.rarity || '-' }}</td>
-        </ng-container>
+          <!-- Rarity -->
+          <ng-container matColumnDef="rarity">
+            <th mat-header-cell *matHeaderCellDef>Rarity</th>
+            <td mat-cell *matCellDef="let item">{{ item.rarity || '—' }}</td>
+          </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef> Weight </th>
-          <td mat-cell *matCellDef="let item">{{ item.weight || '-' }}</td>
-        </ng-container>
+          <!-- Weight -->
+          <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef>Weight</th>
+            <td mat-cell *matCellDef="let item">{{ item.weight || '—' }}</td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 25]"
-        showFirstLastButtons
-        [pageSize]="5"
-        [length]="dataSource.data.length">
-      </mat-paginator>
-    </div>
-  </section>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [class.is-selected-row]="selectedItem?.name === row.name"></tr>
+        </table>
 
-  <!-- RIGHT: Item state panel -->
-  <aside class="card state-card" aria-labelledby="stateHeading">
-    <h2 id="stateHeading">Item State</h2>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons [pageSize]="5"
+          [length]="dataSource.data.length">
+        </mat-paginator>
+      </div>
+    </section>
 
-    @if (selectedItem) {
-      <div class="state-grid">
-        <div>
-         <div class="label">Name</div>
-          <div class="value">{{ selectedItem.name }}</div>
-          
-       @if(hasReqAttuneClasses(selectedItem)) {
-             <p class="label"> wondrous item, {{ selectedItem.rarity }}, (requires attunement by a {{ getReqAttuneClasses(selectedItem) }})
-          </p>
+
+    <!-- ── RIGHT TOP: Item state ── -->
+    <aside class="panel state-card" aria-labelledby="stateHeading">
+      <div class="section-head">
+        <span class="section-head-gem"></span>
+        <span class="section-head-title">Item State</span>
+        <div class="section-head-line"></div>
+      </div>
+
+      <div class="state-body">
+        @if (!selectedItem) {
+        <p class="state-empty">✦ Select an item from the catalogue to inspect it.</p>
+        }
+
+        @if (selectedItem) {
+        <div class="state-name">{{ selectedItem.name }}</div>
+
+        <p class="state-attune">
+          @if (hasReqAttuneClasses(selectedItem)) {
+          Wondrous item, {{ selectedItem.rarity }},
+          requires attunement by a {{ getReqAttuneClasses(selectedItem) }}
+          } @else {
+          Wondrous item, {{ selectedItem.rarity }}, requires attunement
           }
-          @else {
-        <p class="label">
-          wondrous item, {{ selectedItem.rarity }}, requires attunement
         </p>
-      }
-         
-        </div>
-        
-        <div>
-          <div class="label">Type</div>
-          <div class="value">{{ selectedItem.type || '-' }}</div>
-        </div>
-        <div>
-          <div class="label">Rarity</div>
-          <div class="value rarity-{{ selectedItem.rarity | lowercase }}">
-            {{ selectedItem.rarity }}
+
+        <div class="state-grid">
+          <div>
+            <div class="state-label">Type</div>
+            <div class="state-value">{{ selectedItem.type || '—' }}</div>
+          </div>
+          <div>
+            <div class="state-label">Rarity</div>
+            <div class="state-value rarity-{{ selectedItem.rarity | lowercase }}">
+              {{ selectedItem.rarity }}
+            </div>
+          </div>
+          <div>
+            <div class="state-label">Weight</div>
+            <div class="state-value">{{ selectedItem.weight || '—' }}</div>
+          </div>
+          <div>
+            <div class="state-label">Source</div>
+            <div class="state-value">
+              {{ selectedItem.source || '—' }}
+              @if (selectedItem.page) { · p.{{ selectedItem.page }} }
+            </div>
           </div>
         </div>
-        <div>
-          <div class="label">Weight</div>
-          <div class="value">{{ selectedItem.weight || '-' }}</div>
-        </div>
-          <div>
-          <div class="label">Source:</div>
-          <div class="value">{{ selectedItem.source || '-' }}, page {{ selectedItem.page || '-' }} </div>
-        </div>
+        }
       </div>
-    } @else {
-      <p class="muted">Click an item to view its state.</p>
-    }
-  </aside>
-<!-- BOTTOM: Description panel -->
-<section class="card desc-card" aria-labelledby="descHeading">
-  <h2 id="descHeading">Description</h2>
-    @if(!selectedItem){
-    <p class="muted">Select an item to see its description…</p>
-    }
-   @if(selectedItem && (!selectedItem.entries || !selectedItem.entries.length)){
-     <p class="muted" >
-    No description available for this item
-  </p>
-    }
+    </aside>
 
-    @if(selectedItem?.entries?.length){
-    <article class="desc">
-      @for(entry of selectedItem?.entries; track entry){
-       <app-entry-block [entry]="entry"></app-entry-block>
-      }
-       
-      </article>
-    }
- 
-    
-</section>
 
-<!-- ===Create your Item panel=== -->
-<section >
- 
-   
-    <article class="descHeading">
-        <app-create-item />
-      </article>
-   
-    
-</section>
-     
+    <!-- ── RIGHT BOTTOM: Description ── -->
+    <section class="panel desc-card" aria-labelledby="descHeading">
+      <div class="section-head">
+        <span class="section-head-gem"></span>
+        <span class="section-head-title">Lore & Description</span>
+        <div class="section-head-line"></div>
+      </div>
+
+      <div class="desc-body">
+        @if (!selectedItem) {
+        <p class="desc-empty">✦ Select an item to read its lore…</p>
+        }
+        @if (selectedItem && (!selectedItem.entries || !selectedItem.entries.length)) {
+        <p class="desc-empty">No lore inscribed for this item.</p>
+        }
+        @if (selectedItem?.entries?.length) {
+        <article>
+          @for (entry of selectedItem?.entries; track entry) {
+          <app-entry-block [entry]="entry"></app-entry-block>
+          }
+        </article>
+        }
+      </div>
+    </section>
+
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       CREATE ITEM — FULL WIDTH BELOW
+  ══════════════════════════════════════ -->
+  <section class="panel create-panel" aria-labelledby="createHeading">
+    <div class="section-head">
+      <span class="section-head-gem"></span>
+      <span class="section-head-title">Forge a New Relic</span>
+      <div class="section-head-line"></div>
+    </div>
+    <app-create-item></app-create-item>
+  </section>
+
+</div>

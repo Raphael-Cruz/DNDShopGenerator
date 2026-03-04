@@ -1,33 +1,93 @@
-<main >
-<div class="container">
-    <div class="main-content"> 
-     
-        <h1 class="shop-title">My Shops</h1>
-        <div class="main-card">
-       <div class="shops-container">
-        
-             @for (shop of shops; track shop.id) {
-            <mat-card class="shop-card" appearance="outlined">
-            <mat-card-header>
-            <div mat-card-avatar class="shop-header-image"></div>
-            @for(shop of shops; track shop){
-                <h3 class="card-title"> {{ shop.name | propercase }}</h3>
+<main>
+    <div class="container">
+
+        <!-- ══ PAGE HERO ══ -->
+        <div class="page-hero">
+            <div class="page-eyebrow">
+                <span class="page-eyebrow-gem"></span>
+                Your Collection
+                <span class="page-eyebrow-gem"></span>
+            </div>
+            <h1 class="page-title">My <span>Shops</span></h1>
+            <p class="page-sub">Each shop a world unto itself — stocked, storied, and waiting.</p>
+        </div>
+
+        <!-- ══ META ROW ══ -->
+        @if (!isLoading && shops.length > 0) {
+        <div class="shops-meta">
+            <span class="shops-count">
+                <strong>{{ shops.length }}</strong>
+                {{ shops.length === 1 ? 'shop' : 'shops' }} in your grimoire
+            </span>
+            <span class="ornament">✦ ── ✦ ── ✦</span>
+        </div>
+        }
+
+        <!-- ══ GRID ══ -->
+        <div class="shops-container">
+
+            <!-- Loading -->
+            @if (isLoading) {
+            <div class="loading-container">
+                <span class="loading-rune">⚜</span>
+                <span class="loading-text">Consulting the Archives…</span>
+            </div>
             }
-              
-            </mat-card-header>
-                <img mat-card-image src="assets/images/shop-image.png" alt="Photo of a magic shop">
-            <mat-card-actions>
-                <div class="div-shop-button">
-                <button mat-raised-button color="primary" class="generate-button" (click)="viewShop(shop.id)">
+
+            <!-- Cards -->
+            @if (!isLoading) {
+            @for (shop of shops; track shop._id || shop.id) {
+            <mat-card class="shop-card" appearance="outlined">
+
+                <!-- Image with crest overlay -->
+                <div class="shop-card-image-wrap">
+                    <img src="assets/images/shop-image.png" alt="A magic shop" />
+                    <span class="shop-crest">⚜</span>
+                </div>
+
+                <!-- Name -->
+                <mat-card-header>
+                    <h3 class="card-title">{{ shop.name | propercase }}</h3>
+                </mat-card-header>
+
+                <!-- Subtle meta line -->
+                <div class="card-body">
+                    <span class="card-meta">
+                        <span>Magic Shop</span>
+                        <span class="card-meta-dot"></span>
+                        <span>{{ shop.items?.length ?? 0 }} items</span>
+                    </span>
+                </div>
+
+                <!-- Actions -->
+                <mat-card-actions>
+                    <button mat-button class="btn-view" (click)="viewShop(shop._id || shop.id)">
                         <mat-icon>storefront</mat-icon>
                         View Shop
                     </button>
-                </div>
-            </mat-card-actions>
+                    <button mat-button class="btn-delete" (click)="deleteShop(shop._id || shop.id)">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                    </button>
+                </mat-card-actions>
+
             </mat-card>
-    }
-         </div>
-     </div>
+            }
+
+            <!-- Empty state -->
+            @if (shops.length === 0) {
+            <div class="no-shops">
+                <span class="no-shops-icon">🏚</span>
+                <span class="no-shops-title">Your grimoire is empty</span>
+                <p class="no-shops-sub">No shops have been conjured yet.<br />Head to the generator and forge your
+                    first.</p>
+                <button mat-button class="no-shops-btn" routerLink="/shop-inputs">
+                    ᛭ &nbsp; Generate a Shop
+                </button>
+            </div>
+            }
+            }
+
+        </div>
     </div>
-</div>
 </main>

@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { Item } from '../models/item-model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { RandomInputData } from '../input-datas';
+import { InputDatas } from '../input-datas';
 
 @Component({
   selector: 'app-item-table',
@@ -12,47 +11,62 @@ import { RandomInputData } from '../input-datas';
   styleUrls: ['./item-table.css']
 })
 export class ItemTable implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'type',  'source', 'add-button'];
+  @Input() shopId: string | null = null;
+  displayedColumns: string[] = ['name', 'type', 'source', 'add-button'];
 
   dataSource = new MatTableDataSource<Item>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    items: Item[] = [];
+  items: Item[] = [];
 
   constructor(
-    private http: HttpClient,
-    private randomDataShare: RandomInputData
-  ) {}
-
-
-	
-
+    private dataShare: InputDatas
+  ) { }
 
   ngOnInit(): void {
-    this.http.get<{ item: Item[] }>('assets/data/items.json')
-      .subscribe(data => {
-        this.items = data.item;
-        this.dataSource.data = this.items;
-       
-       
-      });
-  }
+    this.dataShare.items$.subscribe(items => {
+      this.items = items;
+      this.dataSource.data = this.items;
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+    });
 
+    // Initial load if empty
+    if (this.dataShare.getAllItems().length === 0) {
+      this.dataShare.refreshItems();
+    }
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  addItem(item: Item) {
+    if (!this.shopId) {
+      alert('No shop selected to add item to.');
+      return;
+    }
+
+    this.dataShare.getShopById(this.shopId).subscribe(shop => {
+      const currentItems = shop.items || [];
+      const updatedItems = [...currentItems, item];
+
+      this.dataShare.updateShopItems(this.shopId!, updatedItems).subscribe({
+        next: () => {
+          alert(`Item "${item.name}" added to shop "${shop.name}"`);
+          this.dataShare.notifyShopUpdate(this.shopId!);
+        },
+        error: (err: any) => {
+          console.error('Error adding item to shop:', err);
+          alert('Failed to add item to shop.');
+        }
+      });
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  /*
-addItem(item: Item ) {
-  this.randomDataShare.setRandomData({ randomItems: { ...item, quantity: 1 } });
 }
-*/
-
-}
-

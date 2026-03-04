@@ -24,7 +24,7 @@ export class Filters implements OnInit {
     private cdr: ChangeDetectorRef,
     private zone: NgZone,
     private inputDatas: InputDatas
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.http.get<{ items: Item[]; magicItems: any[] }>('assets/data/full_magic_items_list.json')

@@ -1,76 +1,127 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthModalService } from '../../input-datas';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { AuthService } from '../../core/services/auth';
+import { firstValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-auth-modal',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './auth-modal.html',
-  styleUrls: ['./auth-modal.css']
+  styleUrls: ['./auth-modal.css'],
+  animations: [
+    trigger('overlayAnim', [
+      transition(':enter', [style({ opacity: 0 }), animate('200ms ease', style({ opacity: 1 }))]),
+      transition(':leave', [animate('200ms ease', style({ opacity: 0 }))]),
+    ]),
+    trigger('modalAnim', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(.92) translateY(20px)' }),
+        animate('280ms cubic-bezier(.34,1.56,.64,1)', style({ opacity: 1, transform: 'none' })),
+      ]),
+      transition(':leave', [
+        animate('200ms ease', style({ opacity: 0, transform: 'scale(.95) translateY(10px)' })),
+      ]),
+    ]),
+    trigger('fadeSlide', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-8px)' }),
+        animate('200ms ease', style({ opacity: 1, transform: 'none' })),
+      ]),
+    ]),
+    trigger('successAnim', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(.8)' }),
+        animate('400ms cubic-bezier(.34,1.56,.64,1)', style({ opacity: 1, transform: 'none' })),
+      ]),
+    ]),
+    trigger('formAnim', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(16px)' }),
+        animate('220ms ease', style({ opacity: 1, transform: 'none' })),
+      ]),
+    ]),
+  ],
 })
-export class AuthModal implements OnInit {
-  isVisible = false;
+export class AuthModalComponent implements OnInit {
+  @Input() isVisible = false;
+  @Output() closed = new EventEmitter<void>();
+
   activeTab: 'login' | 'register' = 'login';
+  loginForm!: FormGroup;
+  registerForm!: FormGroup;
+  isLoading = false;
+  errorMessage = '';
+  successMessage = '';
+  showPass = false;
 
-  loginForm: FormGroup;
-  registerForm: FormGroup;
+  get passwordMismatch(): boolean {
+    const { password, confirmPassword } = this.registerForm.value;
+    return !!confirmPassword && password !== confirmPassword;
+  }
 
-  constructor(private fb: FormBuilder, private authService: AuthModalService) {
+  constructor(private fb: FormBuilder, private auth: AuthService) { }
+
+  ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
-
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      age: ['', [Validators.required, Validators.min(1)]],
-      password: ['', Validators.required],
+      age: [null],
+      phone: [''],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      phone: ['', Validators.required]
     });
-  }
-
-  ngOnInit() {
-    this.authService.modal$.subscribe(tab => {
-      if (tab) {
-        this.activeTab = tab;
-        this.isVisible = true;
-      } else {
-        this.isVisible = false;
-      }
-    });
-  }
-
-  get selectedIndex(): number {
-    return this.activeTab === 'login' ? 0 : 1;
-  }
-
-  set selectedIndex(value: number) {
-    this.activeTab = value === 0 ? 'login' : 'register';
   }
 
   switchTab(tab: 'login' | 'register') {
     this.activeTab = tab;
+    this.errorMessage = '';
   }
 
-  submitLogin() {
-    if (this.loginForm.valid) {
-      console.log('Login form values:', this.loginForm.value);
-      this.authService.close();
-    } else {
-      this.loginForm.markAllAsTouched();
+  closeModal() {
+    this.closed.emit();
+  }
+
+  async submitLogin() {
+    if (this.loginForm.invalid) { this.loginForm.markAllAsTouched(); return; }
+    this.isLoading = true;
+    this.errorMessage = '';
+    try {
+      const { email, password } = this.loginForm.value;
+      await firstValueFrom(this.auth.login(email, password));
+      this.successMessage = "You're logged in ! 🎉";
+      setTimeout(() => this.closeModal(), 1800);
+    } catch {
+      this.errorMessage = 'Invalid credentials. Please try again.';
+    } finally {
+      this.isLoading = false;
     }
   }
-closeModal() {
-  this.authService.close();
-}
-  submitRegister() {
-    if (this.registerForm.valid) {
-      console.log('Register form values:', this.registerForm.value);
-      this.authService.close();
-    } else {
+
+  async submitRegister() {
+    if (this.registerForm.invalid || this.passwordMismatch) {
       this.registerForm.markAllAsTouched();
+      if (this.passwordMismatch) this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+    this.isLoading = true;
+    this.errorMessage = '';
+    try {
+      const { name, email, password } = this.registerForm.value;
+      await firstValueFrom(this.auth.register(name, email, password));
+      this.successMessage = 'Account created successfully! 🚀';
+      setTimeout(() => this.closeModal(), 1800);
+    } catch {
+      this.errorMessage = 'Registration failed. Please try again.';
+    } finally {
+      this.isLoading = false;
     }
   }
 }

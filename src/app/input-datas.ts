@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { v4 as uuidv4 } from 'uuid';
 import { Item } from './models/item-model';
 
 // --- Form Data Type ---
@@ -18,8 +17,10 @@ export type FormDataType = {
 
 // --- Shop interface ---
 export interface IShop {
-  id: string;
+  _id?: string;
+  id?: string;
   name: string;
+  items?: Item[];
   formData: FormDataType;
 }
 
@@ -29,16 +30,47 @@ export interface IShop {
 })
 export class InputDatas {
   private shops: IShop[] = [];
+  private apiUrl = 'http://localhost:3000/myshops';
+  private apiUrlItems = 'http://localhost:3000/items';
 
-  constructor(private http: HttpClient) {}
-
-  // --- Local shops ---
-  getShops(): IShop[] {
-    return this.shops;
+  constructor(private http: HttpClient) {
+    this.refreshItems();
   }
 
-  getShopById(id: string): IShop | undefined {
-    return this.shops.find(s => s.id === id);
+  // --- Backend communication ---
+  getShops(): Observable<IShop[]> {
+    return this.http.get<IShop[]>(this.apiUrl).pipe(
+      tap(shops => this.shops = shops)
+    );
+  }
+
+  getShopById(id: string): Observable<IShop> {
+    return this.http.get<IShop>(`${this.apiUrl}/${id}`);
+  }
+
+  // --- Items Management ---
+  private itemsSubject = new BehaviorSubject<Item[]>([]);
+  items$ = this.itemsSubject.asObservable();
+
+  private shopUpdatedSubject = new BehaviorSubject<string | null>(null);
+  shopUpdated$ = this.shopUpdatedSubject.asObservable();
+
+  notifyShopUpdate(shopId: string) {
+    this.shopUpdatedSubject.next(shopId);
+  }
+
+  refreshItems() {
+    this.http.get<Item[]>(this.apiUrlItems).subscribe({
+      next: (items) => {
+        const normalized = items.map(i => this.normalizeItem(i));
+        this.allItems = normalized;
+        this.itemsSubject.next(normalized);
+        this.updateFilteredItems();
+      },
+      error: (err) => {
+        console.error('Error fetching items:', err);
+      }
+    });
   }
 
   // --- Form Data ---
@@ -54,6 +86,7 @@ export class InputDatas {
   }
 
   // --- Items ---
+
   private allItems: Item[] = [];
   private allItemsSubject = new BehaviorSubject<Item[]>([]);
   allItems$ = this.allItemsSubject.asObservable();
@@ -89,24 +122,35 @@ export class InputDatas {
 
   // --- Save shop to backend ---
   saveShopToDB(payload: { name: string; items: Item[]; formData: FormDataType }) {
-    return this.http.post('http://localhost:3000/myshops', payload);
+    return this.http.post<IShop>(this.apiUrl, payload);
   }
 
-  // --- Register new shop locally ---
-  registerNewShop(): string | null {
-    const currentFormData = this.formDataSubject.value;
-    if (!currentFormData) return null;
+  // --- Update shop items ---
+  updateShopItems(shopId: string, items: Item[]): Observable<IShop> {
+    return this.http.put<IShop>(`${this.apiUrl}/${shopId}`, { items });
+  }
 
-    const id = uuidv4();
-    const name = currentFormData.shopName || 'Unnamed Shop';
-    this.shops.push({ id, name, formData: currentFormData });
-    return id;
+  // --- Delete shop from backend ---
+  deleteShop(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   // --- Helper ---
-  private normalizeItem(item: Item): Item {
+  private rarityMap: Record<string, string> = {
+    'Mundane': 'Mun.',
+    'Common': 'Com.',
+    'Uncommon': 'Unc.',
+    'Rare': 'Rare',
+    'Very Rare': 'V.Rare',
+    'Legendary': 'Leg.',
+    'Artifact': 'Art.'
+  };
+
+  normalizeItem(item: Item): Item {
+    const normalizedRarity = this.rarityMap[item.rarity || ''] || item.rarity;
     return {
       ...item,
+      rarity: normalizedRarity,
       quantity: item.quantity ?? 1,
       cost: typeof item.cost === 'string' ? parseFloat(item.cost) || 0 : item.cost ?? 0,
       weight: typeof item.weight === 'string' ? parseFloat(item.weight as string) || 0 : item.weight ?? 0
@@ -114,7 +158,7 @@ export class InputDatas {
   }
 }
 
-// --- Random Input Data Service ---
+// --- Random Input Data Service 
 @Injectable({
   providedIn: 'root'
 })
@@ -146,7 +190,6 @@ export class RandomInputData {
   }
 }
 
-// --- New Item Service (manual items) ---
 @Injectable({
   providedIn: 'root'
 })
@@ -165,7 +208,6 @@ export class NewItemData {
   }
 }
 
-// --- Auth Modal Service ---
 @Injectable({ providedIn: 'root' })
 export class AuthModalService {
   private modalSubject = new BehaviorSubject<'login' | 'register' | null>(null);

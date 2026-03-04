@@ -1,160 +1,521 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
-
-  .main-card{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      
-  }
-
-
-  .mat-mdc-card-actions {
-    min-height: 30px;
-    padding: 2px;
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+  --ember: #e05c20;
+  --ember-glow: #ff8c42;
+  --bg-deep: #0a0705;
+  --bg-dark: #110d09;
+  --bg-mid: #1a1410;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b5840;
+  --border: rgba(201, 168, 76, .18);
+  --border-glow: rgba(201, 168, 76, .42);
+  display: block;
+  font-family: 'Crimson Pro', Georgia, serif;
 }
 
-.div-shop-button{
-    display: flex;
-    flex-direction: row;
-    transform: scale(0.7);
-       
-}
-
-.mat-mdc-card-actions {
-justify-content: center;
-
-}
-
-
-.shops-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  width: 100%;          
-  max-width: 1200px;      
-  padding: 16px;
-  justify-content: center; 
-  align-items: flex-start;
-}
-
-
-  main {
+/* ── Page shell ── */
+main {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(224, 92, 32, .09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 80% 80%, rgba(201, 168, 76, .05) 0%, transparent 60%),
+    var(--bg-deep);
   display: flex;
   flex-direction: column;
-  align-items: stretch;   
-  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Noise texture */
+main::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .022;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
   width: 100%;
-  background: linear-gradient(...);
-  border-top: solid 3px #3e2723;
-  min-height: 100vh;      
 }
 
+/* ── Page hero strip ── */
+.page-hero {
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  position: relative;
+}
 
-  .shop-title{
+.page-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-glow), transparent);
+}
 
-  word-break: break-all;
-  padding: 5px;
-  font-weight: normal;
-  max-width: 65ch;
-  margin: 1rem auto; 
-  text-align: left;
-    font-size: 1.8em;
-    text-transform: uppercase;
+.page-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  margin-bottom: 1rem;
+  opacity: .7;
+}
+
+.page-eyebrow-gem {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--gold-dim);
+  transform: rotate(45deg);
+}
+
+.page-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  color: var(--text-bright);
+  margin: 0 0 .6rem;
+  letter-spacing: .02em;
+}
+
+.page-title span {
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--ember));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 24px rgba(201, 168, 76, .25));
+}
+
+.page-sub {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Shops count badge ── */
+.shops-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.shops-count {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.shops-count strong {
+  color: var(--gold);
+  font-size: 1rem;
+  margin-right: .3rem;
+}
+
+.ornament {
+  color: var(--gold-dim);
+  opacity: .5;
+  letter-spacing: .2em;
+  font-size: .75rem;
+}
+
+/* ── Grid ── */
+.shops-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* ── Shop card ── */
+.shop-card {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .5),
+    0 12px 40px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(201, 168, 76, .06) !important;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .3s, box-shadow .3s, transform .3s !important;
+  animation: card-in .6s ease both;
+  position: relative;
+}
+
+.shop-card:nth-child(1) {
+  animation-delay: .05s;
+}
+
+.shop-card:nth-child(2) {
+  animation-delay: .1s;
+}
+
+.shop-card:nth-child(3) {
+  animation-delay: .15s;
+}
+
+.shop-card:nth-child(4) {
+  animation-delay: .2s;
+}
+
+.shop-card:nth-child(5) {
+  animation-delay: .25s;
+}
+
+.shop-card:nth-child(6) {
+  animation-delay: .3s;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-
-:host ::ng-deep h1:first-letter {
-  font-size: 1.4em;
-  font-weight: bold;
-  color: #6b4226 !important;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
-/*====button=====*/
-
-
-::ng-deep .generate-button {
-    margin: 10px;
-    padding: 22px 25px 35px 25px;
-    text-align: center;
-    text-transform: uppercase;
-    border-radius: 10px;
-    display: inline-block;
-    cursor: pointer;
-    background-image: linear-gradient(to right, #fff8e1 0%, #3e2723  51%, #fff8e1  100%) !important;
-
-    background-size: 200% auto;
-    color: #3e2723 !important;
-   
-    transition: all 0.5s ease;
+.shop-card:hover {
+  border-color: var(--border-glow) !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .5),
+    0 20px 60px rgba(0, 0, 0, .6),
+    0 0 30px rgba(201, 168, 76, .08),
+    inset 0 1px 0 rgba(201, 168, 76, .1) !important;
+  transform: translateY(-4px) !important;
 }
 
-::ng-deep .generate-button:hover {
-    background-position: right center; 
-    color: #fff8e1 !important; 
-   
+/* Rarity-stripe top accent — cycling through gold/ember per card */
+.shop-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), var(--ember), transparent);
+  opacity: 0;
+  transition: opacity .3s;
 }
 
-
-::ng-deep .generate-button:hover span.mat-button-wrapper {
-    color: #fff8e1 !important;
+.shop-card:hover::before {
+  opacity: 1;
 }
 
-
-
-/*=====CARD=====/*
-
-
-  /* Card styling */
-
- .shop-card {
-  font-weight: 400;
-  width: 350px;
-  max-width: 350px;
-  max-height: 550px;
-  background: #fff8e1 !important;
-  border-radius: 8px;
-  box-shadow: 2px 2px 8px rgba(60, 40, 20, 0.2);
+/* ── Card image ── */
+.shop-card-image-wrap {
+  position: relative;
   overflow: hidden;
-  flex-shrink: 0;   
-  flex-grow: 0;     
-  flex-basis: 350px;
-  }
-
-
-
-   .card-title{
-
-  word-break: break-all;
-  padding: 5px;
-  font-weight: normal;
-  max-height: 50px;
-  max-width: 65ch;
-  margin: 1rem auto; 
-  text-align: left;
-    font-size: 1.8em;
-  }
-
-
-:host ::ng-deep .card-title:first-letter {
-  font-size: 1.4em;
-  font-weight: bold;
-  color: #6b4226 !important;
+  height: 180px;
+  flex-shrink: 0;
 }
 
-
-.mat-mdc-card-header{
-
-   background-color: #fff8e1 !important;
-   padding: 5px;
- 
+.shop-card-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(.6) brightness(.6) contrast(1.1);
+  transition: filter .4s, transform .4s;
 }
+
+.shop-card:hover .shop-card-image-wrap img {
+  filter: sepia(.3) brightness(.75) contrast(1.1);
+  transform: scale(1.04);
+}
+
+/* Vignette over image */
+.shop-card-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 7, 5, .1) 0%, rgba(10, 7, 5, .7) 100%);
+  pointer-events: none;
+}
+
+/* Crest badge floating on image */
+.shop-crest {
+  position: absolute;
+  bottom: .8rem;
+  left: 1rem;
+  z-index: 1;
+  font-size: 1.4rem;
+  color: var(--gold);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .6));
+  opacity: .8;
+}
+
+/* ── Card header (name section) ── */
+.mat-mdc-card-header,
+::ng-deep .mat-mdc-card-header {
+  background: var(--bg-mid) !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 1.1rem 1.2rem !important;
+}
+
+.card-title {
+  font-family: 'Cinzel', serif !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .06em !important;
+  color: var(--text-bright) !important;
+  margin: 0 !important;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+.card-title::first-letter {
+  font-size: 1.3em;
+  color: var(--gold) !important;
+}
+
+/* ── Card body (item count, meta) ── */
+.card-body {
+  padding: .9rem 1.2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  background: var(--bg-surface);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .78rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.card-meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  opacity: .5;
+}
+
+/* ── Card actions ── */
+.mat-mdc-card-actions,
 ::ng-deep .mat-mdc-card-actions {
-     background-color: #fff8e1 !important;
+  background: var(--bg-raised) !important;
+  border-top: 1px solid var(--border) !important;
+  padding: .8rem 1rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: .5rem !important;
+  min-height: unset !important;
 }
 
- .mat-mdc-card-avatar {
-display: none;
- background-color: #fff8e1 !important;
+/* View button — gold */
+::ng-deep .btn-view {
+  flex: 1;
+  font-family: 'Cinzel', serif !important;
+  font-size: .65rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  color: var(--bg-deep) !important;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 60%, #a8782a 100%) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: .55rem .8rem !important;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: filter .2s, transform .2s !important;
+  box-shadow: 0 2px 12px rgba(201, 168, 76, .2) !important;
+  cursor: pointer !important;
+}
 
+::ng-deep .btn-view:hover {
+  filter: brightness(1.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+::ng-deep .btn-view .mat-icon {
+  font-size: 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+  color: inherit !important;
+}
+
+/* Delete button — ember */
+::ng-deep .btn-delete {
+  flex: 1;
+  font-family: 'Cinzel', serif !important;
+  font-size: .65rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  color: var(--text-dim) !important;
+  background: transparent !important;
+  border: 1px solid rgba(224, 92, 32, .2) !important;
+  border-radius: 0 !important;
+  padding: .55rem .8rem !important;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%) !important;
+  transition: color .2s, border-color .2s, background .2s !important;
+  cursor: pointer !important;
+}
+
+::ng-deep .btn-delete:hover {
+  color: var(--ember) !important;
+  border-color: rgba(224, 92, 32, .55) !important;
+  background: rgba(224, 92, 32, .06) !important;
+}
+
+::ng-deep .btn-delete .mat-icon {
+  font-size: 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+  color: inherit !important;
+}
+
+/* ── Loading ── */
+.loading-container {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  gap: 1.5rem;
+  color: var(--text-dim);
+}
+
+.loading-rune {
+  font-size: 2.5rem;
+  color: var(--gold-dim);
+  animation: spin-slow 4s linear infinite;
+  opacity: .5;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  animation: pulse-text 2s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+
+  0%,
+  100% {
+    opacity: .4;
+  }
+
+  50% {
+    opacity: .9;
+  }
+}
+
+/* ── Empty state ── */
+.no-shops {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  text-align: center;
+  gap: 1.2rem;
+}
+
+.no-shops-icon {
+  font-size: 3rem;
+  opacity: .25;
+  color: var(--gold);
+}
+
+.no-shops-title {
+  font-family: 'Cinzel', serif;
+  font-size: .85rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.no-shops-sub {
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+  opacity: .7;
+}
+
+::ng-deep .no-shops-btn {
+  font-family: 'Cinzel', serif !important;
+  font-size: .72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  color: var(--bg-deep) !important;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 55%, #a8782a 100%) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: .8rem 2rem !important;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: filter .2s, transform .2s !important;
+  margin-top: .5rem !important;
+}
+
+::ng-deep .no-shops-btn:hover {
+  filter: brightness(1.1) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .shops-container {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+  }
 }

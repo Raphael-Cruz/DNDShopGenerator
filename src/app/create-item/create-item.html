@@ -1,53 +1,104 @@
 <div class="createItem-container">
 
-  <h3>Create Your Own Items</h3>
+  <!-- ══ LEFT: Forge form ══ -->
+  <div class="col-form">
+    <div class="col-title">Inscribe a New Relic</div>
 
-  <hr>
+    <form class="createItem-wrap" (ngSubmit)="createNewItem()">
 
-  <form class="createItem-wrap" (ngSubmit)="createNewItem()">
+      <!-- Name — full width -->
+      <mat-form-field appearance="fill">
+        <mat-label>Item Name</mat-label>
+        <input matInput placeholder="e.g. Sword of Answering" [(ngModel)]="itemName" name="itemName" required />
+      </mat-form-field>
 
-  <mat-form-field class="">
-    <mat-label>Item Name</mat-label>
-    <input matInput placeholder="Ex. Sword of Answering" [(ngModel)]="itemName" name="itemName" required>
-  </mat-form-field>
+      <!-- Type + Rarity row -->
+      <div class="form-row">
+        <mat-form-field appearance="fill">
+          <mat-label>Type</mat-label>
+          <input matInput placeholder="e.g. Martial Weapon" [(ngModel)]="itemType" name="itemType" required />
+        </mat-form-field>
 
-  <mat-form-field class="">
-    <mat-label>Type</mat-label>
-    <input matInput placeholder="Ex. Martial Weapon, Melee Weapon" [(ngModel)]="itemType" name="itemType" required>
-  </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Rarity</mat-label>
+          <mat-select [(ngModel)]="selectedRarity" name="rarity" required>
+            @for (rarity of uniqueRarities; track rarity) {
+            <mat-option [value]="rarity" [matTooltip]="getTipForRarity(rarity)">
+              {{ rarity }}
+            </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <mat-form-field class="">
-    <mat-label>Cost</mat-label>
-    <input matInput placeholder="Ex. 1,000 gp" [(ngModel)]="itemCost" name="itemCost">
-  </mat-form-field>
+      <!-- Cost + Weight row -->
+      <div class="form-row">
+        <mat-form-field appearance="fill">
+          <mat-label>Cost (gp)</mat-label>
+          <input matInput type="number" placeholder="e.g. 1000" [(ngModel)]="itemCost" name="itemCost" />
+        </mat-form-field>
 
-  <mat-form-field class="">
-    <mat-label>Weight</mat-label>
-    <input matInput placeholder="Ex. 3 lb" [(ngModel)]="itemWeight" name="itemWeight">
-  </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Weight</mat-label>
+          <input matInput placeholder="e.g. 3 lb" [(ngModel)]="itemWeight" name="itemWeight" />
+        </mat-form-field>
+      </div>
 
-  <mat-form-field>
-    <mat-label>Rarity</mat-label>
-    <mat-select [(ngModel)]="selectedRarity" name="rarity" required>
-      @for (rarity of uniqueRarities; track rarity) {
-        <mat-option [value]="rarity" [matTooltip]="getTipForRarity(rarity)">
-          {{ rarity }}
-        </mat-option>
+      <!-- Source — full width -->
+      <mat-form-field appearance="fill">
+        <mat-label>Source</mat-label>
+        <input matInput placeholder="e.g. DMG'14" [(ngModel)]="itemSource" name="itemSource" required />
+      </mat-form-field>
+
+      <div class="btn-submit-wrap">
+        <button mat-button type="submit" class="btn-forge">
+          ᛭ &nbsp; Register Relic
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <!-- ══ RIGHT: Created items gallery ══ -->
+  <div class="col-items">
+    <div class="col-title">Your Forged Items</div>
+
+    <div class="items-grid">
+      @for (item of items; track item.name) {
+      <mat-card class="item-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.name }}</mat-card-title>
+          <mat-card-subtitle>{{ item.type }} · {{ item.rarity }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button mat-button class="btn-add-to-shop" [matMenuTriggerFor]="menu">
+            Add to Shop ▾
+          </button>
+          <button mat-icon-button class="btn-delete-item" (click)="deleteItem(item)"
+            matTooltip="Delete item permanently">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            @for (shop of userShops; track shop._id || shop.id) {
+            <button mat-menu-item (click)="addItemToShop(item, shop._id || shop.id || '')">
+              {{ shop.name }}
+            </button>
+            }
+            @if (userShops.length === 0) {
+            <button mat-menu-item disabled>No shops found</button>
+            }
+          </mat-menu>
+        </mat-card-actions>
+      </mat-card>
       }
-    </mat-select>
-  </mat-form-field>
 
-  <mat-form-field class="">
-    <mat-label>Source</mat-label>
-    <input matInput placeholder="Ex. DMG'14" [(ngModel)]="itemSource" name="itemSource" required>
-  </mat-form-field>
+      @if (items.length === 0) {
+      <p class="items-empty" style="grid-column:1/-1; padding: 2rem;">
+        ✦ No relics forged yet. Use the form to create your first.
+      </p>
+      }
+    </div>
+  </div>
 
-  <button mat-button type="submit" mat-raised-button>Register New Item</button>
-</form>
 </div>
-
-
-
-
-
-

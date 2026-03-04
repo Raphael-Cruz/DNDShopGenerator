@@ -1,18 +1,302 @@
-.createItem-container {
-  padding: 5px 5px 5px 5px !important;
-  max-width: 100%;
-  max-height: 50vh !important;
-  margin: auto;
-  border: solid 1px black;
-  overflow-y: auto; /* Add scrolling if content overflows vertically */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+:host {
+  --gold: #c9a84c;
+  --gold-bright: #f0cb6a;
+  --gold-dim: #7a6030;
+  --ember: #e05c20;
+  --bg-dark: #110d09;
+  --bg-mid: #1a1410;
+  --bg-surface: #231c16;
+  --bg-raised: #2d2419;
+  --bg-input: #1a1410;
+  --text-bright: #f5e8c8;
+  --text-mid: #b89b72;
+  --text-dim: #6b5840;
+  --border: rgba(201, 168, 76, .18);
+  --border-glow: rgba(201, 168, 76, .42);
+  display: block;
+  font-family: 'Crimson Pro', Georgia, serif;
 }
 
+/* ── Two-column inner layout ── */
+.createItem-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
 
+/* ── Shared column base ── */
+.col-form,
+.col-items {
+  padding: 1.8rem 2rem;
+}
+
+.col-form {
+  border-right: 1px solid var(--border);
+}
+
+/* ── Sub-heading ── */
+.col-title {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.4rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.col-title::before {
+  content: '✦';
+  font-size: .55rem;
+  color: var(--gold-dim);
+  opacity: .6;
+}
+
+/* ── Form layout ── */
 .createItem-wrap {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: stretch;
-    justify-content: center;
-    align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+/* Two-col row inside form */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+}
+
+/* Mat overrides */
+::ng-deep .createItem-container .mat-mdc-form-field {
+  width: 100%;
+  --mdc-filled-text-field-container-color: transparent;
+  --mdc-filled-text-field-focus-active-indicator-color: var(--gold);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--gold-dim);
+  --mdc-filled-text-field-label-text-color: var(--text-dim);
+  --mdc-filled-text-field-focus-label-text-color: var(--gold);
+  --mdc-filled-text-field-input-text-color: var(--text-bright);
+  --mat-form-field-subscript-text-color: var(--text-dim);
+}
+
+::ng-deep .createItem-container .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--bg-input) !important;
+  border: 1px solid var(--border);
+  transition: border-color .2s;
+}
+
+::ng-deep .createItem-container .mdc-text-field--filled:not(.mdc-text-field--disabled):hover,
+::ng-deep .createItem-container .mdc-text-field--filled.mdc-text-field--focused {
+  border-color: var(--gold-dim);
+}
+
+::ng-deep .createItem-container .mat-mdc-floating-label {
+  font-family: 'Cinzel', serif !important;
+  font-size: .68rem !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase !important;
+}
+
+::ng-deep .createItem-container input.mat-mdc-input-element,
+::ng-deep .createItem-container textarea.mat-mdc-input-element {
+  font-family: 'Crimson Pro', serif !important;
+  font-size: 1rem !important;
+  color: var(--text-bright) !important;
+}
+
+::ng-deep .createItem-container input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 50px var(--bg-input) inset !important;
+  -webkit-text-fill-color: var(--text-bright) !important;
+}
+
+/* Select */
+::ng-deep .createItem-container .mat-mdc-select-value-text {
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-mid) !important;
+}
+
+::ng-deep .mat-mdc-option {
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-mid) !important;
+  background: var(--bg-surface) !important;
+}
+
+::ng-deep .mat-mdc-option:hover,
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background: var(--bg-raised) !important;
+  color: var(--gold) !important;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ── Submit button ── */
+.btn-submit-wrap {
+  margin-top: .8rem;
+}
+
+::ng-deep .btn-forge {
+  font-family: 'Cinzel', serif !important;
+  font-size: .72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  color: var(--bg-dark) !important;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 55%, #a8782a 100%) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: .8rem 2.2rem !important;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: filter .2s, transform .2s !important;
+  box-shadow: 0 4px 18px rgba(201, 168, 76, .2) !important;
+}
+
+::ng-deep .btn-forge:hover {
+  filter: brightness(1.1) !important;
+  transform: translateY(-2px) !important;
+}
+
+::ng-deep .btn-forge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .22) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .5s;
+  pointer-events: none;
+}
+
+::ng-deep .btn-forge:hover::after {
+  transform: translateX(100%);
+}
+
+/* ── Created items grid ── */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.item-card {
+  background: var(--bg-raised) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: background .2s !important;
+}
+
+.item-card:hover {
+  background: #342a1e !important;
+}
+
+::ng-deep .item-card .mat-mdc-card-header {
+  padding: .9rem 1rem .4rem !important;
+}
+
+::ng-deep .item-card .mat-mdc-card-title {
+  font-family: 'Cinzel', serif !important;
+  font-size: .85rem !important;
+  font-weight: 700 !important;
+  color: var(--text-bright) !important;
+  letter-spacing: .04em !important;
+}
+
+::ng-deep .item-card .mat-mdc-card-subtitle {
+  font-family: 'Crimson Pro', serif !important;
+  font-style: italic !important;
+  font-size: .8rem !important;
+  color: var(--text-dim) !important;
+  margin-top: .15rem !important;
+}
+
+::ng-deep .item-card .mat-mdc-card-actions {
+  padding: .4rem .8rem .8rem !important;
+  background: transparent !important;
+}
+
+/* "Add to Shop" button on card */
+::ng-deep .btn-add-to-shop {
+  font-family: 'Cinzel', serif !important;
+  font-size: .6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--text-dim) !important;
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  padding: .3rem .8rem !important;
+  clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%) !important;
+  transition: color .2s, border-color .2s !important;
+  cursor: pointer !important;
+}
+
+::ng-deep .btn-add-to-shop:hover {
+  color: var(--gold) !important;
+  border-color: var(--border-glow) !important;
+}
+
+/* Menu panel */
+::ng-deep .mat-mdc-menu-panel {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  font-family: 'Crimson Pro', serif !important;
+  font-size: .95rem !important;
+  color: var(--text-mid) !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+  background: var(--bg-raised) !important;
+  color: var(--gold) !important;
+}
+
+/* Delete button on item card */
+::ng-deep .btn-delete-item {
+  color: rgba(224, 92, 32, .4) !important;
+  transition: color .2s !important;
+  margin-left: auto !important;
+}
+
+::ng-deep .btn-delete-item:hover {
+  color: var(--ember) !important;
+}
+
+/* Empty state */
+.items-empty {
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: .9rem;
+  padding: 1rem 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 800px) {
+  .createItem-container {
+    grid-template-columns: 1fr;
+  }
+
+  .col-form {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }

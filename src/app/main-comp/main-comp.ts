@@ -1,5 +1,5 @@
 import { Component, signal, ViewChild } from '@angular/core';
-import { AuthModal } from '../user/auth-modal/auth-modal';
+import { AuthModalComponent } from '../user/auth-modal/auth-modal';
 
 @Component({
   selector: 'app-main-comp',
