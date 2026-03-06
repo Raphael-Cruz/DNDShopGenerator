@@ -3,18 +3,16 @@
     <div class="main-content">
       <div class="wrap">
 
-
+        <!-- ── COL 1: Forge Form ── -->
         <div class="form">
           <div class="form-heading">⚔ Forge the Shop ⚔</div>
 
-          <!-- SHOP NAME -->
           <mat-form-field class="shop-name" appearance="fill">
             <mat-label>Shop Name</mat-label>
             <input matInput placeholder="e.g. The Gilded Raven" [(ngModel)]="shopName" name="shopName" required />
             <mat-hint>Give your shop a name</mat-hint>
           </mat-form-field>
 
-          <!-- MUNDANE -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Mundane Items</mat-label>
@@ -37,7 +35,6 @@
             </mat-form-field>
           </div>
 
-          <!-- COMMON -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Common Items</mat-label>
@@ -60,7 +57,6 @@
             </mat-form-field>
           </div>
 
-          <!-- UNCOMMON -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Uncommon Items</mat-label>
@@ -83,7 +79,6 @@
             </mat-form-field>
           </div>
 
-          <!-- RARE -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Rare Items</mat-label>
@@ -106,7 +101,6 @@
             </mat-form-field>
           </div>
 
-          <!-- VERY RARE -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Very Rare Items</mat-label>
@@ -129,7 +123,6 @@
             </mat-form-field>
           </div>
 
-          <!-- LEGENDARY -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Legendary Items</mat-label>
@@ -152,7 +145,6 @@
             </mat-form-field>
           </div>
 
-          <!-- ARTIFACT -->
           <div class="form-items">
             <mat-form-field appearance="fill">
               <mat-label>Artifact Items</mat-label>
@@ -182,12 +174,17 @@
               <span class="btn-shimmer"></span>
             </button>
           </div>
+
         </div>
 
-        <!-- ══════════════ FILTERS ══════════════ -->
-        <div class="filter-wrap">
+        <!-- ── COL 2: Presets (expandable) ── -->
+        <div class="preset-wrap">
           <app-filters />
+          <div class="presets-divider"></div>
+          <app-shop-presets (presetSelected)="applyPreset($event)"></app-shop-presets>
         </div>
+
+
 
       </div>
     </div>

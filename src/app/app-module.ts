@@ -1,5 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -9,7 +9,6 @@ import { App } from './app';
 import { ItemTable } from './item-table/item-table';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MainComp } from './main-comp/main-comp';
 import { ShopInputs } from './shop-inputs/shop-inputs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -36,7 +35,10 @@ import { EntryBlock } from './entry-block/entry-block';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { LandingPageComponent } from './landingPage/landing-page-component/landing-page-component'
+import { LandingPageComponent } from './landingPage/landing-page-component/landing-page-component';
+import { ShopPresets } from './ShopPreset/shop-preset/shop-presets'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 
@@ -52,7 +54,6 @@ import { LandingPageComponent } from './landingPage/landing-page-component/landi
   declarations: [
     App,
     ItemTable,
-    MainComp,
     ShopInputs,
     AdvancedTree,
     GeneratedForm,
@@ -63,7 +64,8 @@ import { LandingPageComponent } from './landingPage/landing-page-component/landi
     Myshops,
     ItemPage,
     EntryBlock,
-    LandingPageComponent
+    LandingPageComponent,
+    ShopPresets
 
 
   ],
@@ -88,7 +90,8 @@ import { LandingPageComponent } from './landingPage/landing-page-component/landi
     RouterModule,
     SharedModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    BrowserAnimationsModule
 
 
 
@@ -98,12 +101,11 @@ import { LandingPageComponent } from './landingPage/landing-page-component/landi
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideClientHydration(withEventReplay()),
+
     provideHttpClient(
       withFetch(),
       withInterceptors([authInterceptor])
-    ),
-    provideAnimations()
+    )
   ],
   bootstrap: [App]
 })

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainComp } from './main-comp';
+import { ShopPreset } from './shop-presets';
 
-describe('MainComp', () => {
-  let component: MainComp;
-  let fixture: ComponentFixture<MainComp>;
+describe('ShopPreset', () => {
+  let component: ShopPreset;
+  let fixture: ComponentFixture<ShopPreset>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainComp]
+      declarations: [ShopPreset]
     })
-    .compileComponents();
+      .compileComponents();
 
-    fixture = TestBed.createComponent(MainComp);
+    fixture = TestBed.createComponent(ShopPreset);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

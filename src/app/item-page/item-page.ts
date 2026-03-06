@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Item } from '../models/item-model';
 import { InputDatas } from '../input-datas';
 import { AuthService } from '../core/services/auth';
+import { combineLatest } from 'rxjs';
+
 
 export interface TableEntry {
   type: 'table';
@@ -37,7 +39,7 @@ export class ItemPage implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['name', 'type', 'rarity', 'weight'];
+  displayedColumns: string[] = ['name', 'type', 'rarity', 'weight', 'cost'];
   dataSource = new MatTableDataSource<Item>();
   items: Item[] = [];
 
@@ -56,22 +58,28 @@ export class ItemPage implements OnInit, AfterViewInit {
     return typeof entry === 'object' && (entry as any).type === 'list';
   }
 
+
+  private apiUrl = 'http://localhost:3000/items';
+
   ngOnInit(): void {
-    this.dataShare.items$.subscribe(items => {
-      const uid = this.currentUserId;
-      // Only show items that belong to the logged-in user
-      this.items = uid
-        ? items.filter(i => (i as any).userId === uid)
-        : [];
-      this.dataSource.data = this.items;
+    this.loadMyItems();
+  }
 
-      this.dataSource.filterPredicate = (data: Item, filter: string) =>
-        data.name.toLowerCase().includes(filter);
+  private loadMyItems(): void {
+    console.log('loadMyItems called');
+    this.http.get<Item[]>(`${this.apiUrl}/mine?t=${Date.now()}`).subscribe({
+      next: (items) => {
+        console.log('items received:', items);
+        console.log('first item keys:', items[0] ? Object.keys(items[0]) : 'empty array');
+
+        // ← essas duas linhas que faltaram
+        this.items = items;
+        this.dataSource.data = items;
+      },
+      error: (err) => {
+        console.error('ERRO no loadMyItems:', err);
+      }
     });
-
-    if (this.dataShare.getAllItems().length === 0) {
-      this.dataShare.refreshItems();
-    }
   }
 
   ngAfterViewInit(): void {

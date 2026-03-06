@@ -1,0 +1,210 @@
+<div class="presets-container">
+
+    <!-- ── Expandable Header (always visible) ── -->
+    <button class="presets-toggle" (click)="toggleExpanded()" [class.open]="isExpanded">
+        <div class="toggle-left">
+            <span class="toggle-gem">✦</span>
+            <span class="toggle-title">Shop Presets</span>
+        </div>
+
+        <div class="toggle-right">
+            @if (!isExpanded) {
+            <span class="toggle-hint">✦ {{ filtered.length }} presets available — click to explore</span>
+            } @else {
+            <span class="toggle-hint">Collapse</span>
+            }
+
+            <span class="toggle-arrow" [class.rotated]="isExpanded">▾</span>
+        </div>
+    </button>
+    <!-- ── Collapsible Body ── -->
+    <div class="presets-body" [@expandBody]="isExpanded ? 'expanded' : 'collapsed'">
+
+        <div class="presets-inner">
+
+            <p class="presets-sub">
+                Choose a template to fill the forge automatically.
+            </p>
+
+            <hr class="presets-divider" />
+
+            <!-- ── Layout: filters left, cards right ── -->
+            <div class="presets-layout">
+
+                <!-- LEFT: Filters -->
+                <aside class="filters-aside">
+
+                    <div class="filter-layers">
+
+                        <div class="filter-row">
+                            <span class="filter-label">Type</span>
+
+                            <div class="filter-pills">
+                                @for (t of shopTypes; track t) {
+                                <button class="pill" [class.active]="activeType === t" (click)="select('type', t)">
+                                    {{ t === 'All' ? 'All' : typeIcon(t) + ' ' + t }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="filter-row">
+                            <span class="filter-label">Tier</span>
+
+                            <div class="filter-pills">
+                                @for (t of tiers; track t) {
+                                <button class="pill" [class]="'pill ' + tierClass(t)" [class.active]="activeTier === t"
+                                    (click)="select('tier', t)">
+                                    {{ t === 'All' ? 'All' : t }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="filter-row">
+                            <span class="filter-label">Region</span>
+
+                            <div class="filter-pills">
+                                @for (r of regions; track r) {
+                                <button class="pill" [class.active]="activeRegion === r" (click)="select('region', r)">
+                                    {{ r === 'All' ? 'All' : r }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="filter-row">
+                            <span class="filter-label">Reputation</span>
+
+                            <div class="filter-pills">
+                                @for (r of reputations; track r) {
+                                <button class="pill" [class]="'pill ' + repClass(r)" [class.active]="activeRep === r"
+                                    (click)="select('rep', r)">
+                                    {{ r === 'All' ? 'All' : r }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="results-count">
+                        <span class="count-gem">◈</span>
+                        {{ filtered.length }} preset{{ filtered.length === 1 ? '' : 's' }} found
+                    </div>
+
+                </aside>
+
+                <!-- RIGHT: Cards -->
+
+                <div class="presets-grid">
+
+                    @for (preset of filtered; track preset.name) {
+
+                    <div class="preset-card" (click)="applyPreset(preset)" tabindex="0"
+                        (keydown.enter)="applyPreset(preset)"
+                        (keydown.space)="applyPreset(preset); $event.preventDefault()">
+
+                        <div class="card-bar">
+                            <span class="card-type-icon">
+                                {{ typeIcon(preset.shopType) }}
+                            </span>
+
+                            <span class="card-type-label">
+                                {{ preset.shopType }}
+                            </span>
+
+                            <span class="card-spacer"></span>
+
+                            <span class="card-rep" [class]="repClass(preset.reputation)">
+                                {{ preset.reputation }}
+                            </span>
+                        </div>
+
+                        <div class="card-name">
+                            {{ preset.name }}
+                        </div>
+
+                        <p class="card-desc">
+                            {{ preset.description }}
+                        </p>
+
+                        <div class="card-tags">
+                            <span class="tag" [class]="tierClass(preset.tier)">
+                                {{ preset.tier }}
+                            </span>
+
+                            <span class="tag tag-region">
+                                {{ preset.region }}
+                            </span>
+                        </div>
+
+                        <div class="card-counts">
+
+                            @if (+preset.formData.mundaneItems > 0) {
+                            <span class="count-badge mun">
+                                {{ preset.formData.mundaneItems }} Mun
+                            </span>
+                            }
+
+                            @if (+preset.formData.commonItems > 0) {
+                            <span class="count-badge com">
+                                {{ preset.formData.commonItems }} Com
+                            </span>
+                            }
+
+                            @if (+preset.formData.uncommonItems > 0) {
+                            <span class="count-badge unc">
+                                {{ preset.formData.uncommonItems }} Unc
+                            </span>
+                            }
+
+                            @if (+preset.formData.rareItems > 0) {
+                            <span class="count-badge rare">
+                                {{ preset.formData.rareItems }} Rare
+                            </span>
+                            }
+
+                            @if (+preset.formData.veryRareItems > 0) {
+                            <span class="count-badge vrare">
+                                {{ preset.formData.veryRareItems }} V.Rare
+                            </span>
+                            }
+
+                            @if (+preset.formData.legendaryItems > 0) {
+                            <span class="count-badge leg">
+                                {{ preset.formData.legendaryItems }} Leg
+                            </span>
+                            }
+
+                            @if (+preset.formData.artifactItems > 0) {
+                            <span class="count-badge art">
+                                {{ preset.formData.artifactItems }} Art
+                            </span>
+                            }
+
+                        </div>
+
+                        <div class="card-apply">
+                            <span class="apply-rune">᛭</span>
+                            Apply Preset
+                        </div>
+
+                    </div>
+
+                    }
+
+                    @if (filtered.length === 0) {
+                    <div class="empty-state">
+                        <span class="empty-gem">✦</span>
+                        <p>No presets match your filters.</p>
+                    </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>

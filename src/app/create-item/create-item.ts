@@ -25,6 +25,7 @@ export class CreateItem implements OnInit {
   selectedRarity = '';
   itemSource = '';
   itemCost: number = 0;
+  itemDescription = '';
 
   private apiUrl = 'http://localhost:3000/items';
 
@@ -51,7 +52,7 @@ export class CreateItem implements OnInit {
   ngOnInit(): void {
     const defaultRarities = ['Artifact', 'Common', 'Legendary', 'Mundane', 'Rare', 'Uncommon', 'Very Rare'];
 
-    // ✅ Fetch ONLY this user's items from the dedicated endpoint
+    // Fetch ONLY this user's items from the dedicated endpoint
     this.loadMyItems();
 
     // Rarities still come from the full pool (for the dropdown)
@@ -104,13 +105,14 @@ export class CreateItem implements OnInit {
       source: this.itemSource,
       cost: typeof this.itemCost === 'string' ? parseFloat(this.itemCost) || 0 : this.itemCost,
       // userId is stamped by the backend from the JWT — not sent from frontend
+      description: this.itemDescription,
     };
 
     this.http.post(this.apiUrl, newItem).subscribe({
       next: (response: any) => {
         console.log('Item created successfully:', response);
 
-        // ✅ Push the saved item (with its real _id from the DB) directly into the list
+        // Push the saved item (with its real _id from the DB) directly into the list
         this.items = [...this.items, response];
         this.cdr.detectChanges();
 
@@ -120,6 +122,7 @@ export class CreateItem implements OnInit {
         this.selectedRarity = '';
         this.itemSource = '';
         this.itemCost = 0;
+        this.itemDescription = '';
 
         alert('New item saved to database!');
       },

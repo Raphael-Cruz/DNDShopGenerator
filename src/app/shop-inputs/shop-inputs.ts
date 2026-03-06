@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InputDatas, RandomInputData, FormDataType } from '../input-datas';
 import { Item, MagicItem } from '../models/item-model';
+import { ShopPreset } from '../ShopPreset/shop-preset/shop-presets';
 
 @Component({
   selector: 'app-shop-inputs',
@@ -168,4 +169,25 @@ export class ShopInputs implements OnInit {
 
     this.randomInputData.clear();
   }
+
+  applyPreset(preset: ShopPreset) {
+    this.shopName = preset.formData.shopName;
+    this.mundaneItems = preset.formData.mundaneItems as string;
+    this.commonItems = preset.formData.commonItems as string;
+    this.uncommonItems = preset.formData.uncommonItems as string;
+    this.rareItems = preset.formData.rareItems as string;
+    this.veryRareItems = preset.formData.veryRareItems as string;
+    this.legendaryItems = preset.formData.legendaryItems as string;
+    this.artifactItems = preset.formData.artifactItems as string;
+
+    // Força todos os selects de volta para "Custom" (editável)
+    this.selectedOptionMundane = 'one';
+    this.selectedOptionCommon = 'one';
+    this.selectedOptionUncommon = 'one';
+    this.selectedOptionRare = 'one';
+    this.selectedOptionVeryRare = 'one';
+    this.selectedOptionLegendary = 'one';
+    this.selectedOptionArtifact = 'one';
+  }
+
 }

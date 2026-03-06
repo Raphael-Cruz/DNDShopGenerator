@@ -11,9 +11,7 @@
 
 <div class="page-wrap">
 
-  <!-- ══════════════════════════════════════
-       MAIN TWO-COLUMN WORKSHOP
-  ══════════════════════════════════════ -->
+
   <div class="layout">
 
     <!-- ── LEFT: Item table ── -->
@@ -75,6 +73,12 @@
           <ng-container matColumnDef="weight">
             <th mat-header-cell *matHeaderCellDef>Weight</th>
             <td mat-cell *matCellDef="let item">{{ item.weight || '—' }}</td>
+          </ng-container>
+
+          <!-- Cost -->
+          <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef>Cost</th>
+            <td mat-cell *matCellDef="let item">{{ item.cost || '—' }}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -154,17 +158,22 @@
         @if (!selectedItem) {
         <p class="desc-empty">✦ Select an item to read its lore…</p>
         }
-        @if (selectedItem && (!selectedItem.entries || !selectedItem.entries.length)) {
-        <p class="desc-empty">No lore inscribed for this item.</p>
-        }
+
+        @if (selectedItem) {
         @if (selectedItem?.entries?.length) {
         <article>
-          @for (entry of selectedItem?.entries; track entry) {
+          @for (entry of selectedItem.entries; track entry) {
           <app-entry-block [entry]="entry"></app-entry-block>
           }
         </article>
+        } @else if (selectedItem.description) {
+        <p class="desc-text">{{ selectedItem.description }}</p>
+        } @else {
+        <p class="desc-empty">No lore inscribed for this item.</p>
+        }
         }
       </div>
+
     </section>
 
   </div>

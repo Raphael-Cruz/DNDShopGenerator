@@ -209,6 +209,61 @@
   grid-row: 2;
 }
 
+/* ── Material overrides ── */
+::ng-deep mat-label {
+  color: var(--text-mid);
+}
+
+::ng-deep .mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: transparent;
+  --mdc-filled-text-field-focus-active-indicator-color: var(--gold);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--gold-dim);
+  --mdc-filled-text-field-label-text-color: var(--text-dim);
+  --mdc-filled-text-field-focus-label-text-color: var(--gold);
+  --mdc-filled-text-field-input-text-color: var(--text-bright);
+  --mat-form-field-subscript-text-color: var(--text-dim);
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled),
+::ng-deep .mat-mdc-form-field.mat-form-field-animations-enabled .mdc-text-field__input {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-floating-label {
+  font-family: 'Cinzel', serif !important;
+  font-size: .72rem !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase;
+}
+
+::ng-deep .mat-mdc-form-field input {
+  font-family: 'Crimson Pro', serif !important;
+  font-size: 1.05rem !important;
+  color: var(--text-bright) !important;
+}
+
+::ng-deep .mat-mdc-select-value-text {
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-mid) !important;
+}
+
+::ng-deep .mat-mdc-option {
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-mid) !important;
+  background: var(--bg-surface) !important;
+}
+
+::ng-deep .mat-mdc-option:hover,
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background: #57503f8c !important;
+  color: var(--gold) !important;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: #57503fb8 !important;
+  border: 1px solid var(--border) !important;
+}
+
 /* ══════════════════════════════════════
    TABLE CARD
 ══════════════════════════════════════ */

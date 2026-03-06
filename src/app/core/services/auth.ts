@@ -55,24 +55,24 @@ export class AuthService {
 
   // --- AUTO LOGIN ON APP START ---
   private autoLogin() {
-    if (!isPlatformBrowser(this.platformId)) return; // No SSR access
+    if (!isPlatformBrowser(this.platformId)) return;
 
     const token = localStorage.getItem('token');
-    if (token) {
-      this.getMe().subscribe({
-        error: () => this.logout()
-      });
-    }
+    if (!token) return;
+
+    this.getMe().subscribe({
+      error: () => this.logout()
+    });
   }
 
   // --- LOGOUT ---
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
-      window.location.href = '/';
-    } else {
-      this.currentUserSubject.next(null);
     }
+
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/']);
   }
 
   // --- AUTH STATE ---

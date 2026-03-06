@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainComp } from './main-comp/main-comp';
 import { ShopInputs } from './shop-inputs/shop-inputs';
 import { GeneratedForm } from './generated-form/generated-form';
 import { Myshops } from './myshops/myshops';
