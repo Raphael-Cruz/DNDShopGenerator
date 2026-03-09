@@ -247,7 +247,16 @@ export class GeneratedForm implements OnInit, OnDestroy {
   // ── Save Shop button: explicitly persist everything ──
   saveShop() {
     if (!this.shopId) {
-      // Anônimo: abre modal de registro para salvar
+      // Anônimo: salva pendingShop e abre modal de registro
+      const formData = this.dataShare.getFormData();
+      const items = this.currentItems;
+      if (formData) {
+        this.dataShare.setPendingShop({
+          name: formData.shopName || 'Unnamed Shop',
+          items,
+          formData
+        });
+      }
       this.authModal.open('register');
       return;
     }

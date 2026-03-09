@@ -56,6 +56,16 @@ export class Myshops implements OnInit {
   }
 
   openRegister() {
+    // Salvar shop em memória como pendente antes de abrir modal
+    const formData = this.shopdata.getFormData();
+    const randomItems = this.randomInputData.getRandomItems();
+    if (formData && randomItems.length > 0) {
+      this.shopdata.setPendingShop({
+        name: formData.shopName || 'Unnamed Shop',
+        items: randomItems,
+        formData
+      });
+    }
     this.authModal.open('register');
   }
 

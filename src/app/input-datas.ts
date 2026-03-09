@@ -120,6 +120,22 @@ export class InputDatas {
     );
   }
 
+
+  // ── Pending shop (anônimo → salvar após login) ──
+  private _pendingShop: { name: string; items: any[]; formData: FormDataType } | null = null;
+
+  setPendingShop(shop: { name: string; items: any[]; formData: FormDataType }) {
+    this._pendingShop = shop;
+  }
+
+  getPendingShop() {
+    return this._pendingShop;
+  }
+
+  clearPendingShop() {
+    this._pendingShop = null;
+  }
+
   // --- Save shop to backend ---
   saveShopToDB(payload: { name: string; items: Item[]; formData: FormDataType }) {
     return this.http.post<IShop>(this.apiUrl, payload);

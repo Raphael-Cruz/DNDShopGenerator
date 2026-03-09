@@ -1,8 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { AuthService } from '../../core/services/auth';
+import { InputDatas } from '../../input-datas';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -63,7 +65,12 @@ export class AuthModalComponent implements OnInit, OnChanges {
     return !!confirmPassword && password !== confirmPassword;
   }
 
-  constructor(private fb: FormBuilder, private auth: AuthService) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private shopData: InputDatas,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.buildForms();
@@ -112,6 +119,31 @@ export class AuthModalComponent implements OnInit, OnChanges {
     this.closed.emit();
   }
 
+
+  // Após qualquer login bem-sucedido — salvar pending shop se existir
+  private async onLoginSuccess() {
+    const pending = this.shopData.getPendingShop();
+    if (pending) {
+      try {
+        await firstValueFrom(this.shopData.saveShopToDB(pending));
+        this.shopData.clearPendingShop();
+        this.shopData.setFormData(null as any);
+        this.successMessage = 'Account created & shop saved! ✨';
+      } catch {
+        // Shop não foi salvo — não é fatal, continua
+        this.successMessage = "You're logged in! 🎉";
+      }
+    } else {
+      this.successMessage = "You're logged in! 🎉";
+    }
+    setTimeout(() => {
+      this.closeModal();
+      if (this.shopData.getPendingShop() === null) {
+        this.router.navigate(['/myshops']);
+      }
+    }, 1800);
+  }
+
   async submitLogin() {
     if (this.loginForm.invalid) { this.loginForm.markAllAsTouched(); return; }
     this.isLoading = true;
@@ -119,8 +151,7 @@ export class AuthModalComponent implements OnInit, OnChanges {
     try {
       const { email, password } = this.loginForm.value;
       await firstValueFrom(this.auth.login(email, password));
-      this.successMessage = "You're logged in! 🎉";
-      setTimeout(() => this.closeModal(), 1800);
+      await this.onLoginSuccess();
     } catch {
       this.errorMessage = 'Invalid credentials. Please try again.';
     } finally {
@@ -139,8 +170,9 @@ export class AuthModalComponent implements OnInit, OnChanges {
     try {
       const { name, email, password } = this.registerForm.value;
       await firstValueFrom(this.auth.register(name, email, password));
-      this.successMessage = 'Account created successfully! 🚀';
-      setTimeout(() => this.closeModal(), 1800);
+      // Login automático após register
+      await firstValueFrom(this.auth.login(email, password));
+      await this.onLoginSuccess();
     } catch {
       this.errorMessage = 'Registration failed. Please try again.';
     } finally {
