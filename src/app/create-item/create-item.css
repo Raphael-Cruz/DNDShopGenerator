@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
-
 :host {
   --gold: #c9a84c;
   --gold-bright: #f0cb6a;
@@ -17,26 +15,36 @@
   --border-glow: rgba(201, 168, 76, .42);
   display: block;
   font-family: 'Crimson Pro', Georgia, serif;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-/* ── Two-column inner layout ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ── Two-column layout ── */
 .createItem-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
+  width: 100%;
 }
 
-/* ── Shared column base ── */
 .col-form,
 .col-items {
   padding: 1.8rem 2rem;
+  min-width: 0;
 }
 
 .col-form {
   border-right: 1px solid var(--border);
 }
 
-/* ── Sub-heading ── */
+/* ── Column heading ── */
 .col-title {
   font-family: 'Cinzel', serif;
   font-size: .7rem;
@@ -66,14 +74,13 @@
   gap: .6rem;
 }
 
-/* Two-col row inside form */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: .8rem;
 }
 
-/* Mat overrides */
+/* ── Mat overrides ── */
 ::ng-deep .createItem-container .mat-mdc-form-field {
   width: 100%;
   --mdc-filled-text-field-container-color: transparent;
@@ -115,7 +122,6 @@
   -webkit-text-fill-color: var(--text-bright) !important;
 }
 
-/* Select */
 ::ng-deep .createItem-container .mat-mdc-select-value-text {
   font-family: 'Crimson Pro', serif !important;
   color: var(--text-mid) !important;
@@ -154,6 +160,7 @@
   border: none !important;
   border-radius: 0 !important;
   padding: .8rem 2.2rem !important;
+  width: 100% !important;
   clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%) !important;
   cursor: pointer !important;
   position: relative !important;
@@ -184,7 +191,7 @@
 /* ── Created items grid ── */
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1px;
   background: var(--border);
   border: 1px solid var(--border);
@@ -207,16 +214,17 @@
 
 ::ng-deep .item-card .mat-mdc-card-title {
   font-family: 'Cinzel', serif !important;
-  font-size: .85rem !important;
+  font-size: .82rem !important;
   font-weight: 700 !important;
   color: var(--text-bright) !important;
   letter-spacing: .04em !important;
+  word-break: break-word !important;
 }
 
 ::ng-deep .item-card .mat-mdc-card-subtitle {
   font-family: 'Crimson Pro', serif !important;
   font-style: italic !important;
-  font-size: .8rem !important;
+  font-size: .78rem !important;
   color: var(--text-dim) !important;
   margin-top: .15rem !important;
 }
@@ -224,20 +232,21 @@
 ::ng-deep .item-card .mat-mdc-card-actions {
   padding: .4rem .8rem .8rem !important;
   background: transparent !important;
+  flex-wrap: wrap !important;
+  gap: .3rem !important;
 }
 
-/* "Add to Shop" button on card */
 ::ng-deep .btn-add-to-shop {
   font-family: 'Cinzel', serif !important;
-  font-size: .6rem !important;
+  font-size: .58rem !important;
   font-weight: 700 !important;
-  letter-spacing: .12em !important;
+  letter-spacing: .1em !important;
   text-transform: uppercase !important;
   color: var(--text-dim) !important;
   background: transparent !important;
   border: 1px solid var(--border) !important;
   border-radius: 0 !important;
-  padding: .3rem .8rem !important;
+  padding: .3rem .7rem !important;
   clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%) !important;
   transition: color .2s, border-color .2s !important;
   cursor: pointer !important;
@@ -248,7 +257,6 @@
   border-color: var(--border-glow) !important;
 }
 
-/* Menu panel */
 ::ng-deep .mat-mdc-menu-panel {
   background: var(--bg-surface) !important;
   border: 1px solid var(--border) !important;
@@ -266,7 +274,6 @@
   color: var(--gold) !important;
 }
 
-/* Delete button on item card */
 ::ng-deep .btn-delete-item {
   color: rgba(224, 92, 32, .4) !important;
   transition: color .2s !important;
@@ -277,7 +284,6 @@
   color: var(--ember) !important;
 }
 
-/* Empty state */
 .items-empty {
   font-style: italic;
   color: var(--text-dim);
@@ -285,8 +291,24 @@
   padding: 1rem 0;
 }
 
-/* ── Responsive ── */
-@media (max-width: 800px) {
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+
+@media (max-width: 1000px) {
+
+  .col-form,
+  .col-items {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .items-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 720px) {
   .createItem-container {
     grid-template-columns: 1fr;
   }
@@ -296,7 +318,29 @@
     border-bottom: 1px solid var(--border);
   }
 
+  .col-form,
+  .col-items {
+    padding: 1.3rem 1rem;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
+    gap: .4rem;
+  }
+
+  .items-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 400px) {
+
+  .col-form,
+  .col-items {
+    padding: 1rem .75rem;
+  }
+
+  .items-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }

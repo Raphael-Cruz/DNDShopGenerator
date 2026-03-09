@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Item, MagicItem } from '../models/item-model';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, NgZone } from '@angular/core';
@@ -19,6 +19,8 @@ export class CreateItem implements OnInit {
   userShops: IShop[] = [];
   formValues: any;
 
+  @Output() itemCreated = new EventEmitter<void>();
+
   itemName = '';
   itemType = '';
   itemWeight = '';
@@ -27,7 +29,7 @@ export class CreateItem implements OnInit {
   itemCost: number = 0;
   itemDescription = '';
 
-  private apiUrl = 'http://localhost:3000/items';
+  private apiUrl = 'https://rollforshopbackend.onrender.com/items';
 
   constructor(
     private http: HttpClient,
@@ -123,6 +125,8 @@ export class CreateItem implements OnInit {
         this.itemSource = '';
         this.itemCost = 0;
         this.itemDescription = '';
+
+        this.itemCreated.emit(); // notifica o item-page para refreshar
 
         alert('New item saved to database!');
       },

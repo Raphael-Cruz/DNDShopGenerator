@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AuthModalService } from '../../input-datas';
 
 
 @Component({
@@ -9,6 +10,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class LandingPageComponent {
   @ViewChild('featuresSection') featuresSection!: ElementRef;
+
+  constructor(private authModal: AuthModalService) { }
 
   embers = Array.from({ length: 30 }, (_, i) => ({
     style: `
@@ -103,5 +106,8 @@ export class LandingPageComponent {
 
   scrollToFeatures() {
     this.featuresSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+  openRegister() {
+    this.authModal.open('register');
   }
 }

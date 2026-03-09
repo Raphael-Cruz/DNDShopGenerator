@@ -1,6 +1,31 @@
 <div class="container">
 
-  <section>
+  <section class="table-wrapper">
+
+    <!-- ══ LOCKED OVERLAY (anônimo clicou em Add) ══ -->
+    @if (showLockedOverlay) {
+    <div class="locked-overlay" (click)="showLockedOverlay = false">
+      <div class="locked-scroll" (click)="$event.stopPropagation()">
+        <div class="locked-rune">ᚲ</div>
+        <h3 class="locked-title">Our Shelves Are Sealed</h3>
+        <p class="locked-body">
+          We would love to offer you these wares — but our stockers answer only to registered Merchants.
+          <br /><br />
+          <em>Create a free account to add items to your shops.</em>
+        </p>
+        <div class="locked-actions">
+          <button class="locked-btn-primary" (click)="authModal.open('register'); showLockedOverlay = false">
+            <span>᛭</span> Become a Merchant
+            <span class="btn-shimmer"></span>
+          </button>
+          <button class="locked-btn-ghost" (click)="showLockedOverlay = false">
+            Perhaps later…
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
     <!-- Filter bar -->
     <div class="filter-wrap">
       <mat-label class="item-filter">✦ Search</mat-label>
@@ -48,8 +73,13 @@
         <ng-container matColumnDef="add-button">
           <th mat-header-cell *matHeaderCellDef>Add</th>
           <td mat-cell *matCellDef="let item">
-            <button mat-button class="add-button" (click)="addItem(item)">
+            <button mat-button class="add-button" [class.add-button--locked]="!isLoggedIn" (click)="addItem(item)"
+              [matTooltip]="!isLoggedIn ? 'Register to add items to your shop' : ''" matTooltipClass="lock-tooltip">
+              @if (isLoggedIn) {
               ᛭ Add
+              } @else {
+              🔒 Add
+              }
             </button>
           </td>
         </ng-container>
@@ -63,9 +93,7 @@
       [length]="dataSource.data.length">
     </mat-paginator>
 
-    <div class="table-footer">
-      📜 All items are subject to the Dungeon Master's discretion.
-    </div>
+
   </section>
 
 </div>

@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../core/services/auth';
+import { AuthModalService } from '../input-datas';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -8,19 +10,33 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
+export class Navbar implements OnInit, OnDestroy {
 
-
-export class Navbar {
-
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private authModalService: AuthModalService  // ← adicione
+  ) { }
 
   modalOpen = false;
+  mobileMenuOpen = false;
 
+  private modalSub!: Subscription;
 
+  ngOnInit() {
+    // Ouve o AuthModalService — qualquer componente pode abrir o modal
+    this.modalSub = this.authModalService.modal$.subscribe(tab => {
+      if (tab) {
+        this.modalOpen = true;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.modalSub?.unsubscribe();
+  }
 
   openLogin() { this.modalOpen = true; }
-  openItemStats() { /* your logic */ }
+
   logout() { this.authService.logout(); }
 }
-
-

@@ -30,8 +30,8 @@ export interface IShop {
 })
 export class InputDatas {
   private shops: IShop[] = [];
-  private apiUrl = 'http://localhost:3000/myshops';
-  private apiUrlItems = 'http://localhost:3000/items';
+  private apiUrl = 'https://rollforshopbackend.onrender.com/myshops';
+  private apiUrlItems = 'https://rollforshopbackend.onrender.com/items';
 
   constructor(private http: HttpClient) {
     this.refreshItems();

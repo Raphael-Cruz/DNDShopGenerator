@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/cor
 import { Item } from '../models/item-model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { InputDatas } from '../input-datas';
+import { InputDatas, AuthModalService } from '../input-datas';
+import { AuthService } from '../core/services/auth';
 
 @Component({
   selector: 'app-item-table',
@@ -20,8 +21,12 @@ export class ItemTable implements OnInit, AfterViewInit {
   items: Item[] = [];
 
   constructor(
-    private dataShare: InputDatas
+    private dataShare: InputDatas,
+    private authService: AuthService,
+    public authModal: AuthModalService
   ) { }
+
+  get isLoggedIn(): boolean { return this.authService.isLoggedIn(); }
 
   ngOnInit(): void {
     this.dataShare.items$.subscribe(items => {
@@ -42,7 +47,13 @@ export class ItemTable implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  showLockedOverlay = false;
+
   addItem(item: Item) {
+    if (!this.authService.isLoggedIn()) {
+      this.showLockedOverlay = true;
+      return;
+    }
     if (!this.shopId) {
       alert('No shop selected to add item to.');
       return;

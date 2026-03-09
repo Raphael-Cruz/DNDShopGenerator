@@ -130,6 +130,91 @@
     </div>
 </section>
 
+<!-- ──────────────────────── RATES ──────────────────────── -->
+<section class="rates">
+    <div class="section-header">
+        <div class="section-ornament">✦ ── ✦ ── ✦</div>
+        <h2 class="section-title">The Grimoire's Covenant</h2>
+        <p class="section-sub">Choose your pact. Begin your journey.</p>
+    </div>
+
+    <div class="rates-grid">
+
+        <!-- Wanderer (anonymous) -->
+        <div class="rate-card rate-card--wanderer">
+            <div class="rate-card__header">
+                <span class="rate-card__rune">ᚹ</span>
+                <div>
+                    <div class="rate-card__tier">Wanderer</div>
+                    <div class="rate-card__subtitle">No pact required</div>
+                </div>
+                <div class="rate-card__price">Free</div>
+            </div>
+            <ul class="rate-card__perks">
+                <li>
+                    <span class="perk-icon perk-icon--ok">✦</span>
+                    <span><strong>2 shops</strong> generated per day</span>
+                </li>
+
+                <li>
+                    <span class="perk-icon perk-icon--dim">✧</span>
+                    <span class="rate-muted">No saved shops</span>
+                </li>
+                <li>
+                    <span class="perk-icon perk-icon--dim">✧</span>
+                    <span class="rate-muted">No custom items</span>
+                </li>
+                <li>
+                    <span class="perk-icon perk-icon--dim">✧</span>
+                    <span class="rate-muted">Cannot add new items to your generated shops</span>
+                </li>
+            </ul>
+            <button class="btn-rate btn-rate--ghost" routerLink="/shop">Enter the Grimoire</button>
+        </div>
+
+        <!-- Merchant (registered) -->
+        <div class="rate-card rate-card--merchant rate-card--featured">
+            <div class="rate-card__badge">Recommended</div>
+            <div class="rate-card__header">
+                <span class="rate-card__rune">ᛗ</span>
+                <div>
+                    <div class="rate-card__tier">Merchant</div>
+                    <div class="rate-card__subtitle">Free account</div>
+                </div>
+                <div class="rate-card__price">Free</div>
+            </div>
+            <ul class="rate-card__perks">
+                <li>
+                    <span class="perk-icon perk-icon--gold">✦</span>
+                    <span><strong>10 shops</strong> generated per day</span>
+                </li>
+                <li>
+                    <span class="perk-icon perk-icon--gold">✦</span>
+                    <span><strong>10 items</strong> created per day</span>
+                </li>
+                <li>
+                    <span class="perk-icon perk-icon--gold">✦</span>
+                    <span>Save & manage your shops</span>
+                </li>
+                <li>
+                    <span class="perk-icon perk-icon--gold">✦</span>
+                    <span>Forge custom relics</span>
+                </li>
+                <li>
+                    <span class="perk-icon perk-icon--gold">✦</span>
+                    <span>Restock the shelves of your shop with new items</span>
+                </li>
+            </ul>
+            <button class="btn-rate btn-rate--primary" (click)="openRegister()">
+                <span class="btn-rune">᛭</span>
+                Sign Up — It's Free
+                <span class="btn-shimmer"></span>
+            </button>
+        </div>
+
+    </div>
+</section>
+
 <!-- ──────────────────────── CTA BANNER ──────────────────────── -->
 <section class="cta-banner">
     <div class="cta-runes">

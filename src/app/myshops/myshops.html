@@ -12,6 +12,19 @@
             <p class="page-sub">Each shop a world unto itself — stocked, storied, and waiting.</p>
         </div>
 
+        <!-- ══ BANNER ANÔNIMO ══ -->
+        @if (isAnonymous) {
+        <div class="anonymous-banner">
+            <span class="anonymous-banner__icon">⚠</span>
+            <div class="anonymous-banner__text">
+                <strong>Viewing as Wanderer</strong> — This shop exists only in memory and will be lost when you
+                leave.
+                <a class="anonymous-banner__cta" (click)="openRegister()">Create a free account</a> to save your
+                shops permanently.
+            </div>
+        </div>
+        }
+
         <!-- ══ META ROW ══ -->
         @if (!isLoading && shops.length > 0) {
         <div class="shops-meta">
@@ -36,21 +49,18 @@
 
             <!-- Cards -->
             @if (!isLoading) {
-            @for (shop of shops; track shop._id || shop.id) {
+            @for (shop of shops; track shop._id || shop.id || shop.name) {
             <mat-card class="shop-card" appearance="outlined">
 
-                <!-- Image with crest overlay -->
                 <div class="shop-card-image-wrap">
                     <img src="assets/images/shop-image.png" alt="A magic shop" />
                     <span class="shop-crest">⚜</span>
                 </div>
 
-                <!-- Name -->
                 <mat-card-header>
                     <h3 class="card-title">{{ shop.name | propercase }}</h3>
                 </mat-card-header>
 
-                <!-- Subtle meta line -->
                 <div class="card-body">
                     <span class="card-meta">
                         <span>Magic Shop</span>
@@ -59,16 +69,24 @@
                     </span>
                 </div>
 
-                <!-- Actions -->
                 <mat-card-actions>
+                    <!-- View Shop — funciona para logados e anônimos -->
                     <button mat-button class="btn-view" (click)="viewShop(shop._id || shop.id)">
                         <mat-icon>storefront</mat-icon>
                         View Shop
                     </button>
+
+                    @if (!isAnonymous) {
                     <button mat-button class="btn-delete" (click)="deleteShop(shop._id || shop.id)">
                         <mat-icon>delete</mat-icon>
                         Delete
                     </button>
+                    } @else {
+                    <button mat-button class="btn-save-prompt" (click)="openRegister()">
+                        <mat-icon>save</mat-icon>
+                        Save Shop
+                    </button>
+                    }
                 </mat-card-actions>
 
             </mat-card>
@@ -81,7 +99,7 @@
                 <span class="no-shops-title">Your grimoire is empty</span>
                 <p class="no-shops-sub">No shops have been conjured yet.<br />Head to the generator and forge your
                     first.</p>
-                <button mat-button class="no-shops-btn" routerLink="/shop-inputs">
+                <button mat-button class="no-shops-btn" routerLink="/shop">
                     ᛭ &nbsp; Generate a Shop
                 </button>
             </div>

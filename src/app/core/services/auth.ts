@@ -15,7 +15,7 @@ export interface IUser {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = 'https://rollforshopbackend.onrender.com/auth';
 
   private currentUserSubject = new BehaviorSubject<IUser | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();

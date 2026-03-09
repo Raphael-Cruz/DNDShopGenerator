@@ -1,47 +1,42 @@
 <mat-toolbar class="custom-toolbar">
+
+  <!-- ── Main nav row ── -->
   <div class="nav">
 
-    <!-- ── Logo ── -->
+    <!-- Logo -->
     <div class="logo">
       <a routerLink="/" class="logo-print">
         <img src="assets/images/logo.png" alt="Logo" class="logo-img" />
       </a>
     </div>
 
-    <!-- ── Site title ── -->
+    <!-- Site title -->
     <span class="site-title">The Merchant's Grimoire</span>
 
     <span class="nav-spacer"></span>
 
-    <!-- ══ Logged IN ══ -->
+    <!-- DESKTOP: Logged IN -->
     <div *ngIf="authService.isLoggedIn()" class="user-section">
-
       <span class="user-email-text">
         Welcome, {{ authService.getCurrentUser()?.email }}
       </span>
-
       <div class="nav-divider"></div>
-
       <button mat-button class="nav-btn nav-btn-ghost" routerLink="/my-items">
         <mat-icon>inventory_2</mat-icon>
         My Items
       </button>
-
       <button mat-button class="nav-btn nav-btn-ghost" routerLink="/myshops">
         <mat-icon>storefront</mat-icon>
         My Shops
       </button>
-
       <div class="nav-divider"></div>
-
       <button mat-button class="nav-btn nav-btn-logout" (click)="authService.logout()">
         <mat-icon>logout</mat-icon>
         Logout
       </button>
-
     </div>
 
-    <!-- ══ Logged OUT ══ -->
+    <!-- DESKTOP: Logged OUT -->
     <div *ngIf="!authService.isLoggedIn()" class="auth-buttons">
       <button mat-button class="nav-btn nav-btn-login" (click)="modalOpen = true">
         <mat-icon>login</mat-icon>
@@ -49,9 +44,40 @@
       </button>
     </div>
 
+    <!-- MOBILE: Hamburger toggle (always rendered, CSS hides on desktop) -->
+    <button class="mobile-toggle" (click)="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+      {{ mobileMenuOpen ? '✕' : '☰' }}
+    </button>
+
   </div>
+
+  <!-- ── MOBILE dropdown ── -->
+  <div class="mobile-menu" [class.is-open]="mobileMenuOpen" (click)="mobileMenuOpen = false">
+
+    <!-- Logged IN -->
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <span class="mobile-menu-email">{{ authService.getCurrentUser()?.email }}</span>
+      <button mat-button class="mobile-nav-item" routerLink="/my-items">
+        <mat-icon>inventory_2</mat-icon> My Items
+      </button>
+      <button mat-button class="mobile-nav-item" routerLink="/myshops">
+        <mat-icon>storefront</mat-icon> My Shops
+      </button>
+      <button mat-button class="mobile-nav-item logout" (click)="authService.logout()">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    </ng-container>
+
+    <!-- Logged OUT -->
+    <ng-container *ngIf="!authService.isLoggedIn()">
+      <button mat-button class="mobile-nav-item login" (click)="modalOpen = true">
+        <mat-icon>login</mat-icon> Login / Register
+      </button>
+    </ng-container>
+
+  </div>
+
 </mat-toolbar>
 
 <!-- Auth Modal -->
-<app-auth-modal [isVisible]="modalOpen" (closed)="modalOpen = false">
-</app-auth-modal>
+<app-auth-modal [isVisible]="modalOpen" (closed)="modalOpen = false"></app-auth-modal>

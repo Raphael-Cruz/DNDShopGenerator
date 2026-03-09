@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
-
 :host {
   --gold: #c9a84c;
   --gold-bright: #f0cb6a;
@@ -25,12 +23,14 @@
   color: var(--text-bright);
   font-family: 'Crimson Pro', Georgia, serif;
   overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 /* ── Page container ── */
@@ -41,12 +41,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: hidden;
+  overflow-x: hidden;
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(224, 92, 32, .12) 0%, transparent 70%),
     radial-gradient(ellipse 50% 40% at 50% 100%, rgba(201, 168, 76, .06) 0%, transparent 60%),
     var(--bg-deep);
   padding: 4rem 1.5rem 6rem;
+  width: 100%;
 }
 
 main::before {
@@ -61,13 +62,13 @@ main::before {
 
 /* ══════════════════════════════════════════
    3-COLUMN GRID
-   Col 1 (form): fixed ~380px
-   Col 2 (presets): flexible, takes remaining space
-   Col 3 (filters): fixed ~260px
+   Desktop:  [form ≤380px] [presets 1fr] [filters ≤260px]
+   Tablet:   [form ≤380px] [presets+filters stacked]
+   Mobile:   single column
    ══════════════════════════════════════════ */
 .wrap {
   display: grid;
-  grid-template-columns: minmax(320px, 380px) 1fr minmax(220px, 260px);
+  grid-template-columns: minmax(300px, 380px) 1fr minmax(220px, 260px);
   align-items: start;
   gap: 1.5rem;
   width: 100%;
@@ -163,7 +164,9 @@ main::before {
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: .6rem;
+  width: 100%;
   padding: .9rem 2.2rem;
   font-family: 'Cinzel', serif;
   font-size: .9rem;
@@ -215,7 +218,6 @@ main::before {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  /* prevents grid blowout */
 }
 
 /* ── COL 3: Source Filters ── */
@@ -281,10 +283,18 @@ main::before {
   border: 1px solid var(--border) !important;
 }
 
-/* ── Tablet: form left, presets+filters stacked right ── */
-@media (max-width: 1100px) {
+.presets-divider {
+  margin: 1rem 0;
+}
+
+/* ═══════════════════════════════════════════
+   BREAKPOINTS
+═══════════════════════════════════════════ */
+
+/* Large tablet: drop 3rd col, stack under presets */
+@media (max-width: 1200px) {
   .wrap {
-    grid-template-columns: minmax(300px, 380px) 1fr;
+    grid-template-columns: minmax(280px, 380px) 1fr;
     grid-template-rows: auto auto;
   }
 
@@ -304,10 +314,27 @@ main::before {
   }
 }
 
-/* ── Mobile: single column ── */
-@media (max-width: 700px) {
+/* Tablet: tighten */
+@media (max-width: 900px) {
+  .container {
+    padding: 2.5rem 1rem 5rem;
+  }
+
+  .wrap {
+    grid-template-columns: minmax(260px, 340px) 1fr;
+    gap: 1.2rem;
+  }
+}
+
+/* Mobile: single column, form first */
+@media (max-width: 680px) {
+  .container {
+    padding: 1.5rem .75rem 4rem;
+  }
+
   .wrap {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .form,
@@ -316,8 +343,45 @@ main::before {
     grid-column: 1;
     grid-row: auto;
   }
+
+  .form {
+    padding: 1.6rem 1.2rem;
+  }
+
+  .form-heading {
+    font-size: .95rem;
+  }
+
+  /* On mobile each rarity row: qty input + dropdown side by side */
+  .form-items {
+    gap: .5rem;
+    padding: .5rem .4rem;
+  }
+
+  /* Ensure form fields don't overflow */
+  .form-items mat-form-field {
+    min-width: 0;
+    flex: 1;
+  }
 }
 
-.presets-divider {
-  margin: 1rem 0;
+/* Very small */
+@media (max-width: 380px) {
+  .container {
+    padding: 1rem .5rem 3rem;
+  }
+
+  .form {
+    padding: 1.2rem .9rem;
+  }
+
+  .form-heading {
+    font-size: .85rem;
+    letter-spacing: .03em;
+  }
+
+  .btn-primary {
+    font-size: .8rem;
+    padding: .8rem 1.5rem;
+  }
 }

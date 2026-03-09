@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -46,7 +46,7 @@ import { firstValueFrom } from 'rxjs';
     ]),
   ],
 })
-export class AuthModalComponent implements OnInit {
+export class AuthModalComponent implements OnInit, OnChanges {
   @Input() isVisible = false;
   @Output() closed = new EventEmitter<void>();
 
@@ -66,6 +66,17 @@ export class AuthModalComponent implements OnInit {
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 
   ngOnInit() {
+    this.buildForms();
+  }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isVisible']?.currentValue === true) {
+      this.resetState();
+    }
+  }
+
+  private buildForms() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -80,12 +91,24 @@ export class AuthModalComponent implements OnInit {
     });
   }
 
+  private resetState() {
+    this.successMessage = '';
+    this.errorMessage = '';
+    this.isLoading = false;
+    this.showPass = false;
+    this.activeTab = 'login';
+    // Rebuild forms so previous values/touched state are cleared
+    this.buildForms();
+  }
+
   switchTab(tab: 'login' | 'register') {
     this.activeTab = tab;
     this.errorMessage = '';
   }
 
   closeModal() {
+    this.successMessage = '';
+    this.errorMessage = '';
     this.closed.emit();
   }
 
@@ -96,7 +119,7 @@ export class AuthModalComponent implements OnInit {
     try {
       const { email, password } = this.loginForm.value;
       await firstValueFrom(this.auth.login(email, password));
-      this.successMessage = "You're logged in ! 🎉";
+      this.successMessage = "You're logged in! 🎉";
       setTimeout(() => this.closeModal(), 1800);
     } catch {
       this.errorMessage = 'Invalid credentials. Please try again.';

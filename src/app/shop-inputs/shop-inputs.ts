@@ -1,8 +1,13 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { InputDatas, RandomInputData, FormDataType } from '../input-datas';
+import { InputDatas, RandomInputData, FormDataType, AuthModalService } from '../input-datas';
 import { Item, MagicItem } from '../models/item-model';
 import { ShopPreset } from '../ShopPreset/shop-preset/shop-presets';
+import { AuthService } from '../core/services/auth';
+
+
 
 @Component({
   selector: 'app-shop-inputs',
@@ -32,7 +37,9 @@ export class ShopInputs implements OnInit {
   constructor(
     private dataShare: InputDatas,
     private randomInputData: RandomInputData,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private authModal: AuthModalService
   ) { }
 
   ngOnInit(): void {
@@ -120,8 +127,58 @@ export class ShopInputs implements OnInit {
     return items;
   }
 
-  onSubmit() {
+
+  // ── Rate limiting (frontend) ──
+  private getRateKey(type: string): string {
+    const today = new Date().toISOString().split('T')[0];
+    return `grimoire_limit_${type}_${today}`;
+  }
+
+  private getUsageCount(type: string): number {
+    const key = this.getRateKey(type);
+    return parseInt(localStorage.getItem(key) || '0', 10);
+  }
+
+  private incrementUsage(type: string): void {
+    const key = this.getRateKey(type);
+    const current = this.getUsageCount(type);
+    localStorage.setItem(key, (current + 1).toString());
+  }
+
+  private checkAndEnforceLimit(): boolean {
+    const limit = this.authService.isLoggedIn() ? 10 : 2;
+    const used = this.getUsageCount('shop');
+
+    if (used >= limit) {
+      if (!this.authService.isLoggedIn()) {
+        alert(`Daily limit reached (\/\ shops).
+
+Create a free account to generate up to 10 shops per day!`);
+        this.authModal.open('register');
+      } else {
+        alert(`Daily limit reached (\/\ shops).
+
+Your limit resets at midnight (UTC).`);
+      }
+      return false;
+    }
+    return true;
+  }
+
+  async onSubmit() {
     if (!this.isFormValid) return;
+    if (!this.checkAndEnforceLimit()) return;
+
+    // Garante que os itens do banco estão carregados antes de gerar
+    if (this.dataShare.getAllItems().length === 0) {
+      this.dataShare.refreshItems();
+      await firstValueFrom(
+        this.dataShare.items$.pipe(
+          filter((items: any[]) => items.length > 0),
+          take(1)
+        )
+      ).catch(() => { });
+    }
 
     const formData: FormDataType = {
       shopName: this.shopName,
@@ -135,18 +192,26 @@ export class ShopInputs implements OnInit {
     };
 
     this.dataShare.setFormData(formData);
-
     const randomItems = this.generateRandomItems();
     const payload = { name: this.shopName || 'Unnamed Shop', items: randomItems, formData };
+    this.incrementUsage('shop');
 
-    this.dataShare.saveShopToDB(payload).subscribe({
-      next: (savedShop) => {
-        console.log('Shop saved successfully', savedShop);
-        this.resetForm();
-        this.router.navigate(['/myshops']);
-      },
-      error: (err) => console.error('Failed to save shop', err)
-    });
+    if (this.authService.isLoggedIn()) {
+      // Logado: salva no banco e navega
+      this.dataShare.saveShopToDB(payload).subscribe({
+        next: (savedShop) => {
+          console.log('Shop saved successfully', savedShop);
+          this.resetForm();
+          this.router.navigate(['/myshops']);
+        },
+        error: (err) => console.error('Failed to save shop', err)
+      });
+    } else {
+      // Anônimo: navega sem limpar — generated-form lê RandomInputData
+      // resetForm() NÃO é chamado aqui para preservar os itens em memória
+      this.resetFormFields(); // limpa só os campos do form, não o RandomInputData
+      this.router.navigate(['/myshops']);
+    }
   }
 
   private resetForm() {
@@ -168,6 +233,28 @@ export class ShopInputs implements OnInit {
     this.selectedOptionArtifact = 'one';
 
     this.randomInputData.clear();
+  }
+
+  // Limpa só os campos do formulário — NÃO zera o RandomInputData
+  // Usado por anônimos para preservar os itens em memória até o generated-form ler
+  private resetFormFields() {
+    this.shopName = '';
+    this.mundaneItems = '';
+    this.commonItems = '';
+    this.uncommonItems = '';
+    this.rareItems = '';
+    this.veryRareItems = '';
+    this.legendaryItems = '';
+    this.artifactItems = '';
+
+    this.selectedOptionMundane = 'one';
+    this.selectedOptionCommon = 'one';
+    this.selectedOptionUncommon = 'one';
+    this.selectedOptionRare = 'one';
+    this.selectedOptionVeryRare = 'one';
+    this.selectedOptionLegendary = 'one';
+    this.selectedOptionArtifact = 'one';
+    // randomInputData.clear() é intencionalmente omitido aqui
   }
 
   applyPreset(preset: ShopPreset) {

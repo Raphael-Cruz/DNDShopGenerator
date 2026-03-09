@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Item } from '../models/item-model';
-import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
+import { InputDatas, RandomInputData, NewItemData, AuthModalService } from '../input-datas';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { jsPDF } from 'jspdf';
@@ -27,6 +27,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
   randomItems: Item[] = [];
   manualItems: Item[] = [];
   allItems: Item[] = [];
+  private loadedFromMemory = false;
   selectedSources: string[] = [];
 
   private subscriptions: Subscription[] = [];
@@ -42,7 +43,8 @@ export class GeneratedForm implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private tipForTypePipe: TipForTypePipe,
-    private generator: ShopGeneratorService
+    private generator: ShopGeneratorService,
+    private authModal: AuthModalService
   ) { }
 
   ngOnInit(): void {
@@ -64,8 +66,16 @@ export class GeneratedForm implements OnInit, OnDestroy {
             error: (err) => console.error('Failed to fetch shop', err)
           });
         } else {
+          // Sem ID: usa dados já gerados em memória
           this.formValues = this.dataShare.getFormData();
-          this.updateItemsList();
+          const memoryItems = this.randomDataShare.getRandomItems();
+          if (memoryItems && memoryItems.length > 0) {
+            this.loadedFromMemory = true;
+            this.randomItems = memoryItems.map(i => this.normalizeToItem(i));
+            this.refreshDataSource();
+          } else {
+            this.updateItemsList();
+          }
         }
       })
     );
@@ -73,21 +83,21 @@ export class GeneratedForm implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.dataShare.items$.subscribe(items => {
         this.allItems = items;
-        if (!this.shopId) this.updateItemsList();
+        if (!this.shopId && !this.loadedFromMemory) this.updateItemsList();
       })
     );
 
     this.subscriptions.push(
       this.dataShare.formData$.subscribe(data => {
         this.formValues = data;
-        if (!this.shopId) this.updateItemsList();
+        if (!this.shopId && !this.loadedFromMemory) this.updateItemsList();
       })
     );
 
     this.subscriptions.push(
       this.dataShare.selectedSources$.subscribe(sources => {
         this.selectedSources = sources;
-        if (!this.shopId) this.updateItemsList();
+        if (!this.shopId && !this.loadedFromMemory) this.updateItemsList();
       })
     );
 
@@ -130,8 +140,16 @@ export class GeneratedForm implements OnInit, OnDestroy {
     );
   }
 
+  goBack(): void {
+    this.router.navigate(['/myshops']);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+    // Limpa dados em memória ao sair — evita que sessão anterior apareça na próxima geração
+    if (!this.shopId) {
+      this.randomDataShare.clear();
+    }
   }
 
   private refreshDataSource() {
@@ -228,7 +246,11 @@ export class GeneratedForm implements OnInit, OnDestroy {
 
   // ── Save Shop button: explicitly persist everything ──
   saveShop() {
-    if (!this.shopId) return;
+    if (!this.shopId) {
+      // Anônimo: abre modal de registro para salvar
+      this.authModal.open('register');
+      return;
+    }
     this.isSaving = true;
     this.dataShare.updateShopItems(this.shopId, this.currentItems).subscribe({
       next: () => {

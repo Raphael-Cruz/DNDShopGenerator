@@ -59,7 +59,7 @@ export class ItemPage implements OnInit, AfterViewInit {
   }
 
 
-  private apiUrl = 'http://localhost:3000/items';
+  private apiUrl = 'https://rollforshopbackend.onrender.com/items';
 
   ngOnInit(): void {
     this.loadMyItems();
@@ -108,5 +108,9 @@ export class ItemPage implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  onItemCreated() {
+    this.loadMyItems();
   }
 }

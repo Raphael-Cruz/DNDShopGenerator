@@ -40,9 +40,7 @@
           <!-- Name -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let item" [class.is-selected]="selectedItem?.name === item.name"
-              (click)="selectItem(item)" tabindex="0" (keydown.enter)="selectItem(item)"
-              (keydown.space)="selectItem(item); $event.preventDefault()">
+            <td mat-cell *matCellDef="let item" [class.is-selected]="selectedItem?.name === item.name">
               {{ item.name }}
             </td>
           </ng-container>
@@ -83,7 +81,8 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [class.is-selected-row]="selectedItem?.name === row.name"></tr>
+            [class.is-selected-row]="selectedItem?.name === row.name" (click)="selectItem(row)" tabindex="0"
+            (keydown.enter)="selectItem(row)" (keydown.space)="selectItem(row); $event.preventDefault()"></tr>
         </table>
 
         <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons [pageSize]="5"
@@ -179,16 +178,15 @@
   </div>
 
 
-  <!-- ══════════════════════════════════════
-       CREATE ITEM — FULL WIDTH BELOW
-  ══════════════════════════════════════ -->
+
+  <!--      CREATE ITEM — FULL WIDTH BELOW -->
   <section class="panel create-panel" aria-labelledby="createHeading">
     <div class="section-head">
       <span class="section-head-gem"></span>
       <span class="section-head-title">Forge a New Relic</span>
       <div class="section-head-line"></div>
     </div>
-    <app-create-item></app-create-item>
+    <app-create-item (itemCreated)="onItemCreated()"></app-create-item>
   </section>
 
 </div>
