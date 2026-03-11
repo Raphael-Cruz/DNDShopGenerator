@@ -36,7 +36,10 @@ export interface Item {
   weight?: number | string;
 
   // Descriptive text
-  entries?: string[];
+  entries?: any[];  // mixed: string | TableEntry | ListEntry | EntriesEntry
+  description?: string;  // user-created items
+  _id?: string;
+  id?: string;
 }
 
 export interface MagicItem {
@@ -45,24 +48,24 @@ export interface MagicItem {
   cost: number;
   rarity: string;
   weight: string;
-   source: string;
-   quantity?: number; 
+  source: string;
+  quantity?: number;
 
 }
 
 
 export interface MundaneNodes {
   name: string;
- type: string;
- checked: boolean;
+  type: string;
+  checked: boolean;
   children?: MundaneNodes[];
 }
 
 
 export interface MagicNodes {
   name: string;
-type: string;
-checked: boolean;
+  type: string;
+  checked: boolean;
   children?: MagicNodes[];
 }
 

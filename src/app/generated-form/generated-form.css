@@ -370,8 +370,19 @@ main {
   vertical-align: middle !important;
 }
 
+/* CRITICAL FIX: Prevent any background changes on hover — suppress Material's default behavior */
 ::ng-deep .parchment-page tr.mat-row:hover td {
-  background: rgba(201, 168, 76, .03) !important;
+  background: transparent !important;
+  cursor: pointer !important;
+}
+
+::ng-deep .parchment-page tr.mat-row.no-hover-change:hover {
+  background: transparent !important;
+}
+
+::ng-deep .parchment-page tr.mat-row.no-hover-change:hover td {
+  background: transparent !important;
+  cursor: pointer !important;
 }
 
 /* Inline edit inputs */

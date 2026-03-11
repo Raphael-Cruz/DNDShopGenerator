@@ -1,0 +1,304 @@
+/* ══════════════════════════════════════════
+   GRIMOIRE ITEM TOOLTIP
+   Replicates the D&D codex card aesthetic
+══════════════════════════════════════════ */
+
+.grimoire-tooltip {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+
+    width: 360px;
+    max-width: 90vw;
+
+    background: #1e1810;
+    border: 1px solid rgba(201, 168, 76, .22);
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, .8),
+        0 8px 32px rgba(0, 0, 0, .7),
+        0 2px 8px rgba(0, 0, 0, .5),
+        inset 0 1px 0 rgba(201, 168, 76, .08);
+
+    font-family: 'Crimson Pro', 'Crimson Text', Georgia, serif;
+
+    animation: tooltipIn .15s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Pinned: flex column with fixed height so the body can scroll */
+.grimoire-tooltip--pinned {
+    pointer-events: all;
+    max-height: 480px;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, .9),
+        0 12px 40px rgba(0, 0, 0, .8),
+        0 2px 8px rgba(0, 0, 0, .5),
+        inset 0 1px 0 rgba(201, 168, 76, .08);
+}
+
+@keyframes tooltipIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Rarity accent line ── */
+.tooltip-accent {
+    height: 3px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.grimoire-tooltip--mundane .tooltip-accent {
+    background: #888;
+}
+
+.grimoire-tooltip--common .tooltip-accent {
+    background: #aaa;
+}
+
+.grimoire-tooltip--uncommon .tooltip-accent {
+    background: #1eff00;
+}
+
+.grimoire-tooltip--rare .tooltip-accent {
+    background: #0070dd;
+}
+
+.grimoire-tooltip--very-rare .tooltip-accent {
+    background: linear-gradient(90deg, #a335ee, #c36adf);
+}
+
+.grimoire-tooltip--legendary .tooltip-accent {
+    background: linear-gradient(90deg, #ff8000, #ffa040);
+}
+
+.grimoire-tooltip--artifact .tooltip-accent {
+    background: linear-gradient(90deg, #e6cc80, #c9a84c, #e6cc80);
+}
+
+/* ── Header ── */
+.tooltip-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.3rem .5rem;
+    flex-shrink: 0;
+}
+
+.tooltip-name {
+    font-family: 'Cinzel', 'Palatino Linotype', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: #e8d89a;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+}
+
+.tooltip-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.tooltip-cost {
+    display: flex;
+    align-items: baseline;
+    gap: .2rem;
+    flex-shrink: 0;
+}
+
+.cost-value {
+    font-family: 'Cinzel', serif;
+    font-size: .85rem;
+    color: #c9a84c;
+    font-weight: 600;
+}
+
+.cost-unit {
+    font-size: .75rem;
+    color: #7a6030;
+    font-variant: small-caps;
+}
+
+/* Close (✕) button */
+.tooltip-close-btn {
+    background: transparent;
+    border: 1px solid rgba(201, 168, 76, .45);
+    border-radius: 50%;
+    color: #b89b72;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1;
+    opacity: 0.75;
+    padding: 2px 5px;
+    transition: opacity 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+}
+
+.tooltip-close-btn:hover {
+    opacity: 1;
+    border-color: rgba(201, 168, 76, .8);
+}
+
+/* Pin hint icon (floating state) */
+.tooltip-pin-hint {
+    font-size: 11px;
+    opacity: 0.3;
+}
+
+/* ── Tags ── */
+.tooltip-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    padding: 0 1.3rem .9rem;
+    flex-shrink: 0;
+}
+
+.tooltip-tag {
+    font-family: 'Cinzel', serif;
+    font-size: .55rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: #b89b72;
+    border: 1px solid rgba(201, 168, 76, .28);
+    padding: .2rem .55rem;
+    background: rgba(201, 168, 76, .05);
+    white-space: nowrap;
+}
+
+/* Rarity tag accent colors */
+.grimoire-tooltip--uncommon .tooltip-tag:last-child {
+    color: #1eff00;
+    border-color: rgba(30, 255, 0, .3);
+}
+
+.grimoire-tooltip--rare .tooltip-tag:last-child {
+    color: #5599ff;
+    border-color: rgba(0, 112, 221, .35);
+}
+
+.grimoire-tooltip--very-rare .tooltip-tag:last-child {
+    color: #c36adf;
+    border-color: rgba(163, 53, 238, .35);
+}
+
+.grimoire-tooltip--legendary .tooltip-tag:last-child {
+    color: #ff9030;
+    border-color: rgba(255, 128, 0, .35);
+}
+
+.grimoire-tooltip--artifact .tooltip-tag:last-child {
+    color: #e6cc80;
+    border-color: rgba(230, 204, 128, .4);
+}
+
+/* ── Divider ── */
+.tooltip-divider {
+    height: 1px;
+    margin: 0 1.3rem;
+    flex-shrink: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(201, 168, 76, .25) 20%,
+            rgba(201, 168, 76, .25) 80%,
+            transparent 100%);
+}
+
+/* ── Description body ── */
+
+/* Floating (hover) state: clipped, no scroll */
+.tooltip-body {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* Pinned state: fills remaining flex space and scrolls */
+.tooltip-body--pinned {
+    flex: 1 1 auto;
+    /* grow to fill available height in the flex column */
+    min-height: 0;
+    /* REQUIRED: prevents flex child from overflowing parent */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-mask-image: none;
+    mask-image: none;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201, 168, 76, .3) transparent;
+}
+
+.tooltip-body--pinned::-webkit-scrollbar {
+    width: 5px;
+}
+
+.tooltip-body--pinned::-webkit-scrollbar-thumb {
+    background: rgba(201, 168, 76, .3);
+    border-radius: 3px;
+}
+
+.tooltip-body--pinned::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 168, 76, .55);
+}
+
+/* Paragraphs inside the body */
+.tooltip-desc {
+    padding: .9rem 1.3rem 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #c8b58a;
+    margin: 0 0 .75rem;
+}
+
+.tooltip-desc:last-child {
+    padding-bottom: .9rem;
+    margin-bottom: 0;
+}
+
+.tooltip-desc--empty {
+    color: #6b5840;
+    font-size: .95rem;
+}
+
+/* ── Footer meta ── */
+.tooltip-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    padding: .65rem 1.3rem 1rem;
+    font-size: .8rem;
+    color: #6b5840;
+    border-top: 1px solid rgba(201, 168, 76, .08);
+    flex-shrink: 0;
+}
+
+.tooltip-source,
+.tooltip-weight,
+.tooltip-dmg {
+    font-variant: small-caps;
+    letter-spacing: .05em;
+}
+
+/* ── "Click to pin" hint ── */
+.tooltip-click-hint {
+    font-size: 10px;
+    opacity: 0.4;
+    text-align: right;
+    padding: 0 1.3rem .6rem;
+    font-style: italic;
+    color: #6b5840;
+    flex-shrink: 0;
+}

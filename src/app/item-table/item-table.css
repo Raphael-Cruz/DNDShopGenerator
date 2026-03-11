@@ -121,7 +121,12 @@
 }
 
 ::ng-deep .mat-mdc-row:hover {
-  background: rgba(201, 168, 76, .06) !important;
+  background: inherit !important;
+}
+
+/* Suprimir mudança de cor durante hover do tooltip */
+::ng-deep .no-hover-change:hover {
+  background: inherit !important;
 }
 
 ::ng-deep .mat-mdc-cell {
@@ -199,152 +204,65 @@
   width: 140px;
 }
 
-/* ══ Table wrapper (posição para o overlay) ══ */
-.table-wrapper {
-  position: relative;
+/* ── Sort headers ── */
+::ng-deep .mat-sort-header-arrow {
+  color: var(--gold-dim) !important;
 }
 
-/* ══ Locked Overlay ══ */
-.locked-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  background: rgba(10, 7, 5, .82);
-  backdrop-filter: blur(3px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: overlayIn .2s ease;
+::ng-deep .mat-sort-header-button {
+  font-family: 'Cinzel', serif !important;
+  font-size: .6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .18em !important;
+  text-transform: uppercase !important;
+  color: var(--gold) !important;
 }
 
-@keyframes overlayIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.locked-scroll {
-  background: var(--bg-surface);
-  border: 1px solid rgba(201, 168, 76, .35);
-  border-top: 3px solid var(--gold);
-  padding: 2.4rem 2.8rem;
-  max-width: 420px;
-  width: 90%;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 8px 48px rgba(0, 0, 0, .6);
-  animation: scrollIn .25s cubic-bezier(.22, 1, .36, 1);
-}
-
-@keyframes scrollIn {
-  from {
-    transform: translateY(16px) scale(.97);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
-
-.locked-rune {
-  font-size: 2.4rem;
-  color: var(--gold);
-  margin-bottom: .8rem;
-  display: block;
-  filter: drop-shadow(0 0 8px rgba(201, 168, 76, .5));
-}
-
-.locked-title {
+/* ── Rarity badges ── */
+.rarity-badge {
   font-family: 'Cinzel', serif;
-  font-size: 1.15rem;
+  font-size: .55rem;
   font-weight: 700;
-  letter-spacing: .08em;
-  color: var(--text-bright);
-  margin: 0 0 1rem;
-}
-
-.locked-body {
-  font-family: 'Crimson Pro', Georgia, serif;
-  font-size: 1rem;
-  color: var(--text-mid);
-  line-height: 1.65;
-  margin: 0 0 1.6rem;
-}
-
-.locked-actions {
-  display: flex;
-  flex-direction: column;
-  gap: .7rem;
-}
-
-.locked-btn-primary {
-  font-family: 'Cinzel', serif;
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .14em;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: #0a0705;
-  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 60%, #a8782a 100%);
-  border: none;
-  padding: .75rem 1.4rem;
-  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: filter .2s, transform .2s;
-  box-shadow: 0 2px 12px rgba(201, 168, 76, .25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .4rem;
-  width: 100%;
+  padding: .15rem .45rem;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  opacity: .9;
 }
 
-.locked-btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+.rarity-badge--mundane {
+  color: #999;
+  border-color: rgba(153, 153, 153, .3);
 }
 
-.locked-btn-ghost {
-  font-family: 'Crimson Pro', Georgia, serif;
-  font-size: .9rem;
-  font-style: italic;
-  color: var(--text-dim);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color .2s;
-  padding: .3rem;
+.rarity-badge--common {
+  color: #aaa;
+  border-color: rgba(170, 170, 170, .3);
 }
 
-.locked-btn-ghost:hover {
-  color: var(--text-mid);
+.rarity-badge--uncommon {
+  color: #1eff00;
+  border-color: rgba(30, 255, 0, .3);
 }
 
-/* Shimmer */
-.locked-btn-primary .btn-shimmer {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, transparent 40%, rgba(223, 168, 17, 0.18) 50%, transparent 60%);
-  transform: translateX(-100%);
-  transition: transform .5s;
+.rarity-badge--rare {
+  color: #5599ff;
+  border-color: rgba(0, 112, 221, .3);
 }
 
-.locked-btn-primary:hover .btn-shimmer {
-  transform: translateX(100%);
+.rarity-badge--very-rare {
+  color: #c36adf;
+  border-color: rgba(163, 53, 238, .3);
 }
 
+.rarity-badge--legendary {
+  color: #ff9030;
+  border-color: rgba(255, 128, 0, .3);
+}
 
-
-::ng-deep .add-button--locked:hover {
-  filter: none !important;
-  transform: none !important;
-  border-color: rgba(201, 168, 76, .3) !important;
-  opacity: 1;
+.rarity-badge--artifact {
+  color: #e6cc80;
+  border-color: rgba(230, 204, 128, .35);
+  background: linear-gradient(90deg, rgba(230, 204, 128, .08), transparent);
 }

@@ -1,19 +1,6 @@
 <main>
   <div class="page-wrap">
 
-    <!-- ══ BACK BUTTON ══ -->
-    <div class="back-nav">
-      <button class="btn-back" (click)="goBack()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-        Back to My Shops
-      </button>
-    </div>
-
-
-
     <!-- ══════════════════════════════════════
          SHOP IDENTITY PANEL
     ══════════════════════════════════════ -->
@@ -137,7 +124,7 @@
 
         <!-- Table -->
         <div class="shop-table" id="pdf-content">
-          <table mat-table [dataSource]="dataSource" class="parchment-page">
+          <table mat-table [dataSource]="dataSource" matSort class="parchment-page">
 
             <!-- Qty -->
             <ng-container matColumnDef="qtdy">
@@ -153,25 +140,25 @@
 
             <!-- Name -->
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
               <td mat-cell *matCellDef="let element">{{ element.name }}</td>
             </ng-container>
 
             <!-- Type -->
             <ng-container matColumnDef="type">
-              <th mat-header-cell *matHeaderCellDef>Type</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
               <td mat-cell *matCellDef="let element">{{ element.type | tipfortype }}</td>
             </ng-container>
 
             <!-- Rarity -->
             <ng-container matColumnDef="rarity">
-              <th mat-header-cell *matHeaderCellDef>Rarity</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rarity</th>
               <td mat-cell *matCellDef="let element">{{ element.rarity }}</td>
             </ng-container>
 
             <!-- Cost -->
             <ng-container matColumnDef="cost">
-              <th mat-header-cell *matHeaderCellDef>Cost</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
               <td mat-cell *matCellDef="let element; let i = index">
                 @if (editingIndex === i) {
                 <input class="inline-input" type="text" [(ngModel)]="element.cost" style="width:75px">
@@ -183,7 +170,7 @@
 
             <!-- Weight -->
             <ng-container matColumnDef="weight">
-              <th mat-header-cell *matHeaderCellDef>Weight</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
               <td mat-cell *matCellDef="let element; let i = index">
                 @if (editingIndex === i) {
                 <input class="inline-input" type="text" min="1" [(ngModel)]="element.weight" style="width:55px">
@@ -195,7 +182,7 @@
 
             <!-- Source -->
             <ng-container matColumnDef="source">
-              <th mat-header-cell *matHeaderCellDef>Source</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Source</th>
               <td mat-cell *matCellDef="let element">{{ element.source | tipforsource }}</td>
             </ng-container>
 
@@ -226,7 +213,8 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [itemTooltip]="row" class="no-hover-change">
+            </tr>
           </table>
         </div>
       </div>

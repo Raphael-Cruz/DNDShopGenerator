@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { ItemTable } from './item-table/item-table';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ShopInputs } from './shop-inputs/shop-inputs';
 import { MatSelectModule } from '@angular/material/select';
@@ -38,6 +39,8 @@ import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { LandingPageComponent } from './landingPage/landing-page-component/landing-page-component';
 import { ShopPresets } from './ShopPreset/shop-preset/shop-presets'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TooltipDescriptionUtility } from './item-tooltip/tooltip-description-utility/tooltip-description-utility';
+
 
 
 
@@ -65,14 +68,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ItemPage,
     EntryBlock,
     LandingPageComponent,
-    ShopPresets
-
-
+    ShopPresets,
+    TooltipDescriptionUtility,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatTableModule,
+    MatSortModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
@@ -91,7 +94,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     MatProgressSpinnerModule,
     MatMenuModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
 
 
 

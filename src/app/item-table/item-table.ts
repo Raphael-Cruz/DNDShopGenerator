@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { Item } from '../models/item-model';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { InputDatas, AuthModalService } from '../input-datas';
-import { AuthService } from '../core/services/auth';
+import { InputDatas } from '../input-datas';
 
 @Component({
   selector: 'app-item-table',
@@ -13,31 +13,43 @@ import { AuthService } from '../core/services/auth';
 })
 export class ItemTable implements OnInit, AfterViewInit {
   @Input() shopId: string | null = null;
-  displayedColumns: string[] = ['name', 'type', 'source', 'add-button'];
+  displayedColumns: string[] = ['name', 'type', 'rarity', 'source', 'add-button'];
 
   dataSource = new MatTableDataSource<Item>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   items: Item[] = [];
 
   constructor(
-    private dataShare: InputDatas,
-    private authService: AuthService,
-    public authModal: AuthModalService
+    private dataShare: InputDatas
   ) { }
 
-  get isLoggedIn(): boolean { return this.authService.isLoggedIn(); }
-
   ngOnInit(): void {
+    // Custom filterPredicate — busca em name, type, rarity, source, description, entries
+    this.dataSource.filterPredicate = (item: Item, filter: string) => {
+      const search = filter.toLowerCase();
+      const fields = [
+        item.name,
+        item.type,
+        item.rarity,
+        item.source,
+        item.weaponCategory,
+        item.description,
+        ...(Array.isArray(item.entries) ? item.entries.map((e: any) =>
+          typeof e === 'string' ? e : JSON.stringify(e)
+        ) : [])
+      ];
+      return fields.some(f => f && f.toLowerCase().includes(search));
+    };
+
     this.dataShare.items$.subscribe(items => {
       this.items = items;
       this.dataSource.data = this.items;
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-      }
+      if (this.paginator) this.dataSource.paginator = this.paginator;
+      if (this.sort) this.dataSource.sort = this.sort;
     });
 
-    // Initial load if empty
     if (this.dataShare.getAllItems().length === 0) {
       this.dataShare.refreshItems();
     }
@@ -45,15 +57,24 @@ export class ItemTable implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // Sort accessor para rarity normalizada
+    this.dataSource.sortingDataAccessor = (item: Item, sortHeaderId: string) => {
+      const rarityOrder: Record<string, number> = {
+        'Mun.': 1, 'Mundane': 1,
+        'Com.': 2, 'Common': 2,
+        'Unc.': 3, 'Uncommon': 3,
+        'Rare': 4,
+        'V.Rare': 5, 'Very Rare': 5,
+        'Leg.': 6, 'Legendary': 6,
+        'Art.': 7, 'Artifact': 7,
+      };
+      if (sortHeaderId === 'rarity') return rarityOrder[item.rarity ?? ''] ?? 0;
+      return (item as any)[sortHeaderId] ?? '';
+    };
   }
 
-  showLockedOverlay = false;
-
   addItem(item: Item) {
-    if (!this.authService.isLoggedIn()) {
-      this.showLockedOverlay = true;
-      return;
-    }
     if (!this.shopId) {
       alert('No shop selected to add item to.');
       return;

@@ -1,0 +1,67 @@
+@if (isVisible && item) {
+<div class="grimoire-tooltip" [class]="'grimoire-tooltip grimoire-tooltip--' + rarityClass(item)"
+    [class.grimoire-tooltip--pinned]="pinned" [style.left.px]="x" [style.top.px]="y" (click)="$event.stopPropagation()">
+
+    <!-- Accent line top (rarity colour) -->
+    <div class="tooltip-accent"></div>
+
+    <!-- Header -->
+    <div class="tooltip-header">
+        <h3 class="tooltip-name">{{ item.name }}</h3>
+
+        <div class="tooltip-header-actions">
+            <div class="tooltip-cost" *ngIf="item.cost">
+                <span class="cost-value">{{ item.cost }}</span>
+                <span class="cost-unit">gp</span>
+            </div>
+
+            <!-- Pin indicator / close button -->
+            @if (pinned) {
+            <button class="tooltip-close-btn" (click)="onClose($event)" title="Close">✕</button>
+            } @else {
+            <span class="tooltip-pin-hint" title="Click item row to pin">📌</span>
+            }
+        </div>
+    </div>
+
+    <!-- Tags row -->
+    <div class="tooltip-tags">
+        <span class="tooltip-tag" *ngFor="let tag of tags">{{ tag | uppercase }}</span>
+    </div>
+
+    <!-- Divider -->
+    <div class="tooltip-divider"></div>
+
+    <!-- Scrollable description body -->
+    <div class="tooltip-body" [class.tooltip-body--pinned]="pinned">
+        @if (description) {
+        <!-- Split on double newlines (list items / nested sections) -->
+        @for (para of description.split('\n\n'); track para) {
+        <p class="tooltip-desc">{{ para }}</p>
+        }
+        } @else {
+        <p class="tooltip-desc tooltip-desc--empty">
+            <em>No description recorded in the Grimoire's annals.</em>
+        </p>
+        }
+    </div>
+
+    <!-- Footer meta -->
+    <div class="tooltip-meta">
+        <span *ngIf="item.source" class="tooltip-source">
+            📜 {{ item.source | tipforsource }}
+        </span>
+        <span *ngIf="item.weight" class="tooltip-weight">
+            ⚖ {{ item.weight }} lb
+        </span>
+        <span *ngIf="item.dmg1" class="tooltip-dmg">
+            ⚔ {{ item.dmg1 }} {{ item.dmgType }}
+        </span>
+    </div>
+
+    @if (!pinned) {
+    <div class="tooltip-click-hint">Click row to pin &amp; scroll</div>
+    }
+
+</div>
+}

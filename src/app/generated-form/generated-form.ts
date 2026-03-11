@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { Item } from '../models/item-model';
-import { InputDatas, RandomInputData, NewItemData, AuthModalService } from '../input-datas';
+import { InputDatas, RandomInputData, NewItemData } from '../input-datas';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { jsPDF } from 'jspdf';
@@ -18,6 +19,7 @@ import { Shop } from '../models/shop-model';
 export class GeneratedForm implements OnInit, OnDestroy {
 
   dataSource = new MatTableDataSource<Item>();
+  @ViewChild(MatSort) sort!: MatSort;
   displayedColumns: string[] = ['qtdy', 'name', 'type', 'rarity', 'cost', 'weight', 'source', 'edit', 'delete'];
 
   shops: { name: string; id: string; formData: any }[] = [];
@@ -27,7 +29,6 @@ export class GeneratedForm implements OnInit, OnDestroy {
   randomItems: Item[] = [];
   manualItems: Item[] = [];
   allItems: Item[] = [];
-  private loadedFromMemory = false;
   selectedSources: string[] = [];
 
   private subscriptions: Subscription[] = [];
@@ -43,12 +44,17 @@ export class GeneratedForm implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private tipForTypePipe: TipForTypePipe,
-    private generator: ShopGeneratorService,
-    private authModal: AuthModalService
+    private generator: ShopGeneratorService
   ) { }
 
   ngOnInit(): void {
     this.generate();
+
+    // Load full item catalogue first so we can enrich shop items later
+    if (this.dataShare.getAllItems().length === 0) {
+      this.dataShare.refreshItems();
+    }
+
     this.subscriptions.push(
       this.route.paramMap.subscribe(params => {
         this.shopId = params.get('id');
@@ -58,6 +64,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
               this.formValues = shopData?.formData ?? null;
               if (shopData.items && shopData.items.length > 0) {
                 this.randomItems = shopData.items.map(i => this.normalizeToItem(i));
+                this.randomItems = this.enrichItemsWithCatalogue(this.randomItems);
                 this.refreshDataSource();
               } else {
                 this.updateItemsList();
@@ -66,16 +73,8 @@ export class GeneratedForm implements OnInit, OnDestroy {
             error: (err) => console.error('Failed to fetch shop', err)
           });
         } else {
-          // Sem ID: usa dados já gerados em memória
           this.formValues = this.dataShare.getFormData();
-          const memoryItems = this.randomDataShare.getRandomItems();
-          if (memoryItems && memoryItems.length > 0) {
-            this.loadedFromMemory = true;
-            this.randomItems = memoryItems.map(i => this.normalizeToItem(i));
-            this.refreshDataSource();
-          } else {
-            this.updateItemsList();
-          }
+          this.updateItemsList();
         }
       })
     );
@@ -83,27 +82,34 @@ export class GeneratedForm implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.dataShare.items$.subscribe(items => {
         this.allItems = items;
-        if (!this.shopId && !this.loadedFromMemory) this.updateItemsList();
+        if (!this.shopId) {
+          this.updateItemsList();
+        } else {
+          // Re-enrich now that catalogue is loaded
+          this.randomItems = this.enrichItemsWithCatalogue(this.randomItems);
+          this.refreshDataSource();
+        }
       })
     );
 
     this.subscriptions.push(
       this.dataShare.formData$.subscribe(data => {
         this.formValues = data;
-        if (!this.shopId && !this.loadedFromMemory) this.updateItemsList();
+        if (!this.shopId) this.updateItemsList();
       })
     );
 
     this.subscriptions.push(
       this.dataShare.selectedSources$.subscribe(sources => {
         this.selectedSources = sources;
-        if (!this.shopId && !this.loadedFromMemory) this.updateItemsList();
+        if (!this.shopId) this.updateItemsList();
       })
     );
 
     this.subscriptions.push(
       this.randomDataShare.randomData$.subscribe(data => {
         this.randomItems = data?.randomItemsArray ?? [];
+        this.randomItems = this.enrichItemsWithCatalogue(this.randomItems);
         this.refreshDataSource();
       })
     );
@@ -130,6 +136,7 @@ export class GeneratedForm implements OnInit, OnDestroy {
               this.formValues = shopData?.formData ?? null;
               if (shopData.items) {
                 this.randomItems = shopData.items.map(i => this.normalizeToItem(i));
+                this.randomItems = this.enrichItemsWithCatalogue(this.randomItems);
                 this.refreshDataSource();
               }
             },
@@ -140,16 +147,14 @@ export class GeneratedForm implements OnInit, OnDestroy {
     );
   }
 
-  goBack(): void {
-    this.router.navigate(['/myshops']);
+  ngAfterViewInit(): void {
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
-    // Limpa dados em memória ao sair — evita que sessão anterior apareça na próxima geração
-    if (!this.shopId) {
-      this.randomDataShare.clear();
-    }
   }
 
   private refreshDataSource() {
@@ -163,6 +168,54 @@ export class GeneratedForm implements OnInit, OnDestroy {
       weight: typeof raw.weight === 'string' ? parseFloat(raw.weight as string) || 0 : raw.weight || 0,
       quantity: raw.quantity ?? 1
     };
+  }
+
+  /**
+   * Enriches a list of items (typically loaded from shop.items, which may
+   * only carry display fields) with the full item data from the catalogue
+   * (allItems, loaded from the items collection).
+   *
+   * Matching is done by name + source (most unique combination available).
+   * If only name matches, that is used as a fallback.
+   *
+   * Fields that are already set on the shop item (cost, quantity, weight) are
+   * preserved — only MISSING fields (entries, description, etc.) are filled in.
+   */
+  private enrichItemsWithCatalogue(items: Item[]): Item[] {
+    if (!this.allItems.length) return items;
+
+    return items.map(shopItem => {
+      // Skip if already has description content
+      const hasEntries = Array.isArray(shopItem.entries) && shopItem.entries.length > 0;
+      const hasDescription = shopItem.description && shopItem.description.trim().length > 0;
+      if (hasEntries || hasDescription) return shopItem;
+
+      // Find matching item in catalogue
+      const nameNorm = (shopItem.name ?? '').toLowerCase().trim();
+      const sourceNorm = (shopItem.source ?? '').toLowerCase().trim();
+
+      const match =
+        // Prefer exact name + source match
+        this.allItems.find(
+          ci =>
+            ci.name?.toLowerCase().trim() === nameNorm &&
+            ci.source?.toLowerCase().trim() === sourceNorm
+        ) ??
+        // Fallback: name only
+        this.allItems.find(ci => ci.name?.toLowerCase().trim() === nameNorm);
+
+      if (!match) return shopItem;
+
+      // Merge: shop item fields win for display/editable fields;
+      // catalogue fills in missing content fields
+      return {
+        ...match,          // Full catalogue data (entries, description, etc.)
+        ...shopItem,       // Shop item overrides (cost, quantity, weight, rarity set by DM)
+        // Restore catalogue entries/description if shop item had them blank
+        entries: hasEntries ? shopItem.entries : (match.entries ?? []),
+        description: hasDescription ? shopItem.description : (match.description ?? ''),
+      };
+    });
   }
 
   private updateItemsList(): void {
@@ -209,12 +262,10 @@ export class GeneratedForm implements OnInit, OnDestroy {
     return arr;
   }
 
-  // ── Get the current full items list ──
   private get currentItems(): Item[] {
     return [...this.randomItems, ...this.manualItems];
   }
 
-  // ── Persist current items to the backend ──
   private persistToBackend(): void {
     if (!this.shopId) return;
     this.dataShare.updateShopItems(this.shopId, this.currentItems).subscribe({
@@ -223,20 +274,15 @@ export class GeneratedForm implements OnInit, OnDestroy {
     });
   }
 
-  // ── Edit: enter edit mode for a row ──
   editItems(index: number) {
     this.editingIndex = index;
   }
 
-  // ── Save edit: close edit mode AND persist to backend ──
   saveEdit() {
     this.editingIndex = null;
-    // [(ngModel)] already mutated the item objects in-place inside randomItems/manualItems
-    // so we just need to persist — no re-slicing needed
     this.persistToBackend();
   }
 
-  // ── Delete: remove from local arrays AND persist to backend ──
   deleteItems(item: Item) {
     this.randomItems = this.randomItems.filter(i => i !== item);
     this.manualItems = this.manualItems.filter(i => i !== item);
@@ -244,22 +290,8 @@ export class GeneratedForm implements OnInit, OnDestroy {
     this.persistToBackend();
   }
 
-  // ── Save Shop button: explicitly persist everything ──
   saveShop() {
-    if (!this.shopId) {
-      // Anônimo: salva pendingShop e abre modal de registro
-      const formData = this.dataShare.getFormData();
-      const items = this.currentItems;
-      if (formData) {
-        this.dataShare.setPendingShop({
-          name: formData.shopName || 'Unnamed Shop',
-          items,
-          formData
-        });
-      }
-      this.authModal.open('register');
-      return;
-    }
+    if (!this.shopId) return;
     this.isSaving = true;
     this.dataShare.updateShopItems(this.shopId, this.currentItems).subscribe({
       next: () => {
@@ -274,7 +306,6 @@ export class GeneratedForm implements OnInit, OnDestroy {
     });
   }
 
-  // ── Clear all items ──
   clearItems() {
     this.manualItems = [];
     this.randomItems = [];
@@ -286,8 +317,6 @@ export class GeneratedForm implements OnInit, OnDestroy {
     this.shop = this.generator.generateShop();
   }
 
-
-  // ── PDF downloader (unchanged) ──
   downloadPDF() {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
